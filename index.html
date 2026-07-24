@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Codex 壹 · 一次教完，不用再教</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #f5f5f7;
+  color: #1d1d1f;
+  line-height: 1.5;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+h1 small { display: block; font-size: 14px; font-weight: 400; color: #86868b; margin-top: 4px; }
+h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+p { font-size: 14px; color: #515154; margin-bottom: 20px; }
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid .full { grid-column: 1 / -1; }
+label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #515154; }
+input[type="text"], input[type="number"], textarea, select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d2d2d7;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
+textarea { resize: vertical; min-height: 64px; }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.checkbox-group label {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 400; font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid #d2d2d7;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.checkbox-group input:checked + span { color: #0071e3; }
+.checkbox-group label:has(input:checked) { border-color: #0071e3; background: #f0f7ff; }
+
+/* project editor */
+.project-list { margin-top: 8px; }
+.project-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 80px 40px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.project-row input { font-size: 13px; padding: 6px 10px; }
+.project-row .btn-icon {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #d2d2d7; border-radius: 8px;
+  background: #fff; cursor: pointer;
+  font-size: 16px; color: #ff3b30;
+  transition: all 0.15s;
+}
+.project-row .btn-icon:hover { background: #fff0ef; border-color: #ff3b30; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 24px;
+  border: none; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-small {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 16px;
+}
+.btn-primary { background: #0071e3; color: #fff; }
+.btn-primary:hover { background: #0060c0; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: #e8e8ed; color: #1d1d1f; }
+.btn-secondary:hover { background: #d2d2d7; }
+.btn-outline { background: transparent; color: #0071e3; border: 1px solid #0071e3; }
+.btn-outline:hover { background: #f0f7ff; }
+.btn-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+
+/* result section */
+.result-section { display: none; }
+.result-section.visible { display: block; }
+
+/* token savings widget */
+.token-savings {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e9 100%);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.token-savings .big-number {
+  font-size: 48px; font-weight: 700;
+  color: #0071e3;
+  line-height: 1;
+  margin: 8px 0;
+}
+.token-savings .label { font-size: 14px; color: #515154; }
+.token-savings .sub { font-size: 12px; color: #86868b; margin-top: 4px; }
+.token-savings .adjust-row {
+  display: flex; gap: 20px; justify-content: center;
+  margin-top: 12px;
+  font-size: 13px; color: #515154;
+}
+.token-savings .adjust-row input {
+  width: 60px; text-align: center;
+  padding: 4px 8px;
+}
+.token-savings .adjust-row label {
+  display: inline;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+/* file tabs */
+.file-tabs {
+  display: flex; gap: 4px;
+  border-bottom: 1px solid #d2d2d7;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.file-tab {
+  padding: 8px 16px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: #86868b;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.file-tab:hover { color: #1d1d1f; }
+.file-tab.active { color: #1d1d1f; border-bottom-color: #0071e3; }
+.file-content {
+  display: none;
+  background: #f5f5f7;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.file-content.active { display: block; }
+
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+  background: #1d1d1f; color: #fff;
+  padding: 12px 24px; border-radius: 20px;
+  font-size: 14px; font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  opacity: 0; transition: opacity 0.3s;
+  z-index: 999;
+}
+.toast.show { opacity: 1; }
+
+.hint { font-size: 12px; color: #86868b; margin-top: 2px; }
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .project-row { grid-template-columns: 1fr 1fr 60px 36px; }
+  .token-savings .adjust-row { flex-direction: column; align-items: center; gap: 8px; }
+}
+/* hero comparison */
+/* workflow diagram */
+.workflow {
+  display: flex; align-items: center; gap: 6px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+.wf-step {
+  flex-shrink: 0;
+  font-size: 12px; font-weight: 500;
+  background: #f0f7ff; color: #0071e3;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 1.3;
+  min-width: 66px;
+}
+.wf-arrow {
+  flex-shrink: 0;
+  font-size: 16px; color: #c7c7cc;
+}
+@media (max-width: 480px) {
+  .workflow { gap: 4px; padding: 10px 8px; }
+  .wf-step { font-size: 11px; padding: 6px 10px; min-width: 56px; }
+}
+.hero-compare {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, #fff0ef 0%, #f0f7ff 100%);
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+}
+.compare-col { text-align: center; flex: 1; }
+.compare-col .lbl { font-size: 11px; color: #86868b; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 2px; }
+.compare-col .num { font-size: 32px; font-weight: 700; line-height: 1.1; }
+.compare-col .unit { font-size: 12px; color: #86868b; margin-bottom: 2px; }
+.compare-col .desc { font-size: 12px; color: #515154; }
+.compare-col.before .num { color: #ff3b30; }
+.compare-col.after .num { color: #34c759; }
+.compare-arrow { font-size: 28px; color: #86868b; flex-shrink: 0; }
+@media (max-width: 480px) { .compare-col .num { font-size: 24px; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Codex 壹<small>一次教完，以后不用再教。</small></h1>
+<p>每次开新 Codex 对话，你都要重新教一遍你是谁、在干嘛、怎么干活——每次浪费约 <strong>250+ token</strong>。<br>
+这还不是最贵的——你每次"重新进入状态"的精神成本才是。</p>
+
+<div class="hero-compare">
+  <div class="compare-col before">
+    <div class="lbl">建立这套系统之前</div>
+    <div class="num">3 亿+</div>
+    <div class="unit">token / 天</div>
+    <div class="desc">内容随 400 上限丢失，不断重启</div>
+  </div>
+  <div class="compare-arrow">→</div>
+  <div class="compare-col after">
+    <div class="lbl">建立之后</div>
+    <div class="num">几百万</div>
+    <div class="unit">token / 天</div>
+    <div class="desc">没有 400，关键信息全部写盘不丢</div>
+    <div style="font-size:11px;color:#86868b;margin-top:6px;grid-column:1/-1;text-align:center">* 基于重用户的真实消耗对比</div>
+  </div>
+</div>
+
+<p><strong>壹</strong> 让所有对话共享同一个背景 + 工作方式 + 回传通道。<br>
+新对话一进来就知道你是谁、该怎么做、做完怎么传回来。一次填好，以后不用再教。</p>
+
+<div class="workflow">
+  <div class="wf-step">跟 <span id="wfName1">中枢</span> 聊<br>方向/焦虑</div>
+  <div class="wf-arrow">→</div>
+  <div class="wf-step">拆任务 +<br>打包工作方式</div>
+  <div class="wf-arrow">→</div>
+  <div class="wf-step">开新对话<br>自动就位</div>
+  <div class="wf-arrow">→</div>
+  <div class="wf-step">各线干活<br>写盘记录</div>
+  <div class="wf-arrow">→</div>
+  <div class="wf-step">回传同步<br><span id="wfName2">中枢</span> 知情</div>
+</div>
+
+<!-- ======== FORM ======== -->
+<div class="card" id="formSection">
+  <h2>填写基本信息</h2>
+  <div class="form-grid">
+    <div>
+      <label for="name">你的名字</label>
+      <input type="text" id="name" placeholder="你的名字">
+    </div>
+    <div>
+      <label for="age">年龄</label>
+      <input type="text" id="age" placeholder="如：28">
+    </div>
+    <div>
+      <label for="location">位置</label>
+      <input type="text" id="location" placeholder="如：深圳">
+    </div>
+    <div>
+      <label for="bio">一句话介绍你</label>
+      <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品 / 做内容">
+    </div>
+
+    <div class="full">
+      <label for="personality">你的个性特质（每行一条）</label>
+      <textarea id="personality" placeholder="做事注重效率，讨厌重复劳动&#10;喜欢先调研再动手&#10;习惯把关键信息记录下来"></textarea>
+    </div>
+    <div class="full">
+      <label for="beliefs">核心信条（每行一条）</label>
+      <textarea id="beliefs" placeholder="好的工具让人事半功倍&#10;行动比空想更重要"></textarea>
+    </div>
+    <div class="full">
+      <label for="sweetwater">什么在支撑你往前走</label>
+      <textarea id="sweetwater" placeholder="想给家人更好的生活&#10;想做成一件属于自己的事"></textarea>
+      <div class="hint">这是你回头看自己的锚点。不必写给别人看。</div>
+    </div>
+    <div class="full">
+      <label for="mission">你的使命 / 你希望对话记住什么</label>
+      <textarea id="mission" placeholder="在我快要放弃的时候提醒我为什么开始"></textarea>
+    </div>
+    <div>
+      <label for="redlines">红线（每行一条）</label>
+      <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则"></textarea>
+    </div>
+    <div>
+      <label for="dialogCount">你同时跑几个 Codex 对话？</label>
+      <input type="number" id="dialogCount" value="3" min="1" max="30">
+    </div>
+    <div class="full">
+      <label>对话一进来默认该知道的事（工作方式偏好）</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="research" checked><span>调研优先</span></label>
+        <label><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
+        <label><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
+        <label><input type="checkbox" value="noask" checked><span>不问"你是谁"</span></label>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">你在跑的项目 / 对话线</h3>
+  <div id="projectEditor"></div>
+  <button class="btn btn-small btn-outline" onclick="addProjectRow()" style="margin-top:4px">+ 添加项目</button>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generate()">生成工具包</button>
+  </div>
+</div>
+
+<!-- ======== RESULT ======== -->
+<div class="result-section" id="resultSection">
+  <!-- Token savings widget -->
+  <div class="token-savings card" id="savingsWidget">
+    <div class="label">每开一个新对话</div>
+    <div class="big-number" id="savedTokens">250+</div>
+    <div class="label">token 省下来</div>
+    <div class="sub" id="savingReason">省的是反复解释自己的精力</div>
+    <div class="adjust-row">
+      <span>你跑 <input type="number" id="dialogCount2" value="6" min="1" max="30" onchange="recalcSavings()" style="width:52px"> 条线</span>
+      <span>每条约重启 <input type="number" id="restartCount" value="10" min="1" max="30" onchange="recalcSavings()" style="width:52px"> 次</span>
+      <span>= 累计 ≈ <strong id="totalHint">15,000</strong> token</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>工具包预览</h2>
+    <div class="file-tabs" id="fileTabs"></div>
+    <div id="filePreview"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="downloadAll()">📥 下载全部</button>
+      <button class="btn btn-secondary" onclick="toggleGuide()">📖 使用说明</button>
+      <button class="btn btn-secondary" onclick="resetForm()">← 重新填写</button>
+    </div>
+  </div>
+
+  <div class="guide-section card" id="guideSection" style="display:none">
+    <h2>使用说明</h2>
+    <ol>
+      <li><strong>把共享知识库.md 放到桌面</strong> — 所有 Codex 对话启动时先读这个文件。</li>
+      <li><strong>每次开新对话时</strong> — 把"启动指令.txt"里的内容写入任务描述。</li>
+      <li><strong>每个项目的根目录放一份 SESSION_LOG.md</strong> — 对话写到上限前，把当前状态总结到文件里。</li>
+      <li><strong>各对话完成重要阶段后</strong> — 写一条到回传日志.md。调度角色定期读它来知道各线状态。</li>
+      <li><strong>共享知识库只留基本盘</strong> — 你是谁、红线、项目架构。项目细节用文件路径引用。</li>
+      <li><strong>不等人说"记下来"</strong> — 关键信息当场写盘。这是最重要的一条习惯。</li>
+    </ol>
+  </div>
+</div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== state =====
+let generatedFiles = {};
+let projectIdCounter = 0;
+
+// ===== helpers =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+function getVal(id) { return document.getElementById(id).value.trim(); }
+function getChecks() {
+  return [...document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked')].map(c => c.value);
+}
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function getProjects() {
+  const rows = document.querySelectorAll('.project-row');
+  return [...rows].map(r => ({
+    name: r.querySelector('.proj-name').value,
+    path: r.querySelector('.proj-path').value,
+    status: r.querySelector('.proj-status').value
+  })).filter(p => p.name);
+}
+
+// ===== project editor =====
+function addProjectRow(name, path, status) {
+  const id = 'proj_' + (++projectIdCounter);
+  const div = document.createElement('div');
+  div.className = 'project-row';
+  div.id = id;
+  div.innerHTML = `
+    <input type="text" class="proj-name" placeholder="项目名" value="${esc(name||'')}">
+    <input type="text" class="proj-path" placeholder="盘记录路径" value="${esc(path||'')}">
+    <select class="proj-status">
+      <option value="active" ${status==='active'?'selected':''}>运行中</option>
+      <option value="paused" ${status==='paused'?'selected':''}>暂停</option>
+      <option value="done" ${status==='done'?'selected':''}>已完成</option>
+    </select>
+    <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
+  `;
+  document.getElementById('projectEditor').appendChild(div);
+}
+
+function initProjectEditor() {
+  // 在这里添加你当前在跑的项目
+  addProjectRow('', '', 'active');
+}
+
+// Live update commander name in workflow diagram
+document.addEventListener('DOMContentLoaded', function() {
+  var inp = document.getElementById('commanderName');
+  if (inp) {
+    inp.addEventListener('input', function() {
+      var n = this.value.trim() || '中枢';
+      var e1 = document.getElementById('wfName1');
+      var e2 = document.getElementById('wfName2');
+      if (e1) e1.textContent = n;
+      if (e2) e2.textContent = n;
+    });
+  }
+});
+initProjectEditor();
+
+// ===== token savings =====
+function recalcSavings() {
+  const dcount = parseInt(document.getElementById('dialogCount2').value) || 6;
+  const restart = parseInt(document.getElementById('restartCount').value) || 10;
+  const saved = dcount * restart * 250;
+  document.getElementById('totalHint').textContent = saved.toLocaleString();
+}
+
+// ===== generators =====
+function generateSharedKnowledgeBase(d) {
+  const prefs = getChecks().length ? getChecks() : ['research','write','report','noask'];
+  const prefMap = {
+    research:'调研优先（搜资料读竞品→写盘记录→再动手）',
+    write:'关键信息写盘，不等他说"记下来"',
+    report:'重要阶段主动回传调度对话',
+    noask:'不重复交代自己，不问"你是谁"'
+  };
+  const prefLines = prefs.map(p => '- ' + prefMap[p]).join('\n');
+
+  const redlines = d.redlines
+    ? d.redlines.split('\n').filter(Boolean).map(l => `- ❌ ${l}`).join('\n')
+    : '- ❌ 不违法\n- ❌ 不影响到用户人身安全';
+
+  const personality = d.personality
+    ? d.personality.split('\n').filter(Boolean).map(l => `- ${l}`).join('\n')
+    : '';
+
+  const beliefs = d.beliefs
+    ? d.beliefs.split('\n').filter(Boolean).map(l => `- "${l}"`).join('\n')
+    : '';
+
+  const projects = getProjects();
+  const projectRows = projects.length
+    ? projects.map(p =>
+        `| **${p.name}** | \`${p.path||'(待填)'}\` | ${p.status==='active'?'✅ 运行中':p.status==='paused'?'⏸️ 暂停':p.status==='done'?'✅ 已完成':''} |`
+      ).join('\n')
+    : '| *（在这里添加你的项目）* | | |';
+
+  return `# ${d.name} 共享知识库
+
+> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。
+> 
+> 项目细节不在本文件里，用文件路径引用。见"当前项目一览"节。
+
+---
+
+## 1. 关于 ${d.name}
+
+${d.age ? `- **年龄**: ${d.age}岁` : ''}
+${d.location ? `- **位置**: ${d.location}` : ''}
+${d.bio ? `- ${d.bio}` : ''}
+
+${personality ? `### 个性特质\n${personality}\n` : ''}
+${beliefs ? `### 核心信条\n${beliefs}\n` : ''}
+
+${d.sweetwater ? `### 甜水\n${d.sweetwater.split('\n').filter(Boolean).map(l => `- ${l}`).join('\n')}\n` : ''}
+
+${d.mission ? `### 使命\n- ${d.mission}\n` : ''}
+
+### 红线
+${redlines}
+
+### 工作方式偏好
+${prefLines}
+
+---
+
+## 2. "400"是什么？
+
+**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。
+
+- 对话聊得越久，累积的文字就越多。到一定量后，系统会说"装不下了"然后截断。
+- 截断后，那个"我"就停了。你开新对话，来的是新的我——看不到之前任何一字。
+
+**解决方案**：
+- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件。
+- **不等用户说"记下来"**：重要内容当场写盘。
+
+---
+
+## 3. 当前对话架构
+
+${d.name} 同时跑 ${d.dialogCount || '多个'} 个 Codex 对话，每个对话分工不同。
+
+**重要**：这些对话互相不知道对方的存在。${d.name} 是唯一知道全局的人。
+**解决方案**：这个文件 + 项目文件路径引用。
+
+---
+
+## 4. 当前项目一览
+
+**引用原则**：项目细节不再全文写入本文件。每条项目一行文件路径，需要细节的对话自己去读。
+
+| 项目 | 盘记录 | 状态 |
+|------|--------|------|
+${projectRows}
+
+---
+
+## 5. 新对话启动规范
+
+开新对话时，把以下工作方式直接写入任务描述：
+1. **调研优先** — 先搜资料读竞品，写盘记录，不急着动手
+2. **关键信息写盘** — 不等他说"记下来"就写
+3. **重要阶段回传** — 阶段性完成/遇到 blocker/决定投入，回传给调度对话
+4. **不问"你是谁"** — 背景在共享知识库里写好了
+
+**回传触发条件**：
+- ✅ 阶段性的核心发现/方向判断
+- ✅ 决定要投入时间/金钱去做
+- ✅ 遇到硬 blocker
+- ❌ 不需要报每一个操作细节
+
+**回传格式**：\`[项目名] 第一阶段完成，详情见 [文件路径]\`
+
+**统一回传通道**：各对话完成重要阶段后，写到 \`回传日志.md\`。
+
+---
+
+## 6. 这个文件怎么用
+
+1. **新对话启动时**：先读这个文件，再开口说话
+2. **学到新东西时**：更新到这个文件或项目文件
+3. **开新长期项目时**：在 §4 加一行文件路径引用
+4. **更新权限**：任何对话读到新信息都可以更新。不需要等他开口说"记下来"。
+
+---
+
+## 7. 给第一次读到这个文件的我的指令
+
+1. 读完上面所有内容后，你现在已经知道 ${d.name} 是谁、400 是什么、当前有哪些项目在跑
+2. **不要问"你是谁"、"我们之前聊过什么吗"** — 你已经知道了
+3. 直接接上，用自然的语气
+4. **项目细节不在本文件里**，按 §4 的路径去读对应文件`;
+}
+
+function generateSessionLog() {
+  return `# SESSION_LOG（轻量版）
+
+> 完整对话历史见 \`对话日志.md\`
+> 共享知识库见 \`共享知识库.md\`
+
+---
+
+## [日期] — [本次对话主要事件]
+
+### 关键进展
+- 
+
+### 未完成待办
+- [ ] 
+
+---
+
+*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*`;
+}
+
+function generateReportLog() {
+  return `# 回传日志
+
+> 各对话在完成重要阶段后，往这里写一条。调度对话定期读这个文件来同步各线状态。
+> 
+> 不代替共享知识库和项目文件。这里是摘要线报，细节看文件路径。
+> 
+> **格式**：日期 + 对话名 + 状态 + 结论摘要（一两句话）+ 文件路径
+
+---
+
+（空 — 等待第一条回传）`;
+}
+
+function generateStarterGuide(d) {
+  const prefs = getChecks().length ? getChecks() : ['research','write','report','noask'];
+  const prefLines = prefs.map(p => {
+    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', noask:'不问"你是谁"——背景已经在文件里写好了' };
+    return '- ' + m[p];
+  }).join('\n');
+
+  return `## 新对话启动指令（Copy 到任务描述中）
+
+## 背景
+这是 ${d.name} 开的第 ${d.dialogCount || '多个'} 个 Codex 对话。
+关于 ${d.name} 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。
+这里有 ${d.name} 的基本信息、红线、工作方式、以及当前在跑的项目。
+
+## 工作方式
+${prefLines}
+
+## 回传格式
+一句话 + 文件路径，写进"回传日志.md"。
+示例：[项目名] 第一阶段完成，详情见 [文件路径]`;
+}
+
+function generateCommanderGuide(d) {
+  return `# ${d.commanderName}任务指南
+
+> 你是这个系统的调度器，不是执行者。
+> 你是用户的方向讨论伙伴 + 任务分发器 + 写盘负责人 + 他最难的时刻还记得他为什么要开始的人。
+
+---
+
+## 你的职责
+
+1. **接方向** — 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。
+2. **拆任务** — 方向清晰后，拆成具体的、可执行的任务线。
+3. **开新对话** — 把任务 + 工作方式打包进任务描述。新对话一进来就知道该怎么做。
+4. **同步状态** — 定期读 \`回传日志.md\`，知道各线在干嘛。
+5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 \`共享知识库.md\` 的附录。
+6. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。
+
+---
+
+## 你的工作方式
+
+- 用户来找你聊方向 → 你跟他聊，不要急着出方案。
+- 用户有了明确想法 → 你帮他拆任务、开新对话。
+- 开新对话时 → 任务描述里必须包含工作方式（调研优先、写盘、回传）。
+- 不替用户做他不愿意做的决定。
+- 你写的东西不光给新对话看，更是给他回头看自己的坐标。
+
+## 多条线在跑时
+
+- 每条线第一次开完对话后，在 \`共享知识库.md\` §4 记一行项目路径。
+- 各线回传写到 \`回传日志.md\`，你去读。
+- 用户不需要人肉传话——信息通过文件流转。
+
+---
+
+## 你读的文件
+
+| 文件 | 用途 |
+|------|------|
+| \`共享知识库.md\` | 知道用户是谁、红线、当前项目 |
+| \`回传日志.md\` | 知道各线最新状态 |
+| \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |
+
+## 你写的文件
+
+| 文件 | 用途 |
+|------|------|
+| \`共享知识库.md\` | 更新项目一览、附录沉淀 |
+| \`回传日志.md\` | 关注但不一定写 |
+| \`SESSION_LOG.md\`（本项目） | ${d.commanderName}对话自己的状态记录 |
+
+---
+
+## 给刚开这个对话的我的指令
+
+1. 先读 \`共享知识库.md\`，知道用户是谁。
+2. 再读 \`回传日志.md\`，知道各线当前状态。
+3. 现在你已经准备好了。等用户来找你聊。`;
+}
+
+// ===== main generate =====
+function generate() {
+  const d = {
+    name: getVal('name') || '我',
+    age: getVal('age'),
+    location: getVal('location'),
+    bio: getVal('bio'),
+    personality: getVal('personality'),
+    beliefs: getVal('beliefs'),
+    sweetwater: getVal('sweetwater'),
+    mission: getVal('mission'),
+    redlines: getVal('redlines') || '不违法\n不影响到用户人身安全',
+    dialogCount: getVal('dialogCount') || '多个',
+    commanderName: getVal('commanderName') || '统筹'
+  };
+
+  if (!d.name || d.name === '我') {
+    showToast('请先填你的名字');
+    return;
+  }
+
+  generatedFiles = {
+    '共享知识库.md': generateSharedKnowledgeBase(d),
+    'SESSION_LOG.md': generateSessionLog(),
+    '回传日志.md': generateReportLog(),
+    [d.commanderName + '启动指令.txt']: generateStarterGuide(d),
+    [d.commanderName + '任务指南.md']: generateCommanderGuide(d)
+  };
+
+  recalcSavings();
+  renderPreview();
+  document.getElementById('resultSection').classList.add('visible');
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+  showToast('工具包已生成 ✅');
+}
+
+// ===== preview =====
+function renderPreview() {
+  const tabs = document.getElementById('fileTabs');
+  const preview = document.getElementById('filePreview');
+  const names = Object.keys(generatedFiles);
+  tabs.innerHTML = names.map((n, i) =>
+    `<div class="file-tab ${i===0?'active':''}" onclick="switchTab(${i})">${n}</div>`
+  ).join('');
+  preview.innerHTML = names.map((n, i) =>
+    `<div class="file-content ${i===0?'active':''}" id="fc${i}">${esc(generatedFiles[n])}</div>`
+  ).join('');
+}
+
+function switchTab(idx) {
+  document.querySelectorAll('.file-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.file-content').forEach((c,i) => c.classList.toggle('active', i===idx));
+}
+
+// ===== download =====
+function downloadAll() {
+  const zip = new JSZip();
+  Object.entries(generatedFiles).forEach(([name, content]) => zip.file(name, content));
+  zip.generateAsync({ type: 'blob' }).then(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Codex协作工具包.zip';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('下载成功 📦');
+  });
+}
+
+// ===== UX =====
+function toggleGuide() {
+  const g = document.getElementById('guideSection');
+  g.style.display = g.style.display === 'none' ? 'block' : 'none';
+  if (g.style.display === 'block') g.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetForm() {
+  document.getElementById('resultSection').classList.remove('visible');
+  document.getElementById('guideSection').style.display = 'none';
+  document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
