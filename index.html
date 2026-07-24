@@ -24,7 +24,7 @@ p { font-size: 14px; color: #515154; margin-bottom: 20px; }
   border-radius: 10px;
   padding: 24px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid #e8e8ed;
 }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-grid .full { grid-column: 1 / -1; }
@@ -73,6 +73,17 @@ textarea { resize: vertical; min-height: 64px; }
   font-size: 16px; color: #ff3b30;
   transition: all 0.15s;
 }
+/* folder picker button */
+.btn-folder {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #d2d2d7; border-radius: 6px;
+  background: #fff; cursor: pointer;
+  font-size: 14px; line-height: 1;
+  transition: all 0.15s; flex-shrink: 0;
+  padding: 0;
+}
+.btn-folder:hover { background: #f5f5f7; border-color: #86868b; }
 .project-row .btn-icon:hover { background: #fff0ef; border-color: #ff3b30; }
 
 .btn {
@@ -88,8 +99,8 @@ textarea { resize: vertical; min-height: 64px; }
   font-size: 12px;
   border-radius: 16px;
 }
-.btn-primary { background: #0071e3; color: #fff; }
-.btn-primary:hover { background: #0060c0; }
+.btn-primary { background: #1d1d1f; color: #fff; }
+.btn-primary:hover { background: #000; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-secondary { background: #e8e8ed; color: #1d1d1f; }
 .btn-secondary:hover { background: #d2d2d7; }
@@ -191,13 +202,13 @@ textarea { resize: vertical; min-height: 64px; }
   border-radius: 10px;
   padding: 12px 16px;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid #e8e8ed;
   overflow-x: auto;
 }
 .wf-step {
   flex-shrink: 0;
   font-size: 12px; font-weight: 500;
-  background: #f0f7ff; color: #0071e3;
+  background: #f5f5f7; color: #1d1d1f;
   padding: 8px 14px;
   border-radius: 8px;
   text-align: center;
@@ -206,7 +217,7 @@ textarea { resize: vertical; min-height: 64px; }
 }
 .wf-arrow {
   flex-shrink: 0;
-  font-size: 16px; color: #c7c7cc;
+  font-size: 16px; color: #d2d2d7;
 }
 @media (max-width: 480px) {
   .workflow { gap: 4px; padding: 10px 8px; }
@@ -253,6 +264,61 @@ textarea { resize: vertical; min-height: 64px; }
     <div class="desc">没有 400，关键信息全部写盘不丢</div>
     <div style="font-size:11px;color:#86868b;margin-top:6px;grid-column:1/-1;text-align:center">* 基于重用户的真实消耗对比</div>
   </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#1d1d1f">壹 让多条对话线各司其职</h3>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="border-bottom:1px solid #e8e8ed">
+          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">#</th>
+          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">角色</th>
+          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">职责</th>
+          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #f0f0f0">
+          <td style="padding:8px;color:#86868b">①</td>
+          <td style="padding:8px;font-weight:600;color:#0071e3">中枢</td>
+          <td style="padding:8px;color:#515154">调度、方向讨论、写盘、跨线同步、情绪陪伴</td>
+          <td style="padding:8px">✅ 活跃</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0">
+          <td style="padding:8px;color:#86868b">②</td>
+          <td style="padding:8px;font-weight:600">编程开发线</td>
+          <td style="padding:8px;color:#515154">写代码、debug、架构设计</td>
+          <td style="padding:8px">✅ 活跃</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0">
+          <td style="padding:8px;color:#86868b">③</td>
+          <td style="padding:8px;font-weight:600">内容创作线</td>
+          <td style="padding:8px;color:#515154">写文章、做方案、头脑风暴</td>
+          <td style="padding:8px">✅ 活跃</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0">
+          <td style="padding:8px;color:#86868b">④</td>
+          <td style="padding:8px;font-weight:600">数据分析线</td>
+          <td style="padding:8px;color:#515154">处理数据、做图表、出报告</td>
+          <td style="padding:8px">⏸️ 暂停</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0">
+          <td style="padding:8px;color:#86868b">⑤</td>
+          <td style="padding:8px;font-weight:600">学习研究线</td>
+          <td style="padding:8px;color:#515154">读资料、做笔记、整理知识</td>
+          <td style="padding:8px">✅ 活跃</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;color:#86868b">⑥</td>
+          <td style="padding:8px;font-weight:600">项目管理线</td>
+          <td style="padding:8px;color:#515154">跟进度、协调资源、记决策</td>
+          <td style="padding:8px">⏸️ 待启动</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px;color:#86868b;margin-top:10px;margin-bottom:0">所有对话共享同一个背景 + 工作方式。<strong style="color:#1d1d1f">中枢</strong> 定期同步各线状态。</p>
 </div>
 
 <p><strong>壹</strong> 让所有对话共享同一个背景 + 工作方式 + 回传通道。<br>
@@ -316,6 +382,10 @@ textarea { resize: vertical; min-height: 64px; }
       <label for="dialogCount">你同时跑几个 Codex 对话？</label>
       <input type="number" id="dialogCount" value="3" min="1" max="30">
     </div>
+    <div>
+      <label for="commanderName">给你的中枢取个名字</label>
+      <input type="text" id="commanderName" placeholder="如：中枢、军师、统筹..." value="中枢">
+    </div>
     <div class="full">
       <label>对话一进来默认该知道的事（工作方式偏好）</label>
       <div class="checkbox-group">
@@ -356,8 +426,8 @@ textarea { resize: vertical; min-height: 64px; }
     <div class="file-tabs" id="fileTabs"></div>
     <div id="filePreview"></div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="downloadAll()">📥 下载全部</button>
-      <button class="btn btn-secondary" onclick="toggleGuide()">📖 使用说明</button>
+      <button class="btn btn-primary" onclick="downloadAll()">下载全部</button>
+      <button class="btn btn-secondary" onclick="toggleGuide()">使用说明</button>
       <button class="btn btn-secondary" onclick="resetForm()">← 重新填写</button>
     </div>
   </div>
@@ -413,7 +483,10 @@ function addProjectRow(name, path, status) {
   div.id = id;
   div.innerHTML = `
     <input type="text" class="proj-name" placeholder="项目名" value="${esc(name||'')}">
-    <input type="text" class="proj-path" placeholder="盘记录路径" value="${esc(path||'')}">
+    <div style="display:flex;gap:4px;align-items:center">
+    <input type="text" class="proj-path" placeholder="盘记录路径" value="${esc(path||'')}" style="flex:1">
+    <button type="button" class="btn-folder" onclick="pickFolder(this)" title="选择文件夹">📂</button>
+  </div>
     <select class="proj-status">
       <option value="active" ${status==='active'?'selected':''}>运行中</option>
       <option value="paused" ${status==='paused'?'selected':''}>暂停</option>
@@ -424,6 +497,44 @@ function addProjectRow(name, path, status) {
   document.getElementById('projectEditor').appendChild(div);
 }
 
+
+
+// Pick a folder and fill in the path
+function pickFolder(btn) {
+  var input = btn.closest('.project-row').querySelector('.proj-path');
+  if (!input) return;
+  var fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.setAttribute('webkitdirectory', '');
+  fileInput.style.display = 'none';
+  fileInput.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+      var f = this.files[0];
+      if (f.path) {
+        // Electron / webkit gives full path
+        var folderName = f.webkitRelativePath ? f.webkitRelativePath.split('/')[0] : '';
+        if (folderName) {
+          var pathEnd = f.path.lastIndexOf('/' + folderName);
+          if (pathEnd >= 0) {
+            input.value = f.path.substring(0, pathEnd);
+          } else {
+            input.value = f.path;
+          }
+        } else {
+          input.value = f.path;
+        }
+      } else if (f.webkitRelativePath) {
+        input.value = '.../' + f.webkitRelativePath.split('/')[0];
+      } else {
+        // Just show the filename as hint
+        input.placeholder = f.name + ' (请手动填写完整路径)';
+      }
+    }
+    fileInput.remove();
+  });
+  document.body.appendChild(fileInput);
+  fileInput.click();
+}
 function initProjectEditor() {
   // 在这里添加你当前在跑的项目
   addProjectRow('', '', 'active');
@@ -710,7 +821,7 @@ function generate() {
     mission: getVal('mission'),
     redlines: getVal('redlines') || '不违法\n不影响到用户人身安全',
     dialogCount: getVal('dialogCount') || '多个',
-    commanderName: getVal('commanderName') || '统筹'
+    commanderName: getVal("commanderName") || "中枢"
   };
 
   if (!d.name || d.name === '我') {
