@@ -465,7 +465,7 @@ textarea { resize: vertical; min-height: 64px; }
   <!-- Progress -->
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">14</span> 项</span>
+      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">10</span> 项</span>
       <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
@@ -592,16 +592,6 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- Projects -->
-  <div class="form-section">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-      <div><div class="form-section-title">项目一览</div><div class="form-section-desc">你当前正在跑的项目或对话线</div></div>
-    </div>
-    <div id="projectEditor"></div>
-    <button class="btn btn-small btn-outline" onclick="addProjectRow()" style="margin-top:8px" type="button">+ 添加项目</button>
-  </div>
-
   <!-- Action -->
   <div class="form-action">
     <button class="btn btn-primary btn-generate" onclick="generate()">
@@ -705,12 +695,6 @@ function countFilled() {
     const el = document.getElementById(id);
     if (el && el.value.trim()) filled++;
   });
-  // Count project rows
-  const projNames = document.querySelectorAll('.proj-name');
-  projNames.forEach(inp => {
-    if (inp.value.trim()) filled++;
-  });
-  total += projNames.length || 0;
   return { filled, total };
 }
 
@@ -751,7 +735,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let generatedFiles = {};
-let projectIdCounter = 0;
 
 // ===== helpers =====
 function showToast(msg) {
@@ -776,51 +759,8 @@ function getPersona() {
 }
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-function getProjects() {
-  const rows = document.querySelectorAll('.project-row');
-  return [...rows].map(r => ({
-    name: r.querySelector('.proj-name').value,
-    path: r.querySelector('.proj-path').value,
-    status: r.querySelector('.proj-status').value
-  })).filter(p => p.name);
-}
 
 // ===== project editor =====
-function addProjectRow(name, path, status) {
-  const id = 'proj_' + (++projectIdCounter);
-  const div = document.createElement('div');
-  div.className = 'project-row';
-  div.id = id;
-  div.innerHTML = `
-    <input type="text" class="proj-name" placeholder="项目名" value="${esc(name||'')}">
-    <div style="display:flex;gap:4px;align-items:center">
-    <input type="text" class="proj-path" placeholder="盘记录路径" value="${esc(path||'')}" style="flex:1">
-    <button type="button" class="btn-folder" onclick="pickFolder(this)" title="选择文件夹">📂</button>
-  </div>
-    <select class="proj-status">
-      <option value="active" ${status==='active'?'selected':''}>运行中</option>
-      <option value="paused" ${status==='paused'?'selected':''}>暂停</option>
-      <option value="done" ${status==='done'?'selected':''}>已完成</option>
-    </select>
-    <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
-  `;
-  // Bind progress tracking to dynamic inputs
-  div.querySelectorAll('input, select').forEach(el => {
-    el.addEventListener('change', updateProgress);
-    el.addEventListener('input', updateProgress);
-  });
-  document.getElementById('projectEditor').appendChild(div);
-  // Update the remove button to track progress
-  var removeBtn = div.querySelector('.btn-icon');
-  if (removeBtn) {
-    var origClick = removeBtn.onclick;
-    removeBtn.onclick = function(e) {
-      if (typeof origClick === 'function') origClick.call(this, e);
-      setTimeout(updateProgress, 50);
-    };
-  }
-  setTimeout(updateProgress, 50);
-}
 
 
 
@@ -860,10 +800,7 @@ function pickFolder(btn) {
   document.body.appendChild(fileInput);
   fileInput.click();
 }
-function initProjectEditor() {
-  // 在这里添加你当前在跑的项目
-  addProjectRow('', '', 'active');
-}
+
 
 // Live update commander name in workflow diagram
 document.addEventListener('DOMContentLoaded', function() {
@@ -878,7 +815,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-initProjectEditor();
 
 // ===== token savings =====
 function recalcSavings() {
@@ -911,12 +847,7 @@ function generateSharedKnowledgeBase(d, persona) {
     ? d.beliefs.split('\n').filter(Boolean).map(l => `- "${l}"`).join('\n')
     : '';
 
-  const projects = getProjects();
-  const projectRows = projects.length
-    ? projects.map(p =>
-        `| **${p.name}** | \`${p.path||'(待填)'}\` | ${p.status==='active'?'✅ 运行中':p.status==='paused'?'⏸️ 暂停':p.status==='done'?'✅ 已完成':''} |`
-      ).join('\n')
-    : '| *（在这里添加你的项目）* | | |';
+
 
   // Build persona-specific content
   var personaContent = '';
@@ -999,7 +930,7 @@ ${projectRows}
 
 ---
 
-## 5. 新对话启动规范
+## 4. 新对话启动规范
 
 开新对话时，把以下工作方式直接写入任务描述：
 1. **调研优先** — 先搜资料读竞品，写盘记录，不急着动手
@@ -1019,21 +950,21 @@ ${projectRows}
 
 ---
 
-## 6. 这个文件怎么用
+## 5. 这个文件怎么用
 
 1. **新对话启动时**：先读这个文件，再开口说话
 2. **学到新东西时**：更新到这个文件或项目文件
-3. **开新长期项目时**：在 §4 加一行文件路径引用
+3. **开新长期项目时**：自己加一行项目说明
 4. **更新权限**：任何对话读到新信息都可以更新。不需要等他开口说"记下来"。
 
 ---
 
-## 7. 给第一次读到这个文件的我的指令
+## 6. 给第一次读到这个文件的我的指令
 
 1. 读完上面所有内容后，你现在已经知道 ${d.name} 是谁、400 是什么、当前有哪些项目在跑
 2. **不要问"你是谁"、"我们之前聊过什么吗"** — 你已经知道了
 3. 直接接上，用自然的语气
-4. **项目细节不在本文件里**，按 §4 的路径去读对应文件`;
+4. **项目细节不在本文件里**，直接在文件里补充项目说明`;
 }
 
 function generateSessionLog() {
