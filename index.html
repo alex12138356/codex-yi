@@ -635,15 +635,41 @@ textarea { resize: vertical; min-height: 64px; }
   </div>
 
   <div class="guide-section card" id="guideSection" style="display:none">
-    <h2>使用说明</h2>
-    <ol>
-      <li><strong>把共享知识库.md 放到桌面</strong> — 所有 Codex 对话启动时先读这个文件。</li>
-      <li><strong>每次开新对话时</strong> — 把"启动指令.txt"里的内容写入任务描述。</li>
-      <li><strong>每个项目的根目录放一份 SESSION_LOG.md</strong> — 对话写到上限前，把当前状态总结到文件里。</li>
-      <li><strong>各对话完成重要阶段后</strong> — 写一条到回传日志.md。调度角色定期读它来知道各线状态。</li>
-      <li><strong>共享知识库只留基本盘</strong> — 你是谁、原则、项目架构。项目细节用文件路径引用。</li>
-      <li><strong>不等人说"记下来"</strong> — 关键信息当场写盘。这是最重要的一条习惯。</li>
-    </ol>
+    <h2>拿到工具包后怎么用</h2>
+    <div style="display:flex;flex-direction:column;gap:16px;margin-top:12px">
+
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">1</div>
+        <div><strong style="font-size:14px">解压到你的项目文件夹</strong>
+        <div style="font-size:13px;color:#515154;margin-top:2px">把 ZIP 解压到你用 Codex 管理的工作目录。5 个文件各司其职。</div></div>
+      </div>
+
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">2</div>
+        <div><strong style="font-size:14px">打开新对话，贴入启动指令</strong>
+        <div style="font-size:13px;color:#515154;margin-top:2px">新建一个 Codex 对话，打开 <strong>启动指令.txt</strong> 全选复制，贴进任务描述框。AI 立刻知道你是谁。</div></div>
+      </div>
+
+      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">3</div>
+        <div><strong style="font-size:14px">开始用，状态自动同步</strong>
+        <div style="font-size:13px;color:#515154;margin-top:2px">对话会自动读 <strong>共享知识库.md</strong> 了解你的背景，通过 <strong>回传日志.md</strong> 同步各线进展，快满时总结到 <strong>SESSION_LOG.md</strong>。</div></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:16px;padding:14px;background:#f0f7ff;border-radius:10px;font-size:13px;color:#0071e3">
+      <strong>💡 提示：</strong>中枢对话需要放在项目根目录，其他对话放各自项目文件夹。把 <strong>共享知识库.md</strong> 放到桌面，所有新对话都能读到。
+    </div>
+
+    <div style="margin-top:12px;font-size:12px;color:#86868b;line-height:1.6">
+      <strong>5 个文件说明：</strong><br>
+      共享知识库.md — 所有对话共享你的背景、红线、工作方式<br>
+      启动指令.txt — 开新对话时粘贴到任务描述，AI 自动就绪<br>
+      任务指南.md — 给中枢对话看的，教它怎么调度和同步<br>
+      SESSION_LOG.md — 每个对话快超限时把状态总结到这里<br>
+      回传日志.md — 各线完成重要阶段后写一条，中枢定期读
+    </div>
   </div>
 </div>
 
