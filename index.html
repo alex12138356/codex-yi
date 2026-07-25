@@ -741,6 +741,54 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+// ===== progress tracking =====
+function getActivePersonaFields() {
+  var p = getPersona();
+  if (p === 'solo') return ['soloBiz','soloHelp'];
+  if (p === 'business') return ['bizName','bizAnalysis'];
+  if (p === 'programmer') return ['progTech','progHelp'];
+  if (p === 'student') return ['studyMajor','studyHelp'];
+  return [];
+}
+
+function countFilled() {
+  var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
+  var filled = 0;
+  var total = fields.length;
+  var checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+  if (checked.length > 0) filled += 0.5;
+  for (var fi = 0; fi < fields.length; fi++) {
+    var el = document.getElementById(fields[fi]);
+    if (el && el.value.trim()) filled++;
+  }
+  return { filled: filled, total: total };
+}
+
+function updateProgress() {
+  try {
+    var x = countFilled();
+    var filled = x.filled;
+    var total = x.total;
+    var pct = Math.min(100, Math.round((filled / total) * 100));
+    var bar = document.getElementById('progressBar');
+    var label = document.getElementById('filledCount');
+    var hint = document.getElementById('progressHint');
+    if (bar) bar.style.width = pct + '%';
+    if (label) label.textContent = filled;
+    if (hint) {
+      if (pct === 0) hint.textContent = '先填你的名字';
+      else if (pct < 40) hint.textContent = '继续填，马上就能用了';
+      else if (pct < 80) hint.textContent = '快了，就差几项';
+      else if (pct < 100) hint.textContent = '还差一点点 \u2726';
+      else hint.textContent = '所有信息都已填好 \u2713';
+    }
+  } catch(e) {
+    var hint = document.getElementById('progressHint');
+    if (hint) hint.textContent = 'progress err: ' + e.message;
+  }
+}
+
 // ===== token savings =====
 function recalcSavings() {
   var dcount = parseInt(document.getElementById('dialogCount2').value) || 6;
