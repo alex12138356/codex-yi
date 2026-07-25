@@ -494,8 +494,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">基本信息</div><div class="form-section-desc">谁在用这个系统</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="name">名字 <span class="required">*</span></label><input type="text" id="name" placeholder="你的名字"></div>
-      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发"></div>
+      <div><label for="name">名字 <span class="required">*</span></label><input type="text" id="name" placeholder="你的名字" oninput="updateProgress()"></div>
+      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发" oninput="updateProgress()"></div>
     </div>
   </div>
 
@@ -506,8 +506,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你做什么</div><div class="form-section-desc">跟进产品进度、分析数据、制定策略——告诉我你的项目情况</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务"></div>
-      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px"></textarea></div>
+      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务" oninput="updateProgress()"></div>
+      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px" oninput="updateProgress()"></textarea></div>
     </div>
   </div>
 
@@ -517,8 +517,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你管理什么</div><div class="form-section-desc">分析财报、跟踪KPI、整理报表——告诉我你的公司情况</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名"></div>
-      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px"></textarea></div>
+      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名" oninput="updateProgress()"></div>
+      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px" oninput="updateProgress()"></textarea></div>
     </div>
   </div>
 
@@ -528,8 +528,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你写什么</div><div class="form-section-desc">跑代码、改bug、写测试、搭项目——告诉我你的开发需求</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统"></div>
-      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px"></textarea></div>
+      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统" oninput="updateProgress()"></div>
+      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px" oninput="updateProgress()"></textarea></div>
     </div>
   </div>
 
@@ -539,8 +539,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你学什么</div><div class="form-section-desc">整理书籍要点、梳理知识体系、辅导论文——告诉我你的学习方向</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学"></div>
-      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px"></textarea></div>
+      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学" oninput="updateProgress()"></div>
+      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px" oninput="updateProgress()"></textarea></div>
     </div>
   </div>
 
@@ -551,7 +551,7 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">要求</div><div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么做</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
+      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px" oninput="updateProgress()"></textarea>
       <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div></div>
     </div>
   </div>
@@ -563,23 +563,23 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">系统配置</div><div class="form-section-desc">怎么干活、怎么汇报</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30"></div>
-      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢"></div>
+      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30" oninput="updateProgress()"></div>
+      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢" oninput="updateProgress()"></div>
       <div class="full">
         <label>工作方式偏好</label>
         <div class="checkbox-group">
-          <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
-          <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
-          <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
+          <label class="cb-pill"><input type="checkbox" value="research" checked onchange="updateProgress()"><span>调研优先</span></label>
+          <label class="cb-pill"><input type="checkbox" value="write" checked onchange="updateProgress()"><span>关键信息写盘</span></label>
+          <label class="cb-pill"><input type="checkbox" value="report" checked onchange="updateProgress()"><span>重要阶段回传</span></label>
+          <label class="cb-pill"><input type="checkbox" value="flag" onchange="updateProgress()"><span>发现问题主动提出</span></label>
           <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><span>自动化总结汇报</span></label>
-          <label class="cb-pill"><input type="checkbox" value="direct"><span>结果导向不赘述</span></label>
-          <label class="cb-pill"><input type="checkbox" value="deepthink"><span>深度思考后再回</span></label>
-          <label class="cb-pill"><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
+          <label class="cb-pill"><input type="checkbox" value="direct" onchange="updateProgress()"><span>结果导向不赘述</span></label>
+          <label class="cb-pill"><input type="checkbox" value="deepthink" onchange="updateProgress()"><span>深度思考后再回</span></label>
+          <label class="cb-pill"><input type="checkbox" value="review" onchange="updateProgress()"><span>完成阶段自动复盘</span></label>
         </div>
         <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
           <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
-          <select id="reportInterval" style="width:auto;min-width:200px">
+          <select id="reportInterval" style="width:auto;min-width:200px" onchange="updateProgress()">
             <option value="end">每次对话结束时</option>
             <option value="30min">每 30 分钟</option>
             <option value="1h" selected>每 1 小时</option>
@@ -670,24 +670,7 @@ textarea { resize: vertical; min-height: 64px; }
 
 
 <script>
-// NodeList.forEach polyfill (needed for some browsers)
-if (window.NodeList && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = Array.prototype.forEach;
-}
 
-// On page ready, bind progress tracking and check once
-(function() {
-  var bind = function() {
-    var form = document.getElementById('formSection');
-    if (form) {
-      form.addEventListener('input', updateProgress);
-      form.addEventListener('change', updateProgress);
-    }
-    updateProgress();
-  };
-  if (document.readyState !== 'loading') { bind(); }
-  else { document.addEventListener('DOMContentLoaded', bind); }
-})();
 
 
 function getReportInterval() {
@@ -768,24 +751,24 @@ function recalcSavings() {
 
 // ===== generators =====
 function generateSharedKnowledgeBase(d, persona) {
-  const prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  const prefMap = {
+  var prefs = getChecks().length ? getChecks() : ['research','write','report'];
+  var prefMap = {
     research:'调研优先（搜资料读竞品→写盘记录→再动手）',
     write:'关键信息写盘，不等他说"记下来"',
     report:'重要阶段主动回传调度对话',
     autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结写盘）'
   };
-  const prefLines = prefs.map(p => '- ' + prefMap[p]).join('\n');
-  const traceHeader = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\n';
-  const redlines = d.redlines
+  var prefLines = prefs.map(p => '- ' + prefMap[p]).join('\n');
+  var traceHeader = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\n';
+  var redlines = d.redlines
     ? d.redlines.split('\n').filter(Boolean).map(l => `- ❌ ${l}`).join('\n')
     : '- ❌ 不违法\n- ❌ 不影响到用户人身安全';
 
-  const personality = d.personality
+  var personality = d.personality
     ? d.personality.split('\n').filter(Boolean).map(l => `- ${l}`).join('\n')
     : '';
 
-  const beliefs = d.beliefs
+  var beliefs = d.beliefs
     ? d.beliefs.split('\n').filter(Boolean).map(l => `- "${l}"`).join('\n')
     : '';
 
@@ -945,9 +928,9 @@ function generateReportLog() {
 }
 
 function generateStarterGuide(d) {
-  const prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  const prefLines = prefs.map(p => {
-    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
+  var prefs = getChecks().length ? getChecks() : ['research','write','report'];
+  var prefLines = prefs.map(p => {
+    var m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
     return '- ' + m[p];
   }).join('\\n');
 
@@ -1024,14 +1007,14 @@ function generateStarterGuide(d) {
 3. 现在你已经准备好了。如果有任何让他不满意的地方，第一时间改。
 \`;
 }function getReportIntervalText() {
-  const v = getReportInterval();
-  const m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' };
+  var v = getReportInterval();
+  var m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' };
   return m[v] || '1小时';
 }
 // ===== main generate =====
 function generate() {
 
-  const d = {
+  var d = {
     name: getVal('name') || '我',
     age: getVal('age'),
     location: getVal('location'),
@@ -1076,9 +1059,9 @@ window.generate = generate;
 
 // ===== preview =====
 function renderPreview() {
-  const tabs = document.getElementById('fileTabs');
-  const preview = document.getElementById('filePreview');
-  const names = Object.keys(generatedFiles);
+  var tabs = document.getElementById('fileTabs');
+  var preview = document.getElementById('filePreview');
+  var names = Object.keys(generatedFiles);
   tabs.innerHTML = names.map((n, i) =>
     `<div class="file-tab ${i===0?'active':''}" onclick="switchTab(${i})">${n}</div>`
   ).join('');
@@ -1094,10 +1077,10 @@ function switchTab(idx) {
 
 // ===== download =====
 function downloadAll() {
-  const zip = new JSZip();
+  var zip = new JSZip();
   Object.entries(generatedFiles).forEach(([name, content]) => zip.file(name, content));
   zip.generateAsync({ type: 'blob' }).then(blob => {
-    const a = document.createElement('a');
+    var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'Codex协作工具包.zip';
     a.click();
@@ -1108,7 +1091,7 @@ function downloadAll() {
 
 // ===== UX =====
 function toggleGuide() {
-  const g = document.getElementById('guideSection');
+  var g = document.getElementById('guideSection');
   g.style.display = g.style.display === 'none' ? 'block' : 'none';
   if (g.style.display === 'block') g.scrollIntoView({ behavior: 'smooth' });
 }
@@ -1119,5 +1102,7 @@ function resetForm() {
   document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
 }
 </script>
+<!-- Auto-init progress on page load -->
+<script>setTimeout(function(){try{updateProgress()}catch(e){}},50);</script>
 </body>
 </html>
