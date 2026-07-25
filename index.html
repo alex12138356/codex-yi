@@ -465,7 +465,7 @@ textarea { resize: vertical; min-height: 64px; }
   <!-- Progress -->
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">10</span> 项</span>
+      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">14</span> 项</span>
       <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
@@ -571,7 +571,11 @@ textarea { resize: vertical; min-height: 64px; }
           <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
           <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
           <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
+          <label class="cb-pill"><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
           <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><span>自动化总结汇报</span></label>
+          <label class="cb-pill"><input type="checkbox" value="direct"><span>结果导向不赘述</span></label>
+          <label class="cb-pill"><input type="checkbox" value="deepthink"><span>深度思考后再回</span></label>
+          <label class="cb-pill"><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
         </div>
         <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
           <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
@@ -1045,7 +1049,7 @@ function generateReportLog() {
 function generateStarterGuide(d) {
   const prefs = getChecks().length ? getChecks() : ['research','write','report'];
   const prefLines = prefs.map(p => {
-    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）' };
+    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
     return '- ' + m[p];
   }).join('\\n');
 
