@@ -670,6 +670,11 @@ textarea { resize: vertical; min-height: 64px; }
 
 
 <script>
+// Polyfill NodeList.forEach for older browsers
+if (window.NodeList && !NodeList.prototype.forEach) {
+  NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
 // ===== state =====
 
 // ===== persona switching =====
@@ -686,15 +691,15 @@ function countFilled() {
     return [];
   }
   var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
-  let filled = 0;
-  let total = fields.length;
+  var filled = 0;
+  var total = fields.length;
   // checkbox group counts as one (always pre-filled)
-  const checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+  var checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
   if (checked.length > 0) filled += 0.5;
-  fields.forEach(id => {
-    const el = document.getElementById(id);
+  for (var fi = 0; fi < fields.length; fi++) {
+    var el = document.getElementById(fields[fi]);
     if (el && el.value.trim()) filled++;
-  });
+  }
   return { filled, total };
 }
 
@@ -717,22 +722,31 @@ function updateProgress() {
 
 // Bind progress updates to all form inputs
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('#formSection input, #formSection textarea, #formSection select').forEach(el => {
-    el.addEventListener('input', updateProgress);
-    el.addEventListener('change', updateProgress);
-  });
+function bindEvents() {
+  var els = document.querySelectorAll('#formSection input, #formSection textarea, #formSection select');
+  for (var i = 0; i < els.length; i++) {
+    els[i].addEventListener('input', updateProgress);
+    els[i].addEventListener('change', updateProgress);
+  }
   // Bind persona buttons
-  document.querySelectorAll('.persona-pill').forEach(function(btn) {
-    btn.addEventListener('click', function() { setTimeout(updateProgress, 100); });
-  });
+  var pills = document.querySelectorAll('.persona-pill');
+  for (var i = 0; i < pills.length; i++) {
+    (function(btn) {
+      btn.addEventListener('click', function() { setTimeout(updateProgress, 100); });
+    })(pills[i]);
+  }
   // Bind autoreport checkbox
   var ar = document.querySelector('input[value="autoreport"]');
   if (ar) ar.addEventListener('change', function() { setTimeout(updateProgress, 50); });
   var ri = document.getElementById('reportInterval');
   if (ri) ri.addEventListener('change', function() { setTimeout(updateProgress, 50); });
   updateProgress();
-});
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bindEvents);
+} else {
+  bindEvents();
+}
 
 let generatedFiles = {};
 
