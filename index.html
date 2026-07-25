@@ -286,6 +286,30 @@ textarea { resize: vertical; min-height: 64px; }
 .checkbox-group .cb-pill:has(input:checked) {
   border-color: #0071e3; background: #f0f7ff;
 }
+
+/* persona selector */
+.persona-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.persona-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px;
+  border: 1.5px solid #d2d2d7; border-radius: 12px;
+  background: #fff; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: #515154;
+  transition: all 0.2s; user-select: none;
+  flex: 1; justify-content: center; min-width: 0;
+}
+.persona-pill:hover { border-color: #86868b; background: #f5f5f7; }
+.persona-pill.active {
+  border-color: #0071e3; background: #f0f7ff; color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+}
+.persona-pill.active svg { stroke: #0071e3; }
+.persona-pill svg { flex-shrink: 0; stroke: #86868b; }
+
+.persona-fields { transition: opacity 0.2s, transform 0.2s; }
+.persona-fields[style*="display:none"] { display: none !important; }
 </style>
 </head>
 <body>
@@ -389,27 +413,54 @@ textarea { resize: vertical; min-height: 64px; }
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
       <span style="font-size:13px;font-weight:500;color:#86868b" id="progressLabel">已填写 <span id="filledCount">0</span>/<span id="totalCount">12</span> 项</span>
-      <span style="font-size:12px;color:#34c759" id="progressHint">填完即可生成工具包</span>
+      <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
       <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s ease"></div>
     </div>
   </div>
 
-  <!-- ====== Section: 关于你 ====== -->
+  <!-- ====== Persona Selector ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#86868b">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">你是谁</div>
+        <div class="form-section-desc">选一个最接近你的角色，表单内容会跟着适配</div>
+      </div>
+    </div>
+    <div class="persona-pills" id="personaPills">
+      <button class="persona-pill active" data-persona="solo" onclick="switchPersona('solo')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        个人创业者 / Solo
+      </button>
+      <button class="persona-pill" data-persona="business" onclick="switchPersona('business')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        公司管理者 / 企业主
+      </button>
+      <button class="persona-pill" data-persona="student" onclick="switchPersona('student')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        学生 / 研究者
+      </button>
+    </div>
+  </div>
+
+  <!-- ====== Section: 关于你 (common to all) ====== -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div>
-        <div class="form-section-title">关于你</div>
-        <div class="form-section-desc">你是谁、在哪、怎么称呼</div>
+        <div class="form-section-title">基本信息</div>
+        <div class="form-section-desc">谁在用这个系统、在哪、怎么称呼</div>
       </div>
     </div>
     <div class="form-grid">
       <div>
-        <label for="name">你的名字 <span class="required">*</span></label>
+        <label for="name">名字 <span class="required">*</span></label>
         <input type="text" id="name" placeholder="你的名字">
       </div>
       <div>
@@ -421,20 +472,20 @@ textarea { resize: vertical; min-height: 64px; }
         <input type="text" id="location" placeholder="如：深圳">
       </div>
       <div>
-        <label for="bio">一句话介绍你</label>
-        <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品 / 做内容">
+        <label for="bio">一句话介绍</label>
+        <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品">
       </div>
     </div>
   </div>
 
-  <!-- ====== Section: 你的内核 ====== -->
-  <div class="form-section">
+  <!-- ====== Section: 个人创业者字段 ====== -->
+  <div class="form-section persona-fields" id="personaFieldsSolo">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff9500">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg>
       </div>
       <div>
-        <div class="form-section-title">你的内核</div>
+        <div class="form-section-title">你的故事</div>
         <div class="form-section-desc">个性、信条、什么在支撑你往前走</div>
       </div>
     </div>
@@ -458,9 +509,101 @@ textarea { resize: vertical; min-height: 64px; }
         <label for="mission">使命 / 你希望对话记住什么</label>
         <textarea id="mission" placeholder="在我快要放弃的时候提醒我为什么开始" style="min-height:64px"></textarea>
       </div>
+    </div>
+  </div>
+
+  <!-- ====== Section: 公司管理者字段 ====== -->
+  <div class="form-section persona-fields" id="personaFieldsBusiness" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#0071e3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
       <div>
-        <label for="redlines">红线</label>
+        <div class="form-section-title">企业信息</div>
+        <div class="form-section-desc">公司、行业、核心关注点</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="companyName">公司 / 品牌名称</label>
+        <input type="text" id="companyName" placeholder="公司名">
+      </div>
+      <div>
+        <label for="companyIndustry">所属行业</label>
+        <input type="text" id="companyIndustry" placeholder="如：互联网、制造、零售">
+      </div>
+      <div>
+        <label for="companyScale">团队规模</label>
+        <input type="text" id="companyScale" placeholder="如：10-50人">
+      </div>
+      <div>
+        <label for="companyRole">你的角色</label>
+        <input type="text" id="companyRole" placeholder="如：创始人、CEO、部门负责人">
+      </div>
+      <div class="full">
+        <label for="companyMission">公司使命 / 愿景</label>
+        <textarea id="companyMission" placeholder="我们为什么要做这件事&#10;长期想成为什么样的公司" style="min-height:72px"></textarea>
+      </div>
+      <div class="full">
+        <label for="companyMetrics">核心关注指标</label>
+        <textarea id="companyMetrics" placeholder="营收、用户增长、利润率&#10;团队效率、项目进度" style="min-height:72px"></textarea>
+        <div class="hint">你最在意的几个数字或指标，每行一条</div>
+      </div>
+      <div class="full">
+        <label for="companyStyle">管理风格</label>
+        <textarea id="companyStyle" placeholder="扁平化管理，快速决策&#10;重视数据驱动&#10;鼓励独立思考" style="min-height:64px"></textarea>
+        <div class="hint">你倾向怎么带团队、做决策</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Section: 学生/研究者字段 ====== -->
+  <div class="form-section persona-fields" id="personaFieldsStudent" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#5856d6">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">研究方向</div>
+        <div class="form-section-desc">你在学什么、研究什么、目标是什么</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="studyField">研究方向 / 专业</label>
+        <input type="text" id="studyField" placeholder="如：人工智能、经济学">
+      </div>
+      <div>
+        <label for="studyLevel">阶段</label>
+        <input type="text" id="studyLevel" placeholder="如：本科、硕士、博士、自学">
+      </div>
+      <div class="full">
+        <label for="studyGoals">学习 / 研究目标</label>
+        <textarea id="studyGoals" placeholder="发表论文&#10;完成毕业设计&#10;掌握某项技能" style="min-height:72px"></textarea>
+        <div class="hint">你想达成什么，每行一条</div>
+      </div>
+      <div class="full">
+        <label for="studyCurrent">当前课题 / 任务</label>
+        <textarea id="studyCurrent" placeholder="正在写毕业论文&#10;在研究某个算法&#10;在准备考试" style="min-height:64px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Section: 红线 (common) ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#ff3b30">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">红线</div>
+        <div class="form-section-desc">不可逾越的原则</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="full">
         <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则" style="min-height:64px"></textarea>
+        <div class="hint">每行一条。如果不填，默认"不违法"+"不影响到用户人身安全"</div>
       </div>
     </div>
   </div>
@@ -473,7 +616,7 @@ textarea { resize: vertical; min-height: 64px; }
       </div>
       <div>
         <div class="form-section-title">系统配置</div>
-        <div class="form-section-desc">你的对话数量和调度方式</div>
+        <div class="form-section-desc">对话数量、调度方式和汇报策略</div>
       </div>
     </div>
     <div class="form-grid">
@@ -486,12 +629,23 @@ textarea { resize: vertical; min-height: 64px; }
         <input type="text" id="commanderName" placeholder="如：中枢、军师、统筹..." value="中枢">
       </div>
       <div class="full">
-        <label>对话一进来默认该知道的事</label>
+        <label>工作方式偏好</label>
         <div class="checkbox-group">
           <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
           <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
           <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="noask" checked><span>不问"你是谁"</span></label>
+          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="toggleReportInterval()"><span>自动化总结汇报</span></label>
+        </div>
+        <div id="reportIntervalRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
+          <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
+          <select id="reportInterval" style="width:auto;min-width:200px">
+            <option value="end">每次对话结束时</option>
+            <option value="30min">每 30 分钟</option>
+            <option value="1h" selected>每 1 小时</option>
+            <option value="2h">每 2 小时</option>
+            <option value="4h">每 4 小时</option>
+          </select>
+          <div class="hint" style="margin-top:4px">对话会在到达间隔时自动总结当前进展并写盘</div>
         </div>
       </div>
     </div>
@@ -564,13 +718,43 @@ textarea { resize: vertical; min-height: 64px; }
 
 <script>
 // ===== state =====
+
+// ===== persona switching =====
+function switchPersona(persona) {
+  // Update pill buttons
+  document.querySelectorAll('.persona-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.persona-pill[data-persona="${persona}"]`).classList.add('active');
+  
+  // Show/hide persona fields
+  document.querySelectorAll('.persona-fields').forEach(el => el.style.display = 'none');
+  const target = document.getElementById('personaFields' + persona.charAt(0).toUpperCase() + persona.slice(1));
+  if (target) target.style.display = 'block';
+  
+  setTimeout(updateProgress, 50);
+}
+
+// ===== auto-report toggle =====
+function toggleReportInterval() {
+  const cb = document.querySelector('input[value="autoreport"]');
+  const row = document.getElementById('reportIntervalRow');
+  if (cb && row) {
+    row.style.display = cb.checked ? 'block' : 'none';
+  }
+  setTimeout(updateProgress, 50);
+}
+
 // ===== form progress =====
 function countFilled() {
-  const fields = [
+  function getActivePersonaFields() {
+    var p = getPersona();
+    if (p === 'business') return ['companyName','companyIndustry','companyScale','companyRole','companyMission','companyMetrics','companyStyle'];
+    if (p === 'student') return ['studyField','studyLevel','studyGoals','studyCurrent'];
+    return ['personality','beliefs','sweetwater','mission'];
+  }
+  var fields = [
     'name','age','location','bio',
-    'personality','beliefs','sweetwater','mission','redlines',
-    'dialogCount','commanderName'
-  ];
+    'redlines','dialogCount','commanderName'
+  ].concat(getActivePersonaFields());
   let filled = 0;
   let total = fields.length;
   // checkbox group counts as one (always pre-filled)
@@ -608,9 +792,19 @@ function updateProgress() {
 
 // Bind progress updates to all form inputs
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('#formSection input, #formSection textarea').forEach(el => {
+  document.querySelectorAll('#formSection input, #formSection textarea, #formSection select').forEach(el => {
     el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
   });
+  // Bind persona buttons
+  document.querySelectorAll('.persona-pill').forEach(function(btn) {
+    btn.addEventListener('click', function() { setTimeout(updateProgress, 100); });
+  });
+  // Bind autoreport checkbox
+  var ar = document.querySelector('input[value="autoreport"]');
+  if (ar) ar.addEventListener('change', function() { setTimeout(updateProgress, 50); });
+  var ri = document.getElementById('reportInterval');
+  if (ri) ri.addEventListener('change', function() { setTimeout(updateProgress, 50); });
   updateProgress();
 });
 
@@ -627,6 +821,16 @@ function showToast(msg) {
 function getVal(id) { return document.getElementById(id).value.trim(); }
 function getChecks() {
   return [...document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked')].map(c => c.value);
+}
+
+function getReportInterval() {
+  const el = document.getElementById('reportInterval');
+  return el ? el.value : '1h';
+}
+
+function getPersona() {
+  const active = document.querySelector('.persona-pill.active');
+  return active ? active.dataset.persona : 'solo';
 }
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -743,13 +947,13 @@ function recalcSavings() {
 }
 
 // ===== generators =====
-function generateSharedKnowledgeBase(d) {
-  const prefs = getChecks().length ? getChecks() : ['research','write','report','noask'];
+function generateSharedKnowledgeBase(d, persona) {
+  const prefs = getChecks().length ? getChecks() : ['research','write','report'];
   const prefMap = {
     research:'调研优先（搜资料读竞品→写盘记录→再动手）',
     write:'关键信息写盘，不等他说"记下来"',
     report:'重要阶段主动回传调度对话',
-    noask:'不重复交代自己，不问"你是谁"'
+    autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结写盘）'
   };
   const prefLines = prefs.map(p => '- ' + prefMap[p]).join('\n');
   const traceHeader = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\n';
@@ -772,6 +976,35 @@ function generateSharedKnowledgeBase(d) {
       ).join('\n')
     : '| *（在这里添加你的项目）* | | |';
 
+  // Build persona-specific content
+  let personaContent = '';
+  if (persona === 'business') {
+    var cm = d.companyMission ? d.companyMission.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
+    var cme = d.companyMetrics ? d.companyMetrics.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
+    var cs = d.companyStyle ? d.companyStyle.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
+    personaContent = (d.companyName ? '### 公司信息\\n- **公司**: ' + d.companyName + '\\n' : '') +
+      (d.companyIndustry ? '- **行业**: ' + d.companyIndustry + '\\n' : '') +
+      (d.companyScale ? '- **团队规模**: ' + d.companyScale + '\\n' : '') +
+      (d.companyRole ? '- **角色**: ' + d.companyRole + '\\n' : '') +
+      (cm ? '\\n### 公司使命 / 愿景\\n' + cm + '\\n' : '') +
+      (cme ? '\\n### 核心关注指标\\n' + cme + '\\n' : '') +
+      (cs ? '\\n### 管理风格\\n' + cs + '\\n' : '');
+  } else if (persona === 'student') {
+    var sg = d.studyGoals ? d.studyGoals.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
+    personaContent = (d.studyField ? '### 研究方向\\n- **方向**: ' + d.studyField + '\\n' : '') +
+      (d.studyLevel ? '- **阶段**: ' + d.studyLevel + '\\n' : '') +
+      (sg ? '\\n### 学习 / 研究目标\\n' + sg + '\\n' : '') +
+      (d.studyCurrent ? '\\n### 当前课题\\n- ' + d.studyCurrent + '\\n' : '');
+  } else {
+    // solo - default
+    var p = d.personality ? d.personality.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
+    var b = d.beliefs ? d.beliefs.split('\\n').filter(Boolean).map(function(l){return '- \\"' + l + '\\"'}).join('\\n') : '';
+    personaContent = (p ? '### 个性特质\\n' + p + '\\n\\n' : '') +
+      (b ? '### 核心信条\\n' + b + '\\n\\n' : '') +
+      (d.sweetwater ? '### 甜水\\n' + d.sweetwater.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') + '\\n\\n' : '') +
+      (d.mission ? '### 使命\\n- ' + d.mission + '\\n\\n' : '');
+  }
+
   return traceHeader + `# ${d.name} 共享知识库
 
 > 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。
@@ -786,12 +1019,7 @@ ${d.age ? `- **年龄**: ${d.age}岁` : ''}
 ${d.location ? `- **位置**: ${d.location}` : ''}
 ${d.bio ? `- ${d.bio}` : ''}
 
-${personality ? `### 个性特质\n${personality}\n` : ''}
-${beliefs ? `### 核心信条\n${beliefs}\n` : ''}
-
-${d.sweetwater ? `### 甜水\n${d.sweetwater.split('\n').filter(Boolean).map(l => `- ${l}`).join('\n')}\n` : ''}
-
-${d.mission ? `### 使命\n- ${d.mission}\n` : ''}
+${personaContent}
 
 ### 红线
 ${redlines}
@@ -906,9 +1134,9 @@ function generateReportLog() {
 }
 
 function generateStarterGuide(d) {
-  const prefs = getChecks().length ? getChecks() : ['research','write','report','noask'];
+  const prefs = getChecks().length ? getChecks() : ['research','write','report'];
   const prefLines = prefs.map(p => {
-    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', noask:'不问"你是谁"——背景已经在文件里写好了' };
+    const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）' };
     return '- ' + m[p];
   }).join('\n');
 
@@ -987,6 +1215,14 @@ function generateCommanderGuide(d) {
 3. 现在你已经准备好了。等用户来找你聊。`;
 }
 
+
+
+// ===== helpers =====
+function getReportIntervalText() {
+  const v = getReportInterval();
+  const m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' };
+  return m[v] || '1小时';
+}
 // ===== main generate =====
 function generate() {
   const d = {
@@ -994,10 +1230,22 @@ function generate() {
     age: getVal('age'),
     location: getVal('location'),
     bio: getVal('bio'),
+    // persona fields
     personality: getVal('personality'),
     beliefs: getVal('beliefs'),
     sweetwater: getVal('sweetwater'),
     mission: getVal('mission'),
+    companyName: getVal('companyName'),
+    companyIndustry: getVal('companyIndustry'),
+    companyScale: getVal('companyScale'),
+    companyRole: getVal('companyRole'),
+    companyMission: getVal('companyMission'),
+    companyMetrics: getVal('companyMetrics'),
+    companyStyle: getVal('companyStyle'),
+    studyField: getVal('studyField'),
+    studyLevel: getVal('studyLevel'),
+    studyGoals: getVal('studyGoals'),
+    studyCurrent: getVal('studyCurrent'),
     redlines: getVal('redlines') || '不违法\n不影响到用户人身安全',
     dialogCount: getVal('dialogCount') || '多个',
     commanderName: getVal("commanderName") || "中枢"
@@ -1009,7 +1257,7 @@ function generate() {
   }
 
   generatedFiles = {
-    '共享知识库.md': generateSharedKnowledgeBase(d),
+    '共享知识库.md': generateSharedKnowledgeBase(d, getPersona()),
     'SESSION_LOG.md': generateSessionLog(),
     '回传日志.md': generateReportLog(),
     [d.commanderName + '启动指令.txt']: generateStarterGuide(d),
