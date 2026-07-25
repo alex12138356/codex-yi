@@ -310,14 +310,68 @@ textarea { resize: vertical; min-height: 64px; }
 
 .persona-fields { transition: opacity 0.2s, transform 0.2s; }
 .persona-fields[style*="display:none"] { display: none !important; }
+
+/* benefit strip */
+.benefit-strip {
+  display: flex; gap: 16px; margin-bottom: 24px;
+}
+.benefit-item {
+  flex: 1; background: #fff; border-radius: 12px; padding: 16px;
+  border: 1px solid #e8e8ed;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.benefit-item-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: #f0f7ff; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #0071e3;
+}
+.benefit-item-text { min-width: 0; }
+.benefit-item-title { font-size: 14px; font-weight: 600; color: #1d1d1f; }
+.benefit-item-desc { font-size: 12px; color: #86868b; margin-top: 3px; line-height: 1.4; }
+
+@media (max-width: 640px) {
+  .benefit-strip { flex-direction: column; }
+}
 </style>
 </head>
 <body>
 <div class="container">
 
-<h1>Codex 壹<small>一次教完，以后不用再教。</small></h1>
+<h1>Codex 壹<small>一次配置，永远省力。让每个 Codex 对话从第一秒就知道该做什么。</small></h1>
 <p>每次开新 Codex 对话，你都要重新教一遍你是谁、在干嘛、怎么干活——每次浪费约 <strong>250+ token</strong>。<br>
 这还不是最贵的——你每次"重新进入状态"的精神成本才是。</p>
+<div class="benefit-strip">
+  <div class="benefit-item">
+    <div class="benefit-item-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="benefit-item-text">
+      <div class="benefit-item-title">省时高效</div>
+      <div class="benefit-item-desc">一次填好，所有对话共享背景。不再重复解释你是谁。</div>
+    </div>
+  </div>
+  <div class="benefit-item">
+    <div class="benefit-item-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+    </div>
+    <div class="benefit-item-text">
+      <div class="benefit-item-title">目标清晰</div>
+      <div class="benefit-item-desc">新对话自动就位你的角色、目标、工作方式，不用从零教起。</div>
+    </div>
+  </div>
+  <div class="benefit-item">
+    <div class="benefit-item-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <div class="benefit-item-text">
+      <div class="benefit-item-title">自动化</div>
+      <div class="benefit-item-desc">定期总结汇报，多线状态一目了然，不需要人肉传话。</div>
+    </div>
+  </div>
+</div>
+
+
 
 <div class="hero-compare">
   <div class="compare-col before">
@@ -589,21 +643,21 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- ====== Section: 红线 (common) ====== -->
+  <!-- ====== Section: 原则 (common) ====== -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff3b30">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div class="form-section-icon" style="color:#34c759">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div>
-        <div class="form-section-title">红线</div>
-        <div class="form-section-desc">不可逾越的原则</div>
+        <div class="form-section-title">原则</div>
+        <div class="form-section-desc">你的做事原则和底线</div>
       </div>
     </div>
     <div class="form-grid">
       <div class="full">
         <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则" style="min-height:64px"></textarea>
-        <div class="hint">每行一条。如果不填，默认"不违法"+"不影响到用户人身安全"</div>
+        <div class="hint">如果不填，默认"不违法"+"不影响到用户人身财产信息安全"</div>
       </div>
     </div>
   </div>
@@ -705,7 +759,7 @@ textarea { resize: vertical; min-height: 64px; }
       <li><strong>每次开新对话时</strong> — 把"启动指令.txt"里的内容写入任务描述。</li>
       <li><strong>每个项目的根目录放一份 SESSION_LOG.md</strong> — 对话写到上限前，把当前状态总结到文件里。</li>
       <li><strong>各对话完成重要阶段后</strong> — 写一条到回传日志.md。调度角色定期读它来知道各线状态。</li>
-      <li><strong>共享知识库只留基本盘</strong> — 你是谁、红线、项目架构。项目细节用文件路径引用。</li>
+      <li><strong>共享知识库只留基本盘</strong> — 你是谁、原则、项目架构。项目细节用文件路径引用。</li>
       <li><strong>不等人说"记下来"</strong> — 关键信息当场写盘。这是最重要的一条习惯。</li>
     </ol>
   </div>
@@ -1021,7 +1075,7 @@ ${d.bio ? `- ${d.bio}` : ''}
 
 ${personaContent}
 
-### 红线
+### 原则
 ${redlines}
 
 ### 工作方式偏好
@@ -1145,7 +1199,7 @@ function generateStarterGuide(d) {
 ## 背景
 这是 ${d.name} 开的第 ${d.dialogCount || '多个'} 个 Codex 对话。
 关于 ${d.name} 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。
-这里有 ${d.name} 的基本信息、红线、工作方式、以及当前在跑的项目。
+这里有 ${d.name} 的基本信息、原则、工作方式、以及当前在跑的项目。
 
 ## 工作方式
 ${prefLines}
@@ -1194,7 +1248,7 @@ function generateCommanderGuide(d) {
 
 | 文件 | 用途 |
 |------|------|
-| \`共享知识库.md\` | 知道用户是谁、红线、当前项目 |
+| \`共享知识库.md\` | 知道用户是谁、原则、当前项目 |
 | \`回传日志.md\` | 知道各线最新状态 |
 | \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |
 
@@ -1246,7 +1300,7 @@ function generate() {
     studyLevel: getVal('studyLevel'),
     studyGoals: getVal('studyGoals'),
     studyCurrent: getVal('studyCurrent'),
-    redlines: getVal('redlines') || '不违法\n不影响到用户人身安全',
+    redlines: getVal('redlines') || '不违法\n不影响到用户人身财产信息安全',
     dialogCount: getVal('dialogCount') || '多个',
     commanderName: getVal("commanderName") || "中枢"
   };
