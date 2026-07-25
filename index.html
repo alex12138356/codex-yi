@@ -492,18 +492,6 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-<script>
-function switchPersona(p) {
-  document.querySelectorAll('.persona-pill').forEach(function(b){b.classList.remove('active')});
-  var sel = document.querySelector('.persona-pill[data-persona="'+p+'"]');
-  if(sel) sel.classList.add('active');
-  document.querySelectorAll('.persona-fields').forEach(function(e){e.style.display='none'});
-  var t = document.getElementById('F'+p.charAt(0).toUpperCase()+p.slice(1));
-  if(t) t.style.display='block';
-  setTimeout(updateProgress,50);
-}
-</script>
-
   <!-- Basic info -->
   <div class="form-section">
     <div class="form-section-header">
@@ -719,6 +707,17 @@ function updateProgress() {
 }
 
 // Bind progress updates to all form inputs
+
+function switchPersona(p) {
+  document.querySelectorAll('.persona-pill').forEach(function(b){b.classList.remove('active')});
+  var sel = document.querySelector('.persona-pill[data-persona="'+p+'"]');
+  if(sel) sel.classList.add('active');
+  document.querySelectorAll('.persona-fields').forEach(function(e){e.style.display='none'});
+  var t = document.getElementById('F'+p.charAt(0).toUpperCase()+p.slice(1));
+  if(t) t.style.display='block';
+  setTimeout(updateProgress,50);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('#formSection input, #formSection textarea, #formSection select').forEach(el => {
     el.addEventListener('input', updateProgress);
