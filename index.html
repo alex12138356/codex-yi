@@ -723,19 +723,12 @@ function updateProgress() {
 // Bind progress updates to all form inputs
 
 function bindEvents() {
-  var els = document.querySelectorAll('#formSection input, #formSection textarea, #formSection select');
-  for (var i = 0; i < els.length; i++) {
-    els[i].addEventListener('input', updateProgress);
-    els[i].addEventListener('change', updateProgress);
-  }
-  // Bind persona buttons
-  var pills = document.querySelectorAll('.persona-pill');
-  for (var i = 0; i < pills.length; i++) {
-    (function(btn) {
-      btn.addEventListener('click', function() { setTimeout(updateProgress, 100); });
-    })(pills[i]);
-  }
-  // Bind autoreport checkbox
+  // Event delegation: one listener catches all input/change events in the form
+  document.getElementById('formSection').addEventListener('input', updateProgress);
+  document.getElementById('formSection').addEventListener('change', updateProgress);
+  // Persona buttons: delegation on pills container
+  document.getElementById('personaPills').addEventListener('click', function() { setTimeout(updateProgress, 100); });
+  // Autoreport checkbox
   var ar = document.querySelector('input[value="autoreport"]');
   if (ar) ar.addEventListener('change', function() { setTimeout(updateProgress, 50); });
   var ri = document.getElementById('reportInterval');
@@ -743,10 +736,12 @@ function bindEvents() {
   updateProgress();
 }
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', bindEvents);
+  document.addEventListener('DOMContentLoaded', function() { try { bindEvents(); } catch(e) {} });
 } else {
-  bindEvents();
+  try { bindEvents(); } catch(e) {}
 }
+// Call updateProgress directly as fallback
+setTimeout(function() { try { updateProgress(); } catch(e) {} }, 50);
 
 let generatedFiles = {};
 
@@ -759,7 +754,12 @@ function showToast(msg) {
 }
 function getVal(id) { return document.getElementById(id).value.trim(); }
 function getChecks() {
-  return [...document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked')].map(c => c.value);
+  var cbx = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+  var result = [];
+  for (var ci = 0; ci < cbx.length; ci++) {
+    result.push(cbx[ci].value);
+  }
+  return result;
 }
 
 function getReportInterval() {
