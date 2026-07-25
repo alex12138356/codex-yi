@@ -462,244 +462,139 @@ textarea { resize: vertical; min-height: 64px; }
 <!-- ======== FORM ======== -->
 <div class="card" id="formSection">
 
-  <!-- ====== Progress Bar ====== -->
+  <!-- Progress -->
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b" id="progressLabel">已填写 <span id="filledCount">0</span>/<span id="totalCount">12</span> 项</span>
+      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">8</span> 项</span>
       <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
-      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s ease"></div>
+      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s"></div>
     </div>
   </div>
 
-  <!-- ====== Persona Selector ====== -->
+  <!-- User type -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#86868b">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
       <div>
-        <div class="form-section-title">你是谁</div>
-        <div class="form-section-desc">选一个最接近你的角色，表单内容会跟着适配</div>
+        <div class="form-section-title">选择你的角色</div>
+        <div class="form-section-desc">选一个最接近你的，下方会显示对应的引导信息</div>
       </div>
     </div>
     <div class="persona-pills" id="personaPills">
-      <button class="persona-pill active" data-persona="solo" onclick="switchPersona('solo')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        个人创业者
-      </button>
-      <button class="persona-pill" data-persona="business" onclick="switchPersona('business')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        公司管理者
-      </button>
-      <button class="persona-pill" data-persona="programmer" onclick="switchPersona('programmer')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        程序员 / 开发者
-      </button>
-
-      <button class="persona-pill" data-persona="student" onclick="switchPersona('student')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        学生 / 研究者
-      </button>
+      <button class="persona-pill active" data-persona="solo" onclick="switchPersona('solo')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
+      <button class="persona-pill" data-persona="business" onclick="switchPersona('business')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
+      <button class="persona-pill" data-persona="programmer" onclick="switchPersona('programmer')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
+      <button class="persona-pill" data-persona="student" onclick="switchPersona('student')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
     </div>
   </div>
 
 <script>
-function switchPersona(persona) {
-  document.querySelectorAll('.persona-pill').forEach(function(p) { p.classList.remove('active'); });
-  var sel = document.querySelector('.persona-pill[data-persona="' + persona + '"]');
-  if (sel) sel.classList.add('active');
-  document.querySelectorAll('.persona-fields').forEach(function(el) { el.style.display = 'none'; });
-  var target = document.getElementById('fields' + persona.charAt(0).toUpperCase() + persona.slice(1));
-  if (target) target.style.display = 'block';
-  setTimeout(updateProgress, 50);
+function switchPersona(p) {
+  document.querySelectorAll('.persona-pill').forEach(function(b){b.classList.remove('active')});
+  var sel = document.querySelector('.persona-pill[data-persona="'+p+'"]');
+  if(sel) sel.classList.add('active');
+  document.querySelectorAll('.persona-fields').forEach(function(e){e.style.display='none'});
+  var t = document.getElementById('F'+p.charAt(0).toUpperCase()+p.slice(1));
+  if(t) t.style.display='block';
+  setTimeout(updateProgress,50);
 }
 </script>
 
-  <!-- ====== Section: 关于你 (common to all) ====== -->
+  <!-- Basic info -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">基本信息</div>
-        <div class="form-section-desc">谁在用这个系统、在哪、怎么称呼</div>
-      </div>
+      <div class="form-section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div><div class="form-section-title">基本信息</div><div class="form-section-desc">谁在用这个系统</div></div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="name">名字 <span class="required">*</span></label>
-        <input type="text" id="name" placeholder="你的名字">
-      </div>
-      <div>
-        <label for="age">年龄</label>
-        <input type="text" id="age" placeholder="如：28">
-      </div>
-      <div>
-        <label for="location">位置</label>
-        <input type="text" id="location" placeholder="如：深圳">
-      </div>
-      <div>
-        <label for="bio">一句话介绍</label>
-        <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品">
-      </div>
+      <div><label for="name">名字 <span class="required">*</span></label><input type="text" id="name" placeholder="你的名字"></div>
+      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发"></div>
+      <div class="full"><label for="commanderName">给中枢取个名字</label><input type="text" id="commanderName" placeholder="如：中枢、军师、统筹" value="中枢"></div>
     </div>
   </div>
 
-  <!-- ====== Section: 你的情况（按用户类型切换） ====== -->
-
-  <!-- Solo: 个人创业者 -->
-  <div class="form-section persona-fields" id="fieldsSolo">
+  <!-- Per-persona fields -->
+  <div class="form-section persona-fields" id="Fsolo">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff9500">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title" id="personaTitle">你的目标</div>
-        <div class="form-section-desc" id="personaDesc">说说你目前最想做成的事</div>
-      </div>
+      <div class="form-section-icon" style="color:#ff9500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg></div>
+      <div><div class="form-section-title">你的目标</div><div class="form-section-desc">说说你目前最想做成的事</div></div>
     </div>
     <div class="form-grid">
-      <div class="full">
-        <label for="soloGoal">目前最想做成的事</label>
-        <input type="text" id="soloGoal" placeholder="如：上线一款产品、跑通变现、搭建团队">
-      </div>
-      <div class="full">
-        <label for="soloPain">目前最大的困扰</label>
-        <textarea id="soloPain" placeholder="如：不懂技术、不清楚优先级、时间不够用" style="min-height:64px"></textarea>
-      </div>
+      <div class="full"><label for="soloGoal">目前最想做成的事</label><input type="text" id="soloGoal" placeholder="如：上线一款产品、跑通变现、搭建团队"></div>
+      <div class="full"><label for="soloPain">目前最大的困扰</label><textarea id="soloPain" placeholder="如：不懂技术、不清楚优先级、时间不够用" style="min-height:64px"></textarea></div>
     </div>
   </div>
 
-  <!-- Business: 公司管理者 -->
-  <div class="form-section persona-fields" id="fieldsBusiness" style="display:none">
+  <div class="form-section persona-fields" id="Fbusiness" style="display:none">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#0071e3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">企业信息</div>
-        <div class="form-section-desc">公司、角色和核心关注方向</div>
-      </div>
+      <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div><div class="form-section-title">企业信息</div><div class="form-section-desc">公司、角色和核心方向</div></div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="bizCompany">公司 / 品牌名称</label>
-        <input type="text" id="bizCompany" placeholder="公司名">
-      </div>
-      <div>
-        <label for="bizRole">你的角色</label>
-        <input type="text" id="bizRole" placeholder="如：创始人、CEO、部门负责人">
-      </div>
-      <div class="full">
-        <label for="bizFocus">核心关注方向</label>
-        <textarea id="bizFocus" placeholder="如：营收增长、团队效率、产品迭代" style="min-height:64px"></textarea>
-      </div>
+      <div><label for="bizCompany">公司 / 品牌名称</label><input type="text" id="bizCompany" placeholder="公司名"></div>
+      <div><label for="bizRole">你的角色</label><input type="text" id="bizRole" placeholder="创始人 / CEO / 部门负责人"></div>
+      <div class="full"><label for="bizFocus">核心关注方向</label><textarea id="bizFocus" placeholder="如：营收增长、团队效率、产品迭代" style="min-height:64px"></textarea></div>
     </div>
   </div>
 
-  <!-- Programmer: 程序员/开发者 -->
-  <div class="form-section persona-fields" id="fieldsProgrammer" style="display:none">
+  <div class="form-section persona-fields" id="Fprogrammer" style="display:none">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#5856d6">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">开发信息</div>
-        <div class="form-section-desc">技术栈、项目和开发习惯</div>
-      </div>
+      <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+      <div><div class="form-section-title">开发信息</div><div class="form-section-desc">技术栈、项目和开发习惯</div></div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="progStack">技术栈</label>
-        <input type="text" id="progStack" placeholder="如：React、Python、Go">
-      </div>
-      <div>
-        <label for="progProject">主要项目</label>
-        <input type="text" id="progProject" placeholder="目前在做什么项目">
-      </div>
-      <div class="full">
-        <label for="progHabit">开发习惯或偏好</label>
-        <textarea id="progHabit" placeholder="如：代码优先、喜欢先搭框架再填细节" style="min-height:64px"></textarea>
-      </div>
+      <div><label for="progStack">技术栈</label><input type="text" id="progStack" placeholder="如：React、Python、Go"></div>
+      <div><label for="progProject">主要项目</label><input type="text" id="progProject" placeholder="目前在做什么项目"></div>
+      <div class="full"><label for="progHabit">开发习惯或偏好</label><textarea id="progHabit" placeholder="如：代码优先、喜欢先搭框架再填细节" style="min-height:64px"></textarea></div>
     </div>
   </div>
 
-  <!-- Student: 学生/研究者 -->
-  <div class="form-section persona-fields" id="fieldsStudent" style="display:none">
+  <div class="form-section persona-fields" id="Fstudent" style="display:none">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff3b30">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">研究方向</div>
-        <div class="form-section-desc">专业、课题和目标</div>
-      </div>
+      <div class="form-section-icon" style="color:#ff3b30"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+      <div><div class="form-section-title">研究方向</div><div class="form-section-desc">专业、课题和目标</div></div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="studyField">研究方向 / 专业</label>
-        <input type="text" id="studyField" placeholder="如：人工智能、经济学">
-      </div>
-      <div>
-        <label for="studyCurrent">当前课题</label>
-        <input type="text" id="studyCurrent" placeholder="论文 / 项目 / 考试">
-      </div>
-      <div class="full">
-        <label for="studyGoal">目标</label>
-        <textarea id="studyGoal" placeholder="如：发论文、完成毕设、掌握某项技能" style="min-height:64px"></textarea>
-      </div>
+      <div><label for="studyField">研究方向 / 专业</label><input type="text" id="studyField" placeholder="如：人工智能、经济学"></div>
+      <div><label for="studyCurrent">当前课题</label><input type="text" id="studyCurrent" placeholder="论文 / 项目 / 考试"></div>
+      <div class="full"><label for="studyGoal">目标</label><textarea id="studyGoal" placeholder="如：发论文、完成毕设、掌握某项技能" style="min-height:64px"></textarea></div>
     </div>
-  </div><!-- ====== Section: 要求 ====== -->
+  </div>
+
+  <!-- Requirements -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#34c759">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">要求</div>
-        <div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么配合你</div>
-      </div>
+      <div class="form-section-icon" style="color:#34c759"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="form-section-title">要求</div><div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么做</div></div>
     </div>
     <div class="form-grid">
-      <div class="full">
-        <textarea id="redlines" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
-        <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div>
-      </div>
+      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:72px"></textarea>
+      <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div></div>
     </div>
   </div>
 
-  <!-- ====== Section: 系统配置 ====== -->
+  <!-- System config -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#5856d6">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">系统配置</div>
-        <div class="form-section-desc">怎么干活、怎么汇报</div>
-      </div>
+      <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <div><div class="form-section-title">系统配置</div><div class="form-section-desc">怎么干活、怎么汇报</div></div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="dialogCount">同时跑几个对话？</label>
-        <input type="number" id="dialogCount" value="3" min="1" max="30">
-      </div>
-      <div>
-        <label for="commanderName">给中枢取个名字</label>
-        <input type="text" id="commanderName" placeholder="如：中枢、军师、统筹..." value="中枢">
-      </div>
+      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30"></div>
+
       <div class="full">
         <label>工作方式偏好</label>
         <div class="checkbox-group">
           <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
           <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
           <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="toggleReportInterval()"><span>自动化总结汇报</span></label>
+          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none'"><span>自动化总结汇报</span></label>
         </div>
-        <div id="reportIntervalRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
+        <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
           <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
           <select id="reportInterval" style="width:auto;min-width:200px">
             <option value="end">每次对话结束时</option>
@@ -708,28 +603,23 @@ function switchPersona(persona) {
             <option value="2h">每 2 小时</option>
             <option value="4h">每 4 小时</option>
           </select>
-          <div class="hint" style="margin-top:4px">对话会在到达间隔时自动总结当前进展并写盘</div>
+          <div class="hint" style="margin-top:4px">到达间隔时自动总结当前进展并写盘</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ====== Section: 项目一览 ====== -->
+  <!-- Projects -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#0071e3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">项目一览</div>
-        <div class="form-section-desc">你当前正在跑的项目或对话线</div>
-      </div>
+      <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+      <div><div class="form-section-title">项目一览</div><div class="form-section-desc">你当前正在跑的项目或对话线</div></div>
     </div>
     <div id="projectEditor"></div>
     <button class="btn btn-small btn-outline" onclick="addProjectRow()" style="margin-top:8px" type="button">+ 添加项目</button>
   </div>
 
-  <!-- ====== Action ====== -->
+  <!-- Action -->
   <div class="form-action">
     <button class="btn btn-primary btn-generate" onclick="generate()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -784,14 +674,6 @@ function switchPersona(persona) {
 
 // ===== persona switching =====
 // ===== auto-report toggle ===== =====
-function toggleReportInterval() {
-  const cb = document.querySelector('input[value="autoreport"]');
-  const row = document.getElementById('reportIntervalRow');
-  if (cb && row) {
-    row.style.display = cb.checked ? 'block' : 'none';
-  }
-  setTimeout(updateProgress, 50);
-}
 
 // ===== form progress =====
 function countFilled() {
