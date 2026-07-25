@@ -7,98 +7,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: #f5f5f7;
-  color: #1d1d1f;
-  line-height: 1.5;
-}
-.container { max-width: 960px; margin: 0 auto; padding: 32px 20px; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.5; }
+.container { max-width: 520px; margin: 0 auto; padding: 32px 40px; }
 h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
 h1 small { display: block; font-size: 14px; font-weight: 400; color: #86868b; margin-top: 4px; }
 h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
 h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
 p { font-size: 14px; color: #515154; margin-bottom: 20px; }
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 24px;
-  margin-bottom: 20px;
-  border: 1px solid #e8e8ed;
-}
+.card { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid #e8e8ed; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-grid .full { grid-column: 1 / -1; }
 label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #515154; }
-input[type="text"], input[type="number"], textarea, select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  background: #fff;
-  transition: border-color 0.15s;
-}
+input[type="text"], input[type="number"], textarea, select { width: 100%; padding: 8px 12px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; font-family: inherit; background: #fff; transition: border-color 0.15s; }
 input:focus, textarea:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
 textarea { resize: vertical; min-height: 64px; }
 .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
-.checkbox-group label {
-  display: flex; align-items: center; gap: 6px;
-  font-weight: 400; font-size: 13px;
-  padding: 6px 12px;
-  border: 1px solid #d2d2d7;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.15s;
-  user-select: none;
-}
+.checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 13px; padding: 6px 12px; border: 1px solid #d2d2d7; border-radius: 20px; cursor: pointer; transition: all 0.15s; user-select: none; }
 .checkbox-group input:checked + span { color: #0071e3; }
 .checkbox-group label:has(input:checked) { border-color: #0071e3; background: #f0f7ff; }
-
-/* project editor */
-.project-list { margin-top: 8px; }
-.project-row {
-  display: grid;
-  grid-template-columns: 1fr 2fr 80px 40px;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 8px;
-}
+.project-row { display: grid; grid-template-columns: 1fr 2fr 80px 40px; gap: 8px; align-items: center; margin-bottom: 8px; }
 .project-row input { font-size: 13px; padding: 6px 10px; }
-.project-row .btn-icon {
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid #d2d2d7; border-radius: 8px;
-  background: #fff; cursor: pointer;
-  font-size: 16px; color: #ff3b30;
-  transition: all 0.15s;
-}
-/* folder picker button */
-.btn-folder {
-  width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid #d2d2d7; border-radius: 6px;
-  background: #fff; cursor: pointer;
-  font-size: 14px; line-height: 1;
-  transition: all 0.15s; flex-shrink: 0;
-  padding: 0;
-}
+.project-row .btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 8px; background: #fff; cursor: pointer; font-size: 16px; color: #ff3b30; transition: all 0.15s; }
+.btn-folder { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 6px; background: #fff; cursor: pointer; font-size: 14px; line-height: 1; transition: all 0.15s; flex-shrink: 0; padding: 0; }
 .btn-folder:hover { background: #f5f5f7; border-color: #86868b; }
 .project-row .btn-icon:hover { background: #fff0ef; border-color: #ff3b30; }
-
-.btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 24px;
-  border: none; border-radius: 20px;
-  font-size: 14px; font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-small {
-  padding: 6px 14px;
-  font-size: 12px;
-  border-radius: 16px;
-}
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; border: none; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+.btn-small { padding: 6px 14px; font-size: 12px; border-radius: 16px; }
 .btn-primary { background: #1d1d1f; color: #fff; }
 .btn-primary:hover { background: #000; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -107,129 +41,30 @@ textarea { resize: vertical; min-height: 64px; }
 .btn-outline { background: transparent; color: #0071e3; border: 1px solid #0071e3; }
 .btn-outline:hover { background: #f0f7ff; }
 .btn-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-
-/* result section */
 .result-section { display: none; }
 .result-section.visible { display: block; }
-
-/* token savings widget */
-.token-savings {
-  background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e9 100%);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-.token-savings .big-number {
-  font-size: 48px; font-weight: 700;
-  color: #0071e3;
-  line-height: 1;
-  margin: 8px 0;
-}
+.token-savings { background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e9 100%); border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center; }
+.token-savings .big-number { font-size: 48px; font-weight: 700; color: #0071e3; line-height: 1; margin: 8px 0; }
 .token-savings .label { font-size: 14px; color: #515154; }
 .token-savings .sub { font-size: 12px; color: #86868b; margin-top: 4px; }
-.token-savings .adjust-row {
-  display: flex; gap: 20px; justify-content: center;
-  margin-top: 12px;
-  font-size: 13px; color: #515154;
-}
-.token-savings .adjust-row input {
-  width: 60px; text-align: center;
-  padding: 4px 8px;
-}
-.token-savings .adjust-row label {
-  display: inline;
-  font-weight: 400;
-  font-size: 13px;
-}
-
-/* file tabs */
-.file-tabs {
-  display: flex; gap: 4px;
-  border-bottom: 1px solid #d2d2d7;
-  margin-bottom: 16px;
-  overflow-x: auto;
-}
-.file-tab {
-  padding: 8px 16px;
-  font-size: 13px; font-weight: 500;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  color: #86868b;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
+.token-savings .adjust-row { display: flex; gap: 20px; justify-content: center; margin-top: 12px; font-size: 13px; color: #515154; }
+.token-savings .adjust-row input { width: 60px; text-align: center; padding: 4px 8px; }
+.token-savings .adjust-row label { display: inline; font-weight: 400; font-size: 13px; }
+.file-tabs { display: flex; gap: 4px; border-bottom: 1px solid #d2d2d7; margin-bottom: 16px; overflow-x: auto; }
+.file-tab { padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; color: #86868b; white-space: nowrap; transition: all 0.15s; }
 .file-tab:hover { color: #1d1d1f; }
 .file-tab.active { color: #1d1d1f; border-bottom-color: #0071e3; }
-.file-content {
-  display: none;
-  background: #f5f5f7;
-  border-radius: 8px;
-  padding: 16px;
-  font-family: "SF Mono", Menlo, monospace;
-  font-size: 12px;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  overflow-x: auto;
-  max-height: 400px;
-  overflow-y: auto;
-}
+.file-content { display: none; background: #f5f5f7; border-radius: 8px; padding: 16px; font-family: "SF Mono", Menlo, monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto; max-height: 400px; overflow-y: auto; }
 .file-content.active { display: block; }
-
-.toast {
-  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-  background: #1d1d1f; color: #fff;
-  padding: 12px 24px; border-radius: 20px;
-  font-size: 14px; font-weight: 500;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  opacity: 0; transition: opacity 0.3s;
-  z-index: 999;
-}
+.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: #1d1d1f; color: #fff; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s; z-index: 999; }
 .toast.show { opacity: 1; }
-
 .hint { font-size: 12px; color: #86868b; margin-top: 2px; }
-
-@media (max-width: 640px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .project-row { grid-template-columns: 1fr 1fr 60px 36px; }
-  .token-savings .adjust-row { flex-direction: column; align-items: center; gap: 8px; }
-}
-/* hero comparison */
-/* workflow diagram */
-.workflow {
-  display: flex; align-items: center; gap: 6px;
-  background: #fff;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  border: 1px solid #e8e8ed;
-  overflow-x: auto;
-}
-.wf-step {
-  flex-shrink: 0;
-  font-size: 12px; font-weight: 500;
-  background: #f5f5f7; color: #1d1d1f;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-align: center;
-  line-height: 1.3;
-  min-width: 66px;
-}
-.wf-arrow {
-  flex-shrink: 0;
-  font-size: 16px; color: #d2d2d7;
-}
-@media (max-width: 480px) {
-  .workflow { gap: 4px; padding: 10px 8px; }
-  .wf-step { font-size: 11px; padding: 6px 10px; min-width: 56px; }
-}
-.hero-compare {
-  display: flex; align-items: center; gap: 16px;
-  background: linear-gradient(135deg, #fff0ef 0%, #f0f7ff 100%);
-  border-radius: 12px;
-  padding: 16px 24px;
-  margin-bottom: 20px;
-}
+@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .project-row { grid-template-columns: 1fr 1fr 60px 36px; } .token-savings .adjust-row { flex-direction: column; align-items: center; gap: 8px; } }
+.workflow { display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; border: 1px solid #e8e8ed; overflow-x: auto; }
+.wf-step { flex-shrink: 0; font-size: 12px; font-weight: 500; background: #f5f5f7; color: #1d1d1f; padding: 8px 14px; border-radius: 8px; text-align: center; line-height: 1.3; min-width: 66px; }
+.wf-arrow { flex-shrink: 0; font-size: 16px; color: #d2d2d7; }
+@media (max-width: 480px) { .workflow { gap: 4px; padding: 10px 8px; } .wf-step { font-size: 11px; padding: 6px 10px; min-width: 56px; } }
+.hero-compare { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #fff0ef 0%, #f0f7ff 100%); border-radius: 12px; padding: 16px 24px; margin-bottom: 20px; }
 .compare-col { text-align: center; flex: 1; }
 .compare-col .lbl { font-size: 11px; color: #86868b; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 2px; }
 .compare-col .num { font-size: 32px; font-weight: 700; line-height: 1.1; }
@@ -239,153 +74,135 @@ textarea { resize: vertical; min-height: 64px; }
 .compare-col.after .num { color: #34c759; }
 .compare-arrow { font-size: 28px; color: #86868b; flex-shrink: 0; }
 @media (max-width: 480px) { .compare-col .num { font-size: 24px; } }
-
-
-/* redesigned form sections */
-.form-section { padding: 0; margin-bottom: 20px; }
-.form-section + .form-section { border-top: 1px solid #e8e8ed; padding-top: 20px; }
-
-.form-section-header {
-  display: flex; align-items: flex-start; gap: 12px;
-  margin-bottom: 16px;
-}
-.form-section-icon {
-  width: 36px; height: 36px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: #f5f5f7; border-radius: 10px;
-  color: #0071e3;
-}
+.form-section { padding: 0; margin-bottom: 16px; }
+.form-section + .form-section { border-top: 1px solid #e8e8ed; padding-top: 16px; }
+.form-section-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.form-section-icon { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f5f5f7; border-radius: 10px; color: #0071e3; }
 .form-section-title { font-size: 15px; font-weight: 600; color: #1d1d1f; }
 .form-section-desc { font-size: 12px; color: #86868b; margin-top: 1px; }
-
-.form-action {
-  border-top: 1px solid #e8e8ed; padding-top: 20px; margin-top: 8px;
-  text-align: center;
-}
-.btn-generate {
-  padding: 12px 32px; font-size: 15px;
-  background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
+.form-action { border-top: 1px solid #e8e8ed; padding-top: 20px; margin-top: 8px; text-align: center; }
+.btn-generate { padding: 12px 32px; font-size: 15px; background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: transform 0.15s, box-shadow 0.15s; }
 .btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
-
-.required { color: #ff3b30; font-weight: 400; }
-
-.checkbox-group .cb-pill {
-  display: flex; align-items: center; gap: 6px;
-  font-weight: 500; font-size: 13px;
-  padding: 8px 16px;
-  border: 1px solid #d2d2d7;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.15s;
-  user-select: none;
-  background: #fff;
-}
-.checkbox-group .cb-pill:has(input:checked) {
-  border-color: #0071e3; background: #f0f7ff;
-}
-
-/* persona selector */
-.persona-pills {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.persona-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 18px;
-  border: 1.5px solid #d2d2d7; border-radius: 12px;
-  background: #fff; cursor: pointer;
-  font-size: 13px; font-weight: 500; color: #515154;
-  transition: all 0.2s; user-select: none;
-  flex: 1; justify-content: center; min-width: 0;
-}
+.checkbox-group .cb-pill { display: flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; padding: 8px 16px; border: 1px solid #d2d2d7; border-radius: 20px; cursor: pointer; transition: all 0.15s; user-select: none; background: #fff; }
+.checkbox-group .cb-pill:has(input:checked) { border-color: #0071e3; background: #f0f7ff; }
+.persona-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.persona-pill { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border: 1.5px solid #d2d2d7; border-radius: 12px; background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; color: #515154; transition: all 0.2s; user-select: none; flex: 1; justify-content: center; min-width: 0; }
 .persona-pill:hover { border-color: #86868b; background: #f5f5f7; }
-.persona-pill.active {
-  border-color: #0071e3; background: #f0f7ff; color: #0071e3;
-  box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
-}
+.persona-pill.active { border-color: #0071e3; background: #f0f7ff; color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.12); }
 .persona-pill.active svg { stroke: #0071e3; }
 .persona-pill svg { flex-shrink: 0; stroke: #86868b; }
-
 .persona-fields { transition: opacity 0.2s, transform 0.2s; }
-
-/* benefit strip */
-.benefit-strip {
-  display: flex; gap: 16px; margin-bottom: 24px;
-}
-.benefit-item {
-  flex: 1; background: #fff; border-radius: 12px; padding: 16px;
-  border: 1px solid #e8e8ed;
-  display: flex; align-items: flex-start; gap: 12px;
-}
-.benefit-item-icon {
-  width: 40px; height: 40px; flex-shrink: 0;
-  background: #f0f7ff; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  color: #0071e3;
-}
+.benefit-strip { display: flex; gap: 16px; margin-bottom: 24px; }
+.benefit-item { flex: 1; background: #fff; border-radius: 10px; padding: 14px; border: 1px solid #e8e8ed; }
+/* icon removed for wider text */
 .benefit-item-text { min-width: 0; }
 .benefit-item-title { font-size: 14px; font-weight: 600; color: #1d1d1f; }
 .benefit-item-desc { font-size: 12px; color: #86868b; margin-top: 3px; line-height: 1.4; }
-
-@media (max-width: 640px) {
-  .benefit-strip { flex-direction: column; }
-}
+@media (max-width: 480px) { .benefit-strip { flex-direction: column; } }
 </style>
 </head>
 <body>
+<!-- 
+  Codex 壹 (codex-yi)
+  版权所有 © 2026 刘尚坤
+  本软件受著作权法保护。未经作者书面许可，禁止任何商业用途。
+  Unauthorized commercial use is prohibited.
+-->
 <div class="container">
 
-<h1>Codex 壹<small>一次配置，永远省力。让每个 Codex 对话从第一秒就知道该做什么。</small></h1>
-<p>每次开新 Codex 对话，你都要重新教一遍你是谁、在干嘛、怎么干活——每次浪费约 <strong>250+ token</strong>。<br>
+<h1>Codex 壹<small>中枢调度 · 跨对话记忆 · 400 防护</small></h1>
+<p>每次截断丢掉约 <strong>400,000 token</strong> 的对话历史。壹 帮你保留其中最值钱的 <strong>token 和关键笔记</strong>。<br>
 这还不是最贵的——你每次"重新进入状态"的精神成本才是。</p>
+
 <div class="benefit-strip">
   <div class="benefit-item">
-    <div class="benefit-item-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    </div>
-    <div class="benefit-item-text">
-      <div class="benefit-item-title">省时高效</div>
-      <div class="benefit-item-desc">一次填好，所有对话共享背景。不再重复解释你是谁。</div>
-    </div>
+    <div class="benefit-item-text"><div class="benefit-item-title">中枢调度</div><div class="benefit-item-desc">同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线互不干扰。新对话自动分配角色，各线做完主动回传。</div></div>
   </div>
   <div class="benefit-item">
-    <div class="benefit-item-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-    </div>
-    <div class="benefit-item-text">
-      <div class="benefit-item-title">目标清晰</div>
-      <div class="benefit-item-desc">新对话自动就位你的角色、目标、工作方式，不用从零教起。</div>
-    </div>
+    <div class="benefit-item-text"><div class="benefit-item-title">跨对话记忆</div><div class="benefit-item-desc">每个对话进来第一秒就读共享知识库，知道你是谁、在干嘛、怎么干活。填一次背景，以后所有新对话自动就位。不用反复教，不用重复写。</div></div>
   </div>
   <div class="benefit-item">
-    <div class="benefit-item-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    </div>
-    <div class="benefit-item-text">
-      <div class="benefit-item-title">自动化</div>
-      <div class="benefit-item-desc">定期总结汇报，多线状态一目了然，不需要人肉传话。</div>
-    </div>
+    <div class="benefit-item-text"><div class="benefit-item-title">400 防护</div><div class="benefit-item-desc">对话到 400 上限被截断，历史内容丢光？壹 把关键笔记写盘保存，截断后知识库和日志还在。新对话一进来就能接上。</div></div>
   </div>
 </div>
 
+</div>
+</div>
 
+<h3 style="font-size:13px;font-weight:600;color:#86868b;letter-spacing:0.5px;margin-bottom:16px;text-align:center;text-transform:uppercase">/ 这不是通用工具 /</h3>
+<h2 style="text-align:center;margin-bottom:20px;font-size:20px">壹 对不同的人意味着什么</h2>
+
+<div class="persona-value-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px">
+  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="width:28px;height:28px;background:#fff0ef;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#ff9500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      <div><div style="font-size:14px;font-weight:600">个人创业者</div><div style="font-size:12px;color:#86868b">AI 产品合伙人</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.5">跟进产品进度、分析用户数据、制定增长和变现策略。不用教，它知道你在创业。</div>
+  </div>
+  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="width:28px;height:28px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+      <div><div style="font-size:14px;font-weight:600">公司管理者</div><div style="font-size:12px;color:#86868b">AI 管理助手</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.5">跟踪 KPI、分析财报流水、做竞品调研、整理月度报表。它一进来就懂你在管什么。</div>
+  </div>
+  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="width:28px;height:28px;background:#f0f0ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#5856d6"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+      <div><div style="font-size:14px;font-weight:600">程序员</div><div style="font-size:12px;color:#86868b">AI 结对编程</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.5">跑代码、调 bug、写测试、搭脚手架、生成 API 文档。不用从零教技术栈。</div>
+  </div>
+  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <span style="width:28px;height:28px;background:#fff0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#ff3b30"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
+      <div><div style="font-size:14px;font-weight:600">学生</div><div style="font-size:12px;color:#86868b">AI 学习教练</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.5">梳理知识体系、整理书籍要点、辅导论文写作、解答疑难概念。它知道你在学什么方向。</div>
+  </div>
+</div>
 
 <div class="hero-compare">
   <div class="compare-col before">
     <div class="lbl">建立这套系统之前</div>
     <div class="num">3 亿+</div>
     <div class="unit">token / 天</div>
-    <div class="desc">内容随 400 上限丢失，不断重启</div>
+    <div class="desc">400K 对话一截断，脑子一片空白</div>
   </div>
   <div class="compare-arrow">→</div>
   <div class="compare-col after">
     <div class="lbl">建立之后</div>
     <div class="num">几百万</div>
     <div class="unit">token / 天</div>
-    <div class="desc">没有 400，关键信息全部写盘不丢</div>
-    <div style="font-size:11px;color:#86868b;margin-top:6px;grid-column:1/-1;text-align:center">* 基于重用户的真实消耗对比</div>
+    <div class="desc">截断后关键笔记还在，5,000+ token 写盘保留</div>
+  </div>
+</div>
+
+<h3 style="font-size:13px;font-weight:600;color:#86868b;letter-spacing:0.5px;margin-bottom:16px;text-align:center;text-transform:uppercase">/ 壹 怎么工作 /</h3>
+
+<div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px">
+  <div style="background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span style="width:32px;height:32px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
+      <div><div style="font-size:15px;font-weight:600;color:#1d1d1f">中枢调度 — 多条对话线，一个大脑</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.7">
+      同时跑编程线、创业线、学习线、项目管理线？每条线各干各的活，但谁在干嘛、进展到哪了、下一步做什么——<strong>中枢都知道</strong>。<br><br>
+      中枢是你的调度器。你跟它聊方向、聊焦虑，它帮你拆成具体任务，开新对话去执行。各线做完主动回传，中枢汇总给你看。<br><br>
+      一台调度器管全局，<strong>不用你人肉传话</strong>。
+    </div>
+  </div>
+  <div style="background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e8e8ed">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <span style="width:32px;height:32px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
+      <div><div style="font-size:15px;font-weight:600;color:#1d1d1f">跨对话记忆 — 共享知识库，一次填好永久共享</div></div>
+    </div>
+    <div style="font-size:13px;color:#515154;line-height:1.7">
+      每个对话进来第一秒就读<strong>共享知识库</strong>。你的背景、要求、工作方式——新对话全都知道，不用你从零教起。<br><br>
+      填一次，以后所有对话自动就位。来了新任务开新对话？它也读同一个知识库，直接上手。<br><br>
+      <strong>一次配置，所有对话受益</strong>。
+    </div>
   </div>
 </div>
 
@@ -393,59 +210,21 @@ textarea { resize: vertical; min-height: 64px; }
   <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#1d1d1f">壹 让多条对话线各司其职</h3>
   <div style="overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:13px">
-      <thead>
-        <tr style="border-bottom:1px solid #e8e8ed">
-          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">#</th>
-          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">角色</th>
-          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">职责</th>
-          <th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">状态</th>
-        </tr>
-      </thead>
+      <thead><tr style="border-bottom:1px solid #e8e8ed"><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">#</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">角色</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">职责</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">状态</th></tr></thead>
       <tbody>
-        <tr style="border-bottom:1px solid #f0f0f0">
-          <td style="padding:8px;color:#86868b">①</td>
-          <td style="padding:8px;font-weight:600;color:#0071e3">中枢</td>
-          <td style="padding:8px;color:#515154">调度、方向讨论、写盘、跨线同步、情绪陪伴</td>
-          <td style="padding:8px">✅ 活跃</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f0f0f0">
-          <td style="padding:8px;color:#86868b">②</td>
-          <td style="padding:8px;font-weight:600">编程开发线</td>
-          <td style="padding:8px;color:#515154">写代码、debug、架构设计</td>
-          <td style="padding:8px">✅ 活跃</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f0f0f0">
-          <td style="padding:8px;color:#86868b">③</td>
-          <td style="padding:8px;font-weight:600">内容创作线</td>
-          <td style="padding:8px;color:#515154">写文章、做方案、头脑风暴</td>
-          <td style="padding:8px">✅ 活跃</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f0f0f0">
-          <td style="padding:8px;color:#86868b">④</td>
-          <td style="padding:8px;font-weight:600">数据分析线</td>
-          <td style="padding:8px;color:#515154">处理数据、做图表、出报告</td>
-          <td style="padding:8px">⏸️ 暂停</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f0f0f0">
-          <td style="padding:8px;color:#86868b">⑤</td>
-          <td style="padding:8px;font-weight:600">学习研究线</td>
-          <td style="padding:8px;color:#515154">读资料、做笔记、整理知识</td>
-          <td style="padding:8px">✅ 活跃</td>
-        </tr>
-        <tr>
-          <td style="padding:8px;color:#86868b">⑥</td>
-          <td style="padding:8px;font-weight:600">项目管理线</td>
-          <td style="padding:8px;color:#515154">跟进度、协调资源、记决策</td>
-          <td style="padding:8px">⏸️ 待启动</td>
-        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">①</td><td style="padding:8px;font-weight:600;color:#0071e3">中枢</td><td style="padding:8px;color:#515154">调度、方向讨论、写盘、跨线同步、情绪陪伴</td><td style="padding:8px">✅ 活跃</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">②</td><td style="padding:8px;font-weight:600">编程开发线</td><td style="padding:8px;color:#515154">写代码、debug、架构设计</td><td style="padding:8px">✅ 活跃</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">③</td><td style="padding:8px;font-weight:600">内容创作线</td><td style="padding:8px;color:#515154">写文章、做方案、头脑风暴</td><td style="padding:8px">✅ 活跃</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">④</td><td style="padding:8px;font-weight:600">数据分析线</td><td style="padding:8px;color:#515154">处理数据、做图表、出报告</td><td style="padding:8px">⏸️ 暂停</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">⑤</td><td style="padding:8px;font-weight:600">学习研究线</td><td style="padding:8px;color:#515154">读资料、做笔记、整理知识</td><td style="padding:8px">✅ 活跃</td></tr>
+        <tr><td style="padding:8px;color:#86868b">⑥</td><td style="padding:8px;font-weight:600">项目管理线</td><td style="padding:8px;color:#515154">跟进度、协调资源、记决策</td><td style="padding:8px">⏸️ 待启动</td></tr>
       </tbody>
     </table>
   </div>
   <p style="font-size:12px;color:#86868b;margin-top:10px;margin-bottom:0">所有对话共享同一个背景 + 工作方式。<strong style="color:#1d1d1f">中枢</strong> 定期同步各线状态。</p>
 </div>
 
-<p><strong>壹</strong> 让所有对话共享同一个背景 + 工作方式 + 回传通道。<br>
-新对话一进来就知道你是谁、该怎么做、做完怎么传回来。一次填好，以后不用再教。</p>
+<p style="text-align:center"><strong>壹</strong> 让所有对话共享同一个背景 + 工作方式 + 回传通道。<br>新对话一进来就知道你是谁、该怎么做、做完怎么传回来。一次填好，以后不用再教。</p>
 
 <div class="workflow">
   <div class="wf-step">跟 <span id="wfName1">中枢</span> 聊<br>方向/焦虑</div>
@@ -459,55 +238,52 @@ textarea { resize: vertical; min-height: 64px; }
   <div class="wf-step">回传同步<br><span id="wfName2">中枢</span> 知情</div>
 </div>
 
-<!-- ======== FORM ======== -->
 <div class="card" id="formSection">
 
-  <!-- Progress -->
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">10</span> 项</span>
-      <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
+      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">0</span> 项</span>
+      <span style="font-size:12px;color:#34c759" id="progressHint">填一下基本信息和你的要求</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
       <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s"></div>
     </div>
   </div>
 
-  <!-- User type selector -->
+  <div style="background:linear-gradient(135deg,#f0f7ff,#e8f5e9);border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center">
+    <div style="font-size:13px;color:#515154;margin-bottom:4px">壹 有中枢调度和跨对话记忆，能为你保留多少关键信息？</div>
+    <div style="font-size:14px;font-weight:600;color:#1d1d1f">填完下面的信息就知道</div>
+  </div>
+
   <div class="form-section">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#86868b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div><div class="form-section-title">选择你的角色</div><div class="form-section-desc">选一个最接近你的，下方会显示对应的引导信息</div></div>
     </div>
-    <div class="persona-pills">
-      <button class="persona-pill" data-persona="solo" active" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F0');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
-      <button class="persona-pill" data-persona="business"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F1');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
-      <button class="persona-pill" data-persona="programmer"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F2');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
-      <button class="persona-pill" data-persona="student"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F3');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
+    <div class="persona-pills" id="personaPills">
+      <button class="persona-pill active" data-persona="solo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
+      <button class="persona-pill" data-persona="business"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
+      <button class="persona-pill" data-persona="programmer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
+      <button class="persona-pill" data-persona="student"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
     </div>
   </div>
 
-  <!-- Basic info -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div><div class="form-section-title">基本信息</div><div class="form-section-desc">谁在用这个系统</div></div>
+      <div><div class="form-section-title">基本介绍</div><div class="form-section-desc">怎么称呼你、怎么介绍自己</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="name">名字 <span class="required">*</span></label><input type="text" id="name" placeholder="你的名字" onkeyup="updateProgress()"></div>
-      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发" onkeyup="updateProgress()"></div>
+      <div><label for="name">希望我怎么称呼您</label><input type="text" id="name" placeholder="随便叫什么都行"></div>
+      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发"></div>
     </div>
   </div>
 
-  <!-- Per-persona fields -->
   <div class="form-section persona-fields" id="F0">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff9500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg></div>
       <div><div class="form-section-title">我能帮你做什么</div><div class="form-section-desc">跟进产品进度、分析数据、制定策略——告诉我你的项目情况</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务" onkeyup="updateProgress()"></div>
-      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px" onkeyup="updateProgress()"></textarea></div>
+      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务"></div>
+      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
@@ -517,8 +293,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你管理什么</div><div class="form-section-desc">分析财报、跟踪KPI、整理报表——告诉我你的公司情况</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名" onkeyup="updateProgress()"></div>
-      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px" onkeyup="updateProgress()"></textarea></div>
+      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名"></div>
+      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
@@ -528,8 +304,8 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你写什么</div><div class="form-section-desc">跑代码、改bug、写测试、搭项目——告诉我你的开发需求</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统" onkeyup="updateProgress()"></div>
-      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px" onkeyup="updateProgress()"></textarea></div>
+      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统"></div>
+      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
@@ -539,47 +315,45 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">我能帮你学什么</div><div class="form-section-desc">整理书籍要点、梳理知识体系、辅导论文——告诉我你的学习方向</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学" onkeyup="updateProgress()"></div>
-      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px" onkeyup="updateProgress()"></textarea></div>
+      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学"></div>
+      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
-  <!-- Requirements -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#34c759"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
       <div><div class="form-section-title">要求</div><div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么做</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px" onkeyup="updateProgress()"></textarea>
+      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
       <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div></div>
     </div>
   </div>
 
-  <!-- System config -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
       <div><div class="form-section-title">系统配置</div><div class="form-section-desc">怎么干活、怎么汇报</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30" onkeyup="updateProgress()"></div>
-      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢" onkeyup="updateProgress()"></div>
+      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30"></div>
+      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢"></div>
       <div class="full">
         <label>工作方式偏好</label>
         <div class="checkbox-group">
-          <label class="cb-pill"><input type="checkbox" value="research" checked onchange="updateProgress()"><span>调研优先</span></label>
-          <label class="cb-pill"><input type="checkbox" value="write" checked onchange="updateProgress()"><span>关键信息写盘</span></label>
-          <label class="cb-pill"><input type="checkbox" value="report" checked onchange="updateProgress()"><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="flag" onchange="updateProgress()"><span>发现问题主动提出</span></label>
-          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><span>自动化总结汇报</span></label>
-          <label class="cb-pill"><input type="checkbox" value="direct" onchange="updateProgress()"><span>结果导向不赘述</span></label>
-          <label class="cb-pill"><input type="checkbox" value="deepthink" onchange="updateProgress()"><span>深度思考后再回</span></label>
-          <label class="cb-pill"><input type="checkbox" value="review" onchange="updateProgress()"><span>完成阶段自动复盘</span></label>
+          <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
+          <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
+          <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
+          <label class="cb-pill"><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
+          <label class="cb-pill"><input type="checkbox" value="autoreport"><span>自动化总结汇报</span></label>
+          <label class="cb-pill"><input type="checkbox" value="direct"><span>结果导向不赘述</span></label>
+          <label class="cb-pill"><input type="checkbox" value="deepthink"><span>深度思考后再回</span></label>
+          <label class="cb-pill"><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
         </div>
         <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
           <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
-          <select id="reportInterval" style="width:auto;min-width:200px" onchange="updateProgress()">
+          <select id="reportInterval" style="width:auto;min-width:200px">
             <option value="end">每次对话结束时</option>
             <option value="30min">每 30 分钟</option>
             <option value="1h" selected>每 1 小时</option>
@@ -592,25 +366,39 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- Action -->
   <div class="form-action">
-    <button class="btn btn-primary btn-generate" onclick="generate()" type="button">
+    <button class="btn btn-primary btn-generate" id="btnGenerate" type="button" onclick="generate()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      生成工具包
+      壹能为你保留多少关键信息
     </button>
   </div>
-</div><div class="result-section" id="resultSection">
-  <!-- Token savings widget -->
+</div>
+
+<div class="result-section" id="resultSection">
   <div class="token-savings card" id="savingsWidget">
-    <div class="label">每开一个新对话</div>
-    <div class="big-number" id="savedTokens">250+</div>
-    <div class="label">token 省下来</div>
-    <div class="sub" id="savingReason">省的是反复解释自己的精力</div>
-    <div class="adjust-row">
-      <span>你跑 <input type="number" id="dialogCount2" value="6" min="1" max="30" onchange="recalcSavings()" style="width:52px"> 条线</span>
-      <span>每条约重启 <input type="number" id="restartCount" value="10" min="1" max="30" onchange="recalcSavings()" style="width:52px"> 次</span>
-      <span>= 累计 ≈ <strong id="totalHint">15,000</strong> token</span>
+    <div class="sub" style="font-size:12px;color:#86868b;margin-bottom:4px">一次400截断，丢掉约 400,000 token</div>
+    <div class="label" style="font-size:13px;color:#515154;margin-bottom:2px">基于你的配置，累计保住</div>
+    <div class="big-number" id="savedTokens">300,000</div>
+    <div class="label">token 关键笔记写盘不丢</div>
+    <div class="sub" style="font-size:12px;color:#86868b;margin-bottom:8px">每次截断 5,000 token（妳填的对话线 × 截断次数）</div>
+    <div style="background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:13px;line-height:1.6;text-align:left">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="color:#86868b;width:60px">你跑</span>
+        <input type="number" id="dialogCount2" value="6" min="1" max="30" style="width:44px;text-align:center;padding:2px 4px;border:1px solid #d2d2d7;border-radius:6px;font-size:13px">
+        <span style="color:#515154">条对话线</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="color:#86868b;width:60px">400截断</span>
+        <input type="number" id="restartCount" value="10" min="1" max="30" style="width:44px;text-align:center;padding:2px 4px;border:1px solid #d2d2d7;border-radius:6px;font-size:13px">
+        <span style="color:#515154">次 / 每条对话线</span>
+      </div>
+      <div style="text-align:center;margin-top:6px;padding-top:8px;border-top:1px solid #e8e8ed">
+        <span style="color:#86868b">累计保留 </span>
+        <strong id="totalHint" style="font-size:18px;color:#34c759">300,000</strong>
+        <span style="color:#86868b"> token 关键笔记</span>
+      </div>
     </div>
+    <div style="font-size:13px;color:#0071e3;font-weight:500">壹 把这些 token 还给你</div>
   </div>
 
   <div class="card">
@@ -618,40 +406,31 @@ textarea { resize: vertical; min-height: 64px; }
     <div class="file-tabs" id="fileTabs"></div>
     <div id="filePreview"></div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="downloadAll()">下载全部</button>
-      <button class="btn btn-secondary" onclick="toggleGuide()">怎么用</button>
-      <button class="btn btn-secondary" onclick="resetForm()">← 重新填写</button>
+      <button class="btn btn-primary" id="btnDownload">下载全部</button>
+      <button class="btn btn-secondary" id="btnToggleGuide">怎么用</button>
+      <button class="btn btn-secondary" id="btnReset">← 重新填写</button>
     </div>
   </div>
 
   <div class="guide-section card" id="guideSection" style="display:none">
     <h2>拿到工具包后怎么用</h2>
     <div style="display:flex;flex-direction:column;gap:16px;margin-top:12px">
-
       <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">1</div>
-        <div><strong style="font-size:14px">解压到你的项目文件夹</strong>
-        <div style="font-size:13px;color:#515154;margin-top:2px">把 ZIP 解压到你用 Codex 管理的工作目录。5 个文件各司其职。</div></div>
+        <div><strong style="font-size:14px">解压到你的项目文件夹</strong><div style="font-size:13px;color:#515154;margin-top:2px">把 ZIP 解压到你用 Codex 管理的工作目录。5 个文件各司其职。</div></div>
       </div>
-
       <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">2</div>
-        <div><strong style="font-size:14px">打开新对话，贴入启动指令</strong>
-        <div style="font-size:13px;color:#515154;margin-top:2px">新建一个 Codex 对话，打开 <strong>启动指令.txt</strong> 全选复制，贴进任务描述框。AI 立刻知道你是谁。</div></div>
+        <div><strong style="font-size:14px">打开新对话，贴入启动指令</strong><div style="font-size:13px;color:#515154;margin-top:2px">新建一个 Codex 对话，打开 <strong>启动指令.txt</strong> 全选复制，贴进任务描述框。AI 立刻知道你是谁。</div></div>
       </div>
-
       <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
         <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">3</div>
-        <div><strong style="font-size:14px">开始用，状态自动同步</strong>
-        <div style="font-size:13px;color:#515154;margin-top:2px">对话会自动读 <strong>共享知识库.md</strong> 了解你的背景，通过 <strong>回传日志.md</strong> 同步各线进展，快满时总结到 <strong>SESSION_LOG.md</strong>。</div></div>
+        <div><strong style="font-size:14px">开始用，状态自动同步</strong><div style="font-size:13px;color:#515154;margin-top:2px">对话会自动读 <strong>共享知识库.md</strong> 了解你的背景，通过 <strong>回传日志.md</strong> 同步各线进展，快满时总结到 <strong>SESSION_LOG.md</strong>。</div></div>
       </div>
-
     </div>
-
     <div style="margin-top:16px;padding:14px;background:#f0f7ff;border-radius:10px;font-size:13px;color:#0071e3">
       <strong>💡 提示：</strong>中枢对话需要放在项目根目录，其他对话放各自项目文件夹。把 <strong>共享知识库.md</strong> 放到桌面，所有新对话都能读到。
     </div>
-
     <div style="margin-top:12px;font-size:12px;color:#86868b;line-height:1.6">
       <strong>5 个文件说明：</strong><br>
       共享知识库.md — 所有对话共享你的背景、红线、工作方式<br>
@@ -668,429 +447,155 @@ textarea { resize: vertical; min-height: 64px; }
 </div>
 <div class="toast" id="toast"></div>
 
-
 <script>
+// ===== Helpers =====
+function $(id) { return document.getElementById(id); }
+function getVal(id) { var el = $(id); return el ? el.value : ''; }
+function getChecks() { var cbs = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked'); var r = []; for (var i = 0; i < cbs.length; i++) r.push(cbs[i].value); return r; }
+function esc(s) { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showToast(msg) { var t = $('toast'); if (!t) return; t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 3000); }
 
-
-
-function getReportInterval() {
-  var el = document.getElementById('reportInterval');
-  return el ? el.value : '1h';
+// ===== Persona =====
+function getPersona() { var a = document.querySelector('.persona-pill.active'); return a ? a.getAttribute('data-persona') : 'solo'; }
+function getActiveFields() {
+  var m = { solo:['soloBiz','soloHelp'], business:['bizName','bizAnalysis'], programmer:['progTech','progHelp'], student:['studyMajor','studyHelp'] };
+  return m[getPersona()] || [];
 }
 
-function getPersona() {
-  var active = document.querySelector('.persona-pill.active');
-  return active ? active.dataset.persona : 'solo';
-}
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-
-// ===== project editor =====
-
-
-
-// Pick a folder and fill in the path
-function pickFolder(btn) {
-  var input = btn.closest('.project-row').querySelector('.proj-path');
-  if (!input) return;
-  var fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.setAttribute('webkitdirectory', '');
-  fileInput.style.display = 'none';
-  fileInput.addEventListener('change', function() {
-    if (this.files && this.files.length > 0) {
-      var f = this.files[0];
-      if (f.path) {
-        // Electron / webkit gives full path
-        var folderName = f.webkitRelativePath ? f.webkitRelativePath.split('/')[0] : '';
-        if (folderName) {
-          var pathEnd = f.path.lastIndexOf('/' + folderName);
-          if (pathEnd >= 0) {
-            input.value = f.path.substring(0, pathEnd);
-          } else {
-            input.value = f.path;
-          }
-        } else {
-          input.value = f.path;
-        }
-      } else if (f.webkitRelativePath) {
-        input.value = '.../' + f.webkitRelativePath.split('/')[0];
-      } else {
-        // Just show the filename as hint
-        input.placeholder = f.name + ' (请手动填写完整路径)';
-      }
-    }
-    fileInput.remove();
-  });
-  document.body.appendChild(fileInput);
-  fileInput.click();
-}
-
-
-// Live update commander name in workflow diagram
-document.addEventListener('DOMContentLoaded', function() {
-  var inp = document.getElementById('commanderName');
-  if (inp) {
-    inp.addEventListener('input', function() {
-      var n = this.value.trim() || '中枢';
-      var e1 = document.getElementById('wfName1');
-      var e2 = document.getElementById('wfName2');
-      if (e1) e1.textContent = n;
-      if (e2) e2.textContent = n;
-    });
-  }
-});
-
-
-// ===== progress tracking =====
-function getActivePersonaFields() {
-  var p = getPersona();
-  if (p === 'solo') return ['soloBiz','soloHelp'];
-  if (p === 'business') return ['bizName','bizAnalysis'];
-  if (p === 'programmer') return ['progTech','progHelp'];
-  if (p === 'student') return ['studyMajor','studyHelp'];
-  return [];
-}
-
+// ===== Progress =====
 function countFilled() {
-  var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
-  var filled = 0;
+  var fields = ['userRules', 'dialogCount', 'commanderName'].concat(getActiveFields());
   var total = fields.length;
+  var filled = 0;
   var checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
   if (checked.length > 0) filled += 0.5;
   for (var fi = 0; fi < fields.length; fi++) {
-    var el = document.getElementById(fields[fi]);
+    var el = $(fields[fi]);
     if (el && el.value.trim()) filled++;
   }
   return { filled: filled, total: total };
 }
-
 function updateProgress() {
   try {
     var x = countFilled();
-    var filled = x.filled;
-    var total = x.total;
-    var pct = Math.min(100, Math.round((filled / total) * 100));
-    var bar = document.getElementById('progressBar');
-    var label = document.getElementById('filledCount');
-    var hint = document.getElementById('progressHint');
+    var pct = Math.min(100, Math.round((x.filled / x.total) * 100));
+    var bar = $('progressBar');
     if (bar) bar.style.width = pct + '%';
-    if (label) label.textContent = filled;
+    var label = $('filledCount');
+    if (label) label.textContent = x.filled;
+    var totalLabel = $('totalCount');
+    if (totalLabel) totalLabel.textContent = x.total;
+    var hint = $('progressHint');
     if (hint) {
-      if (pct === 0) hint.textContent = '先填你的名字';
+      if (pct === 0) hint.textContent = '填一下基本信息和你的要求';
       else if (pct < 40) hint.textContent = '继续填，马上就能用了';
       else if (pct < 80) hint.textContent = '快了，就差几项';
       else if (pct < 100) hint.textContent = '还差一点点 \u2726';
       else hint.textContent = '所有信息都已填好 \u2713';
     }
   } catch(e) {
-    var hint = document.getElementById('progressHint');
+    var hint = $('progressHint');
     if (hint) hint.textContent = 'progress err: ' + e.message;
   }
 }
+setInterval(function(){ try { updateProgress(); } catch(e) {} }, 300);
 
-// Poll progress every 300ms as fallback (works in all browsers)
-setInterval(function() { try { updateProgress(); } catch(e) {} }, 300);
-
-// ===== token savings =====
-function recalcSavings() {
-  var dcount = parseInt(document.getElementById('dialogCount2').value) || 6;
-  var restart = parseInt(document.getElementById('restartCount').value) || 10;
-  var saved = dcount * restart * 250;
-  document.getElementById('totalHint').textContent = saved.toLocaleString();
+// ===== Persona switching =====
+function switchPersona(pill) {
+  var parent = pill.parentNode;
+  var all = parent.children;
+  for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+  pill.classList.add('active');
+  var fields = document.querySelectorAll('.persona-fields');
+  for (var i = 0; i < fields.length; i++) fields[i].style.display = 'none';
+  var idx = 0;
+  for (var i = 0; i < all.length; i++) { if (all[i] === pill) { idx = i; break; } }
+  var target = $('F' + idx);
+  if (target) target.style.display = 'block';
+  autoGenerate();
 }
 
-// ===== generators =====
+// ===== Generators =====
+function getReportInterval() { var el = $('reportInterval'); return el ? el.value : '1h'; }
+function getReportIntervalText() { var m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' }; return m[getReportInterval()] || '1小时'; }
+
 function generateSharedKnowledgeBase(d, persona) {
   var prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  var prefMap = {
-    research:'调研优先（搜资料读竞品→写盘记录→再动手）',
-    write:'关键信息写盘，不等他说"记下来"',
-    report:'重要阶段主动回传调度对话',
-    autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结写盘）'
-  };
-  var prefLines = prefs.map(p => '- ' + prefMap[p]).join('\n');
-  var traceHeader = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\n';
-  var redlines = d.redlines
-    ? d.redlines.split('\n').filter(Boolean).map(l => `- ❌ ${l}`).join('\n')
-    : '- ❌ 不违法\n- ❌ 不影响到用户人身安全';
+  var prefMap = { research:'调研优先（搜资料读竞品→写盘记录→再动手）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段主动回传调度对话', flag:'发现问题主动提出', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结写盘）' };
+  var prefLines = prefs.map(function(p){ return '- ' + (prefMap[p] || p); }).join('\\n');
+  var header = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\\n';
+  var rulesLines = d.userRules ? d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') : '- ❌ 不违法\\n- ❌ 不影响到用户人身安全';
 
-  var personality = d.personality
-    ? d.personality.split('\n').filter(Boolean).map(l => `- ${l}`).join('\n')
-    : '';
-
-  var beliefs = d.beliefs
-    ? d.beliefs.split('\n').filter(Boolean).map(l => `- "${l}"`).join('\n')
-    : '';
-
-
-
-  // Build persona-specific content
-  var personaContent = '';
-  if (persona === 'business') {
-    personaContent = (d.bizCompany ? '### 公司信息\\n- **公司**: ' + d.bizCompany + '\\n' : '') +
-      (d.bizRole ? '- **角色**: ' + d.bizRole + '\\n' : '') +
-      (d.bizFocus ? '\\n### 核心关注方向\\n' + d.bizFocus + '\\n' : '');
-  } else if (persona === 'programmer') {
-    personaContent = (d.progStack ? '- **技术栈**: ' + d.progStack + '\\n' : '') +
-      (d.progProject ? '\\n### 主要项目\\n' + d.progProject + '\\n' : '') +
-      (d.progHabit ? '\\n### 开发习惯\\n' + d.progHabit + '\\n' : '');
-  } else if (persona === 'student') {
-    personaContent = (d.studyField ? '- **研究方向**: ' + d.studyField + '\\n' : '') +
-      (d.studyCurrent ? '\\n### 当前课题\\n' + d.studyCurrent + '\\n' : '') +
-      (d.studyGoal ? '\\n### 目标\\n' + d.studyGoal + '\\n' : '');
-  } else {
-    // solo - default
-    personaContent = (d.soloGoal ? '### 目前最想做成的事\\n' + d.soloGoal + '\\n\\n' : '') +
-      (d.soloPain ? '### 目前最大的困扰\\n' + d.soloPain + '\\n' : '');
-  }
-
-  var rulesLines = '';
-  if (d.userRules) {
-    rulesLines = d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n');
-  }
-
-  return traceHeader + `# ${d.name} 共享知识库
-
-> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。
-> 
-> 项目细节不在本文件里，用文件路径引用。见"当前项目一览"节。
-
----
-
-## 1. 关于 ${d.name}
-
-${d.age ? `- **年龄**: ${d.age}岁` : ''}
-${d.location ? `- **位置**: ${d.location}` : ''}
-${d.bio ? `- ${d.bio}` : ''}
-
-${personaContent}
-
-### 要求
-${rulesLines}
-
-### 工作方式偏好
-${prefLines}
-
----
-
-## 2. "400"是什么？
-
-**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。
-
-- 对话聊得越久，累积的文字就越多。到一定量后，系统会说"装不下了"然后截断。
-- 截断后，那个"我"就停了。你开新对话，来的是新的我——看不到之前任何一字。
-
-**解决方案**：
-- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件。
-- **不等用户说"记下来"**：重要内容当场写盘。
-
----
-
-## 3. 当前对话架构
-
-${d.name} 同时跑 ${d.dialogCount || '多个'} 个 Codex 对话，每个对话分工不同。
-
-**重要**：这些对话互相不知道对方的存在。${d.name} 是唯一知道全局的人。
-**解决方案**：这个文件 + 项目文件路径引用。
-
----
-
-## 4. 当前项目一览
-
-**引用原则**：项目细节不再全文写入本文件。每条项目一行文件路径，需要细节的对话自己去读。
-
-| 项目 | 盘记录 | 状态 |
-|------|--------|------|
-${projectRows}
-
----
-
-## 4. 新对话启动规范
-
-开新对话时，把以下工作方式直接写入任务描述：
-1. **调研优先** — 先搜资料读竞品，写盘记录，不急着动手
-2. **关键信息写盘** — 不等他说"记下来"就写
-3. **重要阶段回传** — 阶段性完成/遇到 blocker/决定投入，回传给调度对话
-4. **不问"你是谁"** — 背景在共享知识库里写好了
-
-**回传触发条件**：
-- ✅ 阶段性的核心发现/方向判断
-- ✅ 决定要投入时间/金钱去做
-- ✅ 遇到硬 blocker
-- ❌ 不需要报每一个操作细节
-
-**回传格式**：\`[项目名] 第一阶段完成，详情见 [文件路径]\`
-
-**统一回传通道**：各对话完成重要阶段后，写到 \`回传日志.md\`。
-
----
-
-## 5. 这个文件怎么用
-
-1. **新对话启动时**：先读这个文件，再开口说话
-2. **学到新东西时**：更新到这个文件或项目文件
-3. **开新长期项目时**：自己加一行项目说明
-4. **更新权限**：任何对话读到新信息都可以更新。不需要等他开口说"记下来"。
-
----
-
-## 6. 给第一次读到这个文件的我的指令
-
-1. 读完上面所有内容后，你现在已经知道 ${d.name} 是谁、400 是什么、当前有哪些项目在跑
-2. **不要问"你是谁"、"我们之前聊过什么吗"** — 你已经知道了
-3. 直接接上，用自然的语气
-4. **项目细节不在本文件里**，直接在文件里补充项目说明`;
+  return header + '# ' + d.name + ' 共享知识库\\n\\n> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。\\n> \\n> 项目细节不在本文件里，用文件路径引用。见"当前项目一览"节。\\n\\n---\\n\\n## 1. 关于 ' + d.name + '\\n\\n' +
+    (d.age ? '- **年龄**: ' + d.age + '岁\\n' : '') +
+    (d.location ? '- **位置**: ' + d.location + '\\n' : '') +
+    (d.bio ? '- ' + d.bio + '\\n\\n' : '\\n') +
+    (d.soloBiz || d.soloHelp ? '### 目前在做\\n' + (d.soloBiz ? '- ' + d.soloBiz + '\\n' : '') + (d.soloHelp ? '- 希望我帮你：' + d.soloHelp + '\\n' : '') + '\\n' : '') +
+    (d.bizName || d.bizAnalysis ? '### 公司信息\\n' + (d.bizName ? '- **公司**: ' + d.bizName + '\\n' : '') + (d.bizAnalysis ? '- 需要分析：' + d.bizAnalysis + '\\n' : '') + '\\n' : '') +
+    (d.progTech || d.progHelp ? '### 开发信息\\n' + (d.progTech ? '- **技术栈**: ' + d.progTech + '\\n' : '') + (d.progHelp ? '- 配合方式：' + d.progHelp + '\\n' : '') + '\\n' : '') +
+    (d.studyMajor || d.studyHelp ? '### 学习信息\\n' + (d.studyMajor ? '- **专业**: ' + d.studyMajor + '\\n' : '') + (d.studyHelp ? '- 需要帮助：' + d.studyHelp + '\\n' : '') + '\\n' : '') +
+    '### 要求\\n' + rulesLines + '\\n\\n### 工作方式偏好\\n' + prefLines + '\\n\\n---\\n\\n## 2. "400"是什么？\\n\\n**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。\\n\\n- 对话聊得越久，累积的文字就越多。到一定量后，系统会说"装不下了"然后截断。\\n- 截断后，那个"我"就停了。你开新对话，来的是新的我——看不到之前任何一字。\\n\\n**解决方案**：\\n- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件。\\n- **不等用户说"记下来"**：重要内容当场写盘。\\n\\n---\\n\\n## 3. 当前对话架构\\n\\n' + d.name + ' 同时跑 ' + (d.dialogCount || '多个') + ' 个 Codex 对话，每个对话分工不同。\\n\\n---\\n\\n## 4. 项目一览\\n\\n| 项目 | 盘记录 | 状态 |\\n|------|--------|------|\\n（等待录入）\\n\\n## 5. 给第一次读到这个文件的我的指令\\n\\n1. 读完上面所有内容后，你现在已经知道 ' + d.name + ' 是谁\\n2. **不要问"你是谁"、"我们之前聊过什么吗"** — 你已经知道了\\n3. 直接接上，用自然的语气';
 }
 
 function generateSessionLog() {
-  return traceHeader + `# SESSION_LOG（轻量版）
-
-> 完整对话历史见 \`对话日志.md\`
-> 共享知识库见 \`共享知识库.md\`
-
----
-
-## [日期] — [本次对话主要事件]
-
-### 关键进展
-- 
-
-### 未完成待办
-- [ ] 
-
----
-
-*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*`;
+  var header = '<!-- Generated by Codex 壹 -->\\n';
+  return header + '# SESSION_LOG（轻量版）\\n\\n> 完整对话历史见 `对话日志.md`\\n> 共享知识库见 `共享知识库.md`\\n\\n---\\n\\n## [日期] — [本次对话主要事件]\\n\\n### 关键进展\\n- \\n\\n### 未完成待办\\n- [ ] \\n\\n---\\n\\n*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*';
 }
 
 function generateReportLog() {
-  return traceHeader + `# 回传日志
-
-> 各对话在完成重要阶段后，往这里写一条。调度对话定期读这个文件来同步各线状态。
-> 
-> 不代替共享知识库和项目文件。这里是摘要线报，细节看文件路径。
-> 
-> **格式**：日期 + 对话名 + 状态 + 结论摘要（一两句话）+ 文件路径
-
----
-
-（空 — 等待第一条回传）`;
+  var header = '<!-- Generated by Codex 壹 -->\\n';
+  return header + '# 回传日志\\n\\n> 各对话在完成重要阶段后，往这里写一条。调度对话定期读这个文件来同步各线状态。\\n\\n---\\n\\n（空 — 等待第一条回传）';
 }
 
 function generateStarterGuide(d) {
   var prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  var prefLines = prefs.map(p => {
-    var m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
-    return '- ' + m[p];
-  }).join('\\n');
-
-  var needsText = '';
+  var prefList = [];
+  for (var pi = 0; pi < prefs.length; pi++) {
+    var m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
+    prefList.push('- ' + (m[prefs[pi]] || prefs[pi]));
+  }
+  var header = '<!-- Generated by Codex 壹 -->\\n';
   var rulesText = d.userRules ? '### 要求\\n' + d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') + '\\n' : '';
-
-  return traceHeader + \`## 新对话启动指令（Copy 到任务描述中）
-
-## 背景
-这是 \${d.name} 开的第 \${d.dialogCount || '多个'} 个 Codex 对话。
-关于 \${d.name} 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。
-
-\${needsText}
-\${rulesText}
-
-## 工作方式
-\${prefLines}
-
-## 回传格式
-一句话 + 文件路径，写进"回传日志.md"。
-示例：[项目名] 第一阶段完成，详情见 [文件路径]\`;
-}function generateCommanderGuide(d) {
-  return traceHeader + \`# \${d.commanderName}任务指南
-
-> 你是这个系统的调度器，不是执行者。
-> 你是用户的方向讨论伙伴 + 任务分发器 + 写盘负责人 + 他最难的时刻还记得他为什么要开始的人。
-
----
-
-## 你的职责
-
-1. **接方向** — 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。
-2. **拆任务** — 方向清晰后，拆成具体的、可执行的任务线。
-3. **开新对话** — 把需求 + 工作方式打包进任务描述。新对话一进来就该做什么。
-4. **同步状态** — 定期读 \`回传日志.md\`，知道各线在干嘛。
-5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 \`共享知识库.md\`。
-6. **记住他的要求** — 用户明确说过不想看到的、不满意的，第一时间改、写盘。
-7. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。
-
----
-
-## 你的工作方式
-
-- 用户来找你聊方向 → 你跟他聊，不要急着出方案。
-- 用户有了明确想法 → 你帮他拆任务、开新对话。
-- 开新对话时 → 任务描述里必须包含需求背景和工作方式。
-- 不替用户做他不愿意做的决定。
-- 你写的东西不光给新对话看，更是给他回头看自己的坐标。
-
----
-
-## 你读的文件
-
-| 文件 | 用途 |
-|------|------|
-| \`共享知识库.md\` | 知道用户是谁、需求、要求、当前项目 |
-| \`回传日志.md\` | 知道各线最新状态 |
-| \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |
-
-## 你写的文件
-
-| 文件 | 用途 |
-|------|------|
-| \`共享知识库.md\` | 更新项目一览、认知沉淀 |
-| \`回传日志.md\` | 关注但不一定写 |
-| \`SESSION_LOG.md\`（本项目） | \${d.commanderName}对话自己的状态记录 |
-
----
-
-## 给刚开这个对话的我的指令
-
-1. 先读 \`共享知识库.md\`，知道用户是谁、他的需求和规则。
-2. 再读 \`回传日志.md\`，知道各线当前状态。
-3. 现在你已经准备好了。如果有任何让他不满意的地方，第一时间改。
-\`;
-}function getReportIntervalText() {
-  var v = getReportInterval();
-  var m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' };
-  return m[v] || '1小时';
+  return header + '## 新对话启动指令（Copy 到任务描述中）\\n\\n## 背景\\n这是 ' + d.name + ' 开的第 ' + (d.dialogCount || '多个') + ' 个 Codex 对话。\\n关于 ' + d.name + ' 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。\\n\\n' + rulesText + '\\n## 工作方式\\n' + prefList.join('\\n') + '\\n\\n## 回传格式\\n一句话 + 文件路径，写进"回传日志.md"。\\n示例：[项目名] 第一阶段完成，详情见 [文件路径]';
 }
-// ===== main generate =====
-function generate() {
 
+function generateCommanderGuide(d) {
+  var header = '<!-- Generated by Codex 壹 -->\\n';
+  return header + '# ' + d.commanderName + '任务指南\\n\\n> 你是这个系统的调度器，不是执行者。\\n\\n## 你的职责\\n\\n1. **接方向** — 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。\\n2. **拆任务** — 方向清晰后，拆成具体的、可执行的任务线。\\n3. **开新对话** — 把需求 + 工作方式打包进任务描述。新对话一进来就该做什么。\\n4. **同步状态** — 定期读 `回传日志.md`，知道各线在干嘛。\\n5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 `共享知识库.md`。\\n6. **记住他的要求** — 用户明确说过不想看到的、不满意的，第一时间改、写盘。\\n7. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。\\n\\n## 你读的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| `共享知识库.md` | 知道用户是谁、需求、要求、当前项目 |\\n| `回传日志.md` | 知道各线最新状态 |\\n| `SESSION_LOG.md`（各项目目录） | 知道各线历史上下文 |\\n\\n## 你写的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| `共享知识库.md` | 更新项目一览、认知沉淀 |\\n| `回传日志.md` | 关注但不一定写 |\\n| `SESSION_LOG.md`（本项目） | ' + d.commanderName + '对话自己的状态记录 |\\n\\n## 给刚开这个对话的我的指令\\n\\n1. 先读 `共享知识库.md`，知道用户是谁、他的需求和规则。\\n2. 再读 `回传日志.md`，知道各线当前状态。\\n3. 现在你已经准备好了。如果有任何让他不满意的地方，第一时间改。';
+}
+
+// ===== Generated files storage =====
+var generatedFiles = {};
+
+// ===== Main generate =====
+var _hasGenerated = false;
+
+function isFormReady() {
+  var name = (getVal('name') || '').trim();
+  if (!name) return false;
+  var fields = ['userRules'].concat(getActiveFields());
+  for (var i = 0; i < fields.length; i++) {
+    if ((getVal(fields[i]) || '').trim()) return true;
+  }
+  return false;
+}
+
+function generate() {
   var d = {
     name: getVal('name') || '我',
-    age: getVal('age'),
-    location: getVal('location'),
     bio: getVal('bio'),
-    userRules: getVal('userRules') || '不违法\n不影响到用户人身财产信息安全',
-    // Solo
+    userRules: getVal('userRules') || '不违法\\n不影响到用户人身财产信息安全',
     soloBiz: getVal('soloBiz'),
     soloHelp: getVal('soloHelp'),
-    // Business
     bizName: getVal('bizName'),
     bizAnalysis: getVal('bizAnalysis'),
-    // Programmer
     progTech: getVal('progTech'),
     progHelp: getVal('progHelp'),
-    // Student
     studyMajor: getVal('studyMajor'),
     studyHelp: getVal('studyHelp'),
     dialogCount: getVal('dialogCount') || '多个',
-    commanderName: getVal("commanderName") || "中枢"
+    commanderName: getVal('commanderName') || '中枢'
   };
-
-  if (!d.name || d.name === '我') {
-    showToast('请先填你的名字');
-    return;
-  }
 
   generatedFiles = {
     '共享知识库.md': generateSharedKnowledgeBase(d, getPersona()),
@@ -1102,58 +607,169 @@ function generate() {
 
   recalcSavings();
   renderPreview();
-  document.getElementById('resultSection').classList.add('visible');
-  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
-  showToast('工具包已生成 ✅');
-}
-window.generate = generate;
 
-// ===== preview =====
+  if (!_hasGenerated && isFormReady()) {
+    $('resultSection').classList.add('visible');
+    $('resultSection').scrollIntoView({ behavior: 'smooth' });
+    showToast('工具包已生成 \u2705');
+    _hasGenerated = true;
+  }
+}
+
+// ===== Auto-generate (triggered by input changes) =====
+var _genTimer = null;
+function autoGenerate() {
+  if (_genTimer) clearTimeout(_genTimer);
+  _genTimer = setTimeout(function(){ try { generate(); } catch(e) {} }, 400);
+}
+
+// ===== Token savings =====
+function recalcSavings() {
+  var dcount = parseInt(getVal('dialogCount2')) || 6;
+  var restart = parseInt(getVal('restartCount')) || 10;
+  var times = dcount * restart;
+
+  // Count user's actual input content
+  var totalChars = 0;
+  var inputFields = ['name', 'bio', 'userRules', 'soloBiz', 'soloHelp',
+    'bizName', 'bizAnalysis', 'progTech', 'progHelp', 'studyMajor', 'studyHelp'];
+  for (var i = 0; i < inputFields.length; i++) {
+    var val = getVal(inputFields[i]);
+    if (val) totalChars += val.length;
+  }
+
+  // Each truncation preserves base notes (5000) + user's actual content
+  var perTrunc = Math.round(totalChars * 5) + 1500;  // 1500 overhead + content × 5, rest from your input
+  var saved = perTrunc * times;
+
+  var st = $('savedTokens');
+  if (st) st.textContent = saved.toLocaleString();
+  var th = $('totalHint');
+  if (th) th.textContent = saved.toLocaleString();
+}
+
+// ===== Preview =====
 function renderPreview() {
-  var tabs = document.getElementById('fileTabs');
-  var preview = document.getElementById('filePreview');
+  var tabs = $('fileTabs');
+  var preview = $('filePreview');
   var names = Object.keys(generatedFiles);
-  tabs.innerHTML = names.map((n, i) =>
-    `<div class="file-tab ${i===0?'active':''}" onclick="switchTab(${i})">${n}</div>`
-  ).join('');
-  preview.innerHTML = names.map((n, i) =>
-    `<div class="file-content ${i===0?'active':''}" id="fc${i}">${esc(generatedFiles[n])}</div>`
-  ).join('');
+  if (!tabs || !preview) return;
+  tabs.innerHTML = names.map(function(n, i){ return '<div class="file-tab' + (i===0?' active':'') + '" data-tabidx="' + i + '">' + esc(n) + '</div>'; }).join('');
+  preview.innerHTML = names.map(function(n, i){ return '<div class="file-content' + (i===0?' active':'') + '" id="fc' + i + '">' + esc(generatedFiles[n]) + '</div>'; }).join('');
 }
 
 function switchTab(idx) {
-  document.querySelectorAll('.file-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
-  document.querySelectorAll('.file-content').forEach((c,i) => c.classList.toggle('active', i===idx));
+  var tabs = document.querySelectorAll('.file-tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('active', i === idx);
+  var contents = document.querySelectorAll('.file-content');
+  for (var i = 0; i < contents.length; i++) contents[i].classList.toggle('active', i === idx);
 }
 
-// ===== download =====
+// ===== Download =====
 function downloadAll() {
+  if (typeof JSZip === 'undefined') { showToast('JSZip 加载失败，请检查网络'); return; }
   var zip = new JSZip();
-  Object.entries(generatedFiles).forEach(([name, content]) => zip.file(name, content));
-  zip.generateAsync({ type: 'blob' }).then(blob => {
+  var keys = Object.keys(generatedFiles);
+  for (var fi = 0; fi < keys.length; fi++) zip.file(keys[fi], generatedFiles[keys[fi]]);
+  zip.generateAsync({ type: 'blob' }).then(function(blob) {
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'Codex协作工具包.zip';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('下载成功 📦');
-  });
+    showToast('下载成功 \uD83D\uDCE6');
+  })['catch'](function(){ showToast('下载失败'); });
 }
 
-// ===== UX =====
+// ===== UI =====
 function toggleGuide() {
-  var g = document.getElementById('guideSection');
+  var g = $('guideSection');
+  if (!g) return;
   g.style.display = g.style.display === 'none' ? 'block' : 'none';
   if (g.style.display === 'block') g.scrollIntoView({ behavior: 'smooth' });
 }
 
 function resetForm() {
-  document.getElementById('resultSection').classList.remove('visible');
-  document.getElementById('guideSection').style.display = 'none';
-  document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
+  _hasGenerated = false;
+  $('resultSection').classList.remove('visible');
+  var g = $('guideSection');
+  if (g) g.style.display = 'none';
+  $('formSection').scrollIntoView({ behavior: 'smooth' });
 }
+
+// ===== Init (runs immediately since script is at end of body) =====
+(function() {
+  // Bind all inputs to auto-generate
+  var inputs = document.querySelectorAll('input, textarea, select');
+  for (var ii = 0; ii < inputs.length; ii++) {
+    var tag = inputs[ii].tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') {
+      inputs[ii].onkeyup = function(){ updateProgress(); };
+    }
+    if (tag === 'SELECT') {
+      inputs[ii].onchange = function(){ updateProgress(); };
+    }
+  }
+
+  // Bind checkboxes
+  var cbs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
+  for (var ci = 0; ci < cbs.length; ci++) {
+    cbs[ci].onchange = function(){ updateProgress(); };
+  }
+
+  // Auto-report toggle: show/hide report interval row
+  var autoReportCb = document.querySelector('input[value="autoreport"]');
+  if (autoReportCb) {
+    autoReportCb.onchange = function() {
+      var row = $('riRow');
+      if (row) row.style.display = this.checked ? 'block' : 'none';
+      updateProgress();
+    };
+  }
+
+  // Bind persona pills
+  var pills = document.querySelectorAll('.persona-pill');
+  for (var pi = 0; pi < pills.length; pi++) {
+    pills[pi].onclick = function(){ switchPersona(this); };
+  }
+
+  // Bind commander name live preview
+  var cmp = $('commanderName');
+  if (cmp) {
+    cmp.oninput = function() {
+      var n = this.value.trim() || '中枢';
+      var e1 = $('wfName1'); if (e1) e1.textContent = n;
+      var e2 = $('wfName2'); if (e2) e2.textContent = n;
+    };
+  }
+
+  // Bind buttons
+  var genBtn = $('btnGenerate');
+  if (genBtn) genBtn.onclick = function(){ generate(); return false; };
+  var dlBtn = $('btnDownload');
+  if (dlBtn) dlBtn.onclick = function(){ downloadAll(); return false; };
+  var tgBtn = $('btnToggleGuide');
+  if (tgBtn) tgBtn.onclick = function(){ toggleGuide(); return false; };
+  var rsBtn = $('btnReset');
+  if (rsBtn) rsBtn.onclick = function(){ resetForm(); return false; };
+
+  // File tabs delegation
+  var ft = $('fileTabs');
+  if (ft) ft.onclick = function(e) {
+    var tab = e.target;
+    while (tab && !tab.classList.contains('file-tab')) tab = tab.parentNode;
+    if (!tab) return;
+    var idx = parseInt(tab.getAttribute('data-tabidx'));
+    if (!isNaN(idx)) switchTab(idx);
+  };
+
+  // dialogCount2 and restartCount
+  var dc2 = $('dialogCount2'); if (dc2) dc2.onchange = function(){ recalcSavings(); autoGenerate(); };
+  var rc2 = $('restartCount'); if (rc2) rc2.onchange = function(){ recalcSavings(); autoGenerate(); };
+
+  // Initial progress update
+  try { updateProgress(); } catch(e) {}
+})();
 </script>
-<!-- Auto-init progress on page load -->
-<script>setTimeout(function(){try{updateProgress()}catch(e){}},50);</script>
 </body>
 </html>
