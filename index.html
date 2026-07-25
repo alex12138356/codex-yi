@@ -240,6 +240,52 @@ textarea { resize: vertical; min-height: 64px; }
 .compare-arrow { font-size: 28px; color: #86868b; flex-shrink: 0; }
 @media (max-width: 480px) { .compare-col .num { font-size: 24px; } }
 
+
+/* redesigned form sections */
+.form-section { padding: 0; margin-bottom: 20px; }
+.form-section + .form-section { border-top: 1px solid #e8e8ed; padding-top: 20px; }
+
+.form-section-header {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 16px;
+}
+.form-section-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #f5f5f7; border-radius: 10px;
+  color: #0071e3;
+}
+.form-section-title { font-size: 15px; font-weight: 600; color: #1d1d1f; }
+.form-section-desc { font-size: 12px; color: #86868b; margin-top: 1px; }
+
+.form-action {
+  border-top: 1px solid #e8e8ed; padding-top: 20px; margin-top: 8px;
+  text-align: center;
+}
+.btn-generate {
+  padding: 12px 32px; font-size: 15px;
+  background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+
+.required { color: #ff3b30; font-weight: 400; }
+
+.checkbox-group .cb-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 500; font-size: 13px;
+  padding: 8px 16px;
+  border: 1px solid #d2d2d7;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+  background: #fff;
+}
+.checkbox-group .cb-pill:has(input:checked) {
+  border-color: #0071e3; background: #f0f7ff;
+}
 </style>
 </head>
 <body>
@@ -338,76 +384,142 @@ textarea { resize: vertical; min-height: 64px; }
 
 <!-- ======== FORM ======== -->
 <div class="card" id="formSection">
-  <h2>填写基本信息</h2>
-  <div class="form-grid">
-    <div>
-      <label for="name">你的名字</label>
-      <input type="text" id="name" placeholder="你的名字">
-    </div>
-    <div>
-      <label for="age">年龄</label>
-      <input type="text" id="age" placeholder="如：28">
-    </div>
-    <div>
-      <label for="location">位置</label>
-      <input type="text" id="location" placeholder="如：深圳">
-    </div>
-    <div>
-      <label for="bio">一句话介绍你</label>
-      <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品 / 做内容">
-    </div>
 
-    <div class="full">
-      <label for="personality">你的个性特质（每行一条）</label>
-      <textarea id="personality" placeholder="做事注重效率，讨厌重复劳动&#10;喜欢先调研再动手&#10;习惯把关键信息记录下来"></textarea>
+  <!-- ====== Progress Bar ====== -->
+  <div id="formProgress" style="margin-bottom:24px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:13px;font-weight:500;color:#86868b" id="progressLabel">已填写 <span id="filledCount">0</span>/<span id="totalCount">12</span> 项</span>
+      <span style="font-size:12px;color:#34c759" id="progressHint">填完即可生成工具包</span>
     </div>
-    <div class="full">
-      <label for="beliefs">核心信条（每行一条）</label>
-      <textarea id="beliefs" placeholder="好的工具让人事半功倍&#10;行动比空想更重要"></textarea>
+    <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
+      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s ease"></div>
     </div>
-    <div class="full">
-      <label for="sweetwater">什么在支撑你往前走</label>
-      <textarea id="sweetwater" placeholder="想给家人更好的生活&#10;想做成一件属于自己的事"></textarea>
-      <div class="hint">这是你回头看自己的锚点。不必写给别人看。</div>
+  </div>
+
+  <!-- ====== Section: 关于你 ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">关于你</div>
+        <div class="form-section-desc">你是谁、在哪、怎么称呼</div>
+      </div>
     </div>
-    <div class="full">
-      <label for="mission">你的使命 / 你希望对话记住什么</label>
-      <textarea id="mission" placeholder="在我快要放弃的时候提醒我为什么开始"></textarea>
-    </div>
-    <div>
-      <label for="redlines">红线（每行一条）</label>
-      <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则"></textarea>
-    </div>
-    <div>
-      <label for="dialogCount">你同时跑几个 Codex 对话？</label>
-      <input type="number" id="dialogCount" value="3" min="1" max="30">
-    </div>
-    <div>
-      <label for="commanderName">给你的中枢取个名字</label>
-      <input type="text" id="commanderName" placeholder="如：中枢、军师、统筹..." value="中枢">
-    </div>
-    <div class="full">
-      <label>对话一进来默认该知道的事（工作方式偏好）</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" value="research" checked><span>调研优先</span></label>
-        <label><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
-        <label><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-        <label><input type="checkbox" value="noask" checked><span>不问"你是谁"</span></label>
+    <div class="form-grid">
+      <div>
+        <label for="name">你的名字 <span class="required">*</span></label>
+        <input type="text" id="name" placeholder="你的名字">
+      </div>
+      <div>
+        <label for="age">年龄</label>
+        <input type="text" id="age" placeholder="如：28">
+      </div>
+      <div>
+        <label for="location">位置</label>
+        <input type="text" id="location" placeholder="如：深圳">
+      </div>
+      <div>
+        <label for="bio">一句话介绍你</label>
+        <input type="text" id="bio" placeholder="如：从零开始，做运营 / 做产品 / 做内容">
       </div>
     </div>
   </div>
 
-  <h3 style="margin-top:20px">你在跑的项目 / 对话线</h3>
-  <div id="projectEditor"></div>
-  <button class="btn btn-small btn-outline" onclick="addProjectRow()" style="margin-top:4px">+ 添加项目</button>
-
-  <div class="btn-row">
-    <button class="btn btn-primary" onclick="generate()">生成工具包</button>
+  <!-- ====== Section: 你的内核 ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#ff9500">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">你的内核</div>
+        <div class="form-section-desc">个性、信条、什么在支撑你往前走</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div class="full">
+        <label for="personality">个性特质</label>
+        <textarea id="personality" placeholder="做事注重效率，讨厌重复劳动&#10;喜欢先调研再动手&#10;习惯把关键信息记录下来" style="min-height:80px"></textarea>
+        <div class="hint">每行一条，越具体越好</div>
+      </div>
+      <div class="full">
+        <label for="beliefs">核心信条</label>
+        <textarea id="beliefs" placeholder="好的工具让人事半功倍&#10;行动比空想更重要" style="min-height:72px"></textarea>
+        <div class="hint">每行一条，你真正相信的东西</div>
+      </div>
+      <div class="full">
+        <label for="sweetwater">什么在支撑你往前走</label>
+        <textarea id="sweetwater" placeholder="想给家人更好的生活&#10;想做成一件属于自己的事" style="min-height:72px"></textarea>
+        <div class="hint">这是你回头看自己的锚点。不必写给别人看。</div>
+      </div>
+      <div class="full">
+        <label for="mission">使命 / 你希望对话记住什么</label>
+        <textarea id="mission" placeholder="在我快要放弃的时候提醒我为什么开始" style="min-height:64px"></textarea>
+      </div>
+      <div>
+        <label for="redlines">红线</label>
+        <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则" style="min-height:64px"></textarea>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- ======== RESULT ======== -->
-<div class="result-section" id="resultSection">
+  <!-- ====== Section: 系统配置 ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#5856d6">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">系统配置</div>
+        <div class="form-section-desc">你的对话数量和调度方式</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="dialogCount">同时跑几个对话？</label>
+        <input type="number" id="dialogCount" value="3" min="1" max="30">
+      </div>
+      <div>
+        <label for="commanderName">给中枢取个名字</label>
+        <input type="text" id="commanderName" placeholder="如：中枢、军师、统筹..." value="中枢">
+      </div>
+      <div class="full">
+        <label>对话一进来默认该知道的事</label>
+        <div class="checkbox-group">
+          <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
+          <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
+          <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
+          <label class="cb-pill"><input type="checkbox" value="noask" checked><span>不问"你是谁"</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Section: 项目一览 ====== -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#0071e3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">项目一览</div>
+        <div class="form-section-desc">你当前正在跑的项目或对话线</div>
+      </div>
+    </div>
+    <div id="projectEditor"></div>
+    <button class="btn btn-small btn-outline" onclick="addProjectRow()" style="margin-top:8px" type="button">+ 添加项目</button>
+  </div>
+
+  <!-- ====== Action ====== -->
+  <div class="form-action">
+    <button class="btn btn-primary btn-generate" onclick="generate()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      生成工具包
+    </button>
+  </div>
+</div><div class="result-section" id="resultSection">
   <!-- Token savings widget -->
   <div class="token-savings card" id="savingsWidget">
     <div class="label">每开一个新对话</div>
@@ -452,6 +564,56 @@ textarea { resize: vertical; min-height: 64px; }
 
 <script>
 // ===== state =====
+// ===== form progress =====
+function countFilled() {
+  const fields = [
+    'name','age','location','bio',
+    'personality','beliefs','sweetwater','mission','redlines',
+    'dialogCount','commanderName'
+  ];
+  let filled = 0;
+  let total = fields.length;
+  // checkbox group counts as one (always pre-filled)
+  const checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+  if (checked.length > 0) filled += 0.5;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim()) filled++;
+  });
+  // Count project rows
+  const projNames = document.querySelectorAll('.proj-name');
+  projNames.forEach(inp => {
+    if (inp.value.trim()) filled++;
+  });
+  total += projNames.length || 0;
+  return { filled, total };
+}
+
+function updateProgress() {
+  const { filled, total } = countFilled();
+  const pct = Math.min(100, Math.round((filled / total) * 100));
+  const bar = document.getElementById('progressBar');
+  const label = document.getElementById('filledCount');
+  const hint = document.getElementById('progressHint');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = filled;
+  if (hint) {
+    if (pct === 0) hint.textContent = '先填你的名字';
+    else if (pct < 40) hint.textContent = '继续填，马上就能用了';
+    else if (pct < 80) hint.textContent = '快了，就差几项';
+    else if (pct < 100) hint.textContent = '还差一点点 ✦';
+    else hint.textContent = '所有信息都已填好 ✓';
+  }
+}
+
+// Bind progress updates to all form inputs
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('#formSection input, #formSection textarea').forEach(el => {
+    el.addEventListener('input', updateProgress);
+  });
+  updateProgress();
+});
+
 let generatedFiles = {};
 let projectIdCounter = 0;
 
@@ -496,7 +658,22 @@ function addProjectRow(name, path, status) {
     </select>
     <button class="btn-icon" onclick="this.parentElement.remove()">✕</button>
   `;
+  // Bind progress tracking to dynamic inputs
+  div.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('change', updateProgress);
+    el.addEventListener('input', updateProgress);
+  });
   document.getElementById('projectEditor').appendChild(div);
+  // Update the remove button to track progress
+  var removeBtn = div.querySelector('.btn-icon');
+  if (removeBtn) {
+    var origClick = removeBtn.onclick;
+    removeBtn.onclick = function(e) {
+      if (typeof origClick === 'function') origClick.call(this, e);
+      setTimeout(updateProgress, 50);
+    };
+  }
+  setTimeout(updateProgress, 50);
 }
 
 
