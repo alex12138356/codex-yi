@@ -485,23 +485,23 @@ textarea { resize: vertical; min-height: 64px; }
       </div>
     </div>
     <div class="persona-pills" id="personaPills">
-      <button class="persona-pill active" data-persona="solo" onclick="switchPersona('solo')">
+      <button class="persona-pill active" data-persona="solo">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         个人创业者
       </button>
-      <button class="persona-pill" data-persona="business" onclick="switchPersona('business')">
+      <button class="persona-pill" data-persona="business">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         公司管理者
       </button>
-      <button class="persona-pill" data-persona="programmer" onclick="switchPersona('programmer')">
+      <button class="persona-pill" data-persona="programmer">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         程序员 / 开发者
       </button>
-      <button class="persona-pill" data-persona="novice" onclick="switchPersona('novice')">
+      <button class="persona-pill" data-persona="novice">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         新手创业者
       </button>
-      <button class="persona-pill" data-persona="student" onclick="switchPersona('student')">
+      <button class="persona-pill" data-persona="student">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         学生 / 研究者
       </button>
@@ -797,21 +797,28 @@ textarea { resize: vertical; min-height: 64px; }
 // ===== state =====
 
 // ===== persona switching =====
-function switchPersona(persona) {
-  // Update pill buttons
-  document.querySelectorAll('.persona-pill').forEach(function(p) { p.classList.remove('active'); });
-  var sel = document.querySelector('.persona-pill[data-persona="' + persona + '"]');
-  if (sel) sel.classList.add('active');
-  
-  // Show/hide persona field sections
-  document.querySelectorAll('.persona-fields').forEach(function(el) { el.style.display = 'none'; });
-  var target = document.getElementById('fields' + persona.charAt(0).toUpperCase() + persona.slice(1));
-  if (target) target.style.display = 'block';
-  
-  setTimeout(updateProgress, 50);
-}
+// ===== persona switching (event delegation) =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('personaPills').addEventListener('click', function(e) {
+    var btn = e.target.closest('.persona-pill');
+    if (!btn) return;
+    var persona = btn.dataset.persona;
+    if (!persona) return;
+    
+    // Update pill buttons
+    document.querySelectorAll('.persona-pill').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    
+    // Show/hide persona field sections
+    document.querySelectorAll('.persona-fields').forEach(function(el) { el.style.display = 'none'; });
+    var target = document.getElementById('fields' + persona.charAt(0).toUpperCase() + persona.slice(1));
+    if (target) target.style.display = 'block';
+    
+    setTimeout(updateProgress, 50);
+  });
+});
 
-// ===== auto-report toggle =====
+// ===== auto-report toggle ===== =====
 function toggleReportInterval() {
   const cb = document.querySelector('input[value="autoreport"]');
   const row = document.getElementById('reportIntervalRow');
