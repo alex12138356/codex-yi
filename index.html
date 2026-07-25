@@ -473,22 +473,17 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- User type -->
+  <!-- User type selector -->
   <div class="form-section">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#86868b">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">选择你的角色</div>
-        <div class="form-section-desc">选一个最接近你的，下方会显示对应的引导信息</div>
-      </div>
+      <div class="form-section-icon" style="color:#86868b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><div class="form-section-title">选择你的角色</div><div class="form-section-desc">选一个最接近你的，下方会显示对应的引导信息</div></div>
     </div>
-    <div class="persona-pills" id="personaPills">
-      <button class="persona-pill active" data-persona="solo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
-      <button class="persona-pill" data-persona="business"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
-      <button class="persona-pill" data-persona="programmer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
-      <button class="persona-pill" data-persona="student"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
+    <div class="persona-pills">
+      <button class="persona-pill" data-persona="solo" active" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F0');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
+      <button class="persona-pill" data-persona="business"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F1');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
+      <button class="persona-pill" data-persona="programmer"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F2');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
+      <button class="persona-pill" data-persona="student"" onclick="var b=this;b.parentNode.querySelectorAll('.persona-pill').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.persona-fields').forEach(function(x){x.style.display='none'});var t=document.getElementById('F3');if(t)t.style.display='block';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
     </div>
   </div>
 
@@ -501,52 +496,51 @@ textarea { resize: vertical; min-height: 64px; }
     <div class="form-grid">
       <div><label for="name">名字 <span class="required">*</span></label><input type="text" id="name" placeholder="你的名字"></div>
       <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发"></div>
-      <div class="full"><label for="commanderName">给中枢取个名字</label><input type="text" id="commanderName" placeholder="如：中枢、军师、统筹" value="中枢"></div>
     </div>
   </div>
 
   <!-- Per-persona fields -->
-  <div class="form-section persona-fields" id="Fsolo">
+  <div class="form-section persona-fields" id="F0">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff9500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg></div>
       <div><div class="form-section-title">我能帮你做什么</div><div class="form-section-desc">跟进产品进度、分析数据、制定策略——告诉我你的项目情况</div></div>
     </div>
     <div class="form-grid">
       <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务"></div>
-      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略&#10;梳理融资材料和商业计划书" style="min-height:80px"></textarea></div>
+      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
-  <div class="form-section persona-fields" id="Fbusiness" style="display:none">
+  <div class="form-section persona-fields" id="F1" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
       <div><div class="form-section-title">我能帮你管理什么</div><div class="form-section-desc">分析财报、跟踪KPI、整理报表——告诉我你的公司情况</div></div>
     </div>
     <div class="form-grid">
       <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名"></div>
-      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研&#10;看现金流和成本趋势" style="min-height:80px"></textarea></div>
+      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
-  <div class="form-section persona-fields" id="Fprogrammer" style="display:none">
+  <div class="form-section persona-fields" id="F2" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
       <div><div class="form-section-title">我能帮你写什么</div><div class="form-section-desc">跑代码、改bug、写测试、搭项目——告诉我你的开发需求</div></div>
     </div>
     <div class="form-grid">
       <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统"></div>
-      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭建项目脚手架和配置文件&#10;写单元测试和集成测试" style="min-height:80px"></textarea></div>
+      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
-  <div class="form-section persona-fields" id="Fstudent" style="display:none">
+  <div class="form-section persona-fields" id="F3" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff3b30"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
       <div><div class="form-section-title">我能帮你学什么</div><div class="form-section-desc">整理书籍要点、梳理知识体系、辅导论文——告诉我你的学习方向</div></div>
     </div>
     <div class="form-grid">
       <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学"></div>
-      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研&#10;制定学习路线和计划" style="min-height:80px"></textarea></div>
+      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px"></textarea></div>
     </div>
   </div>
 
@@ -557,7 +551,7 @@ textarea { resize: vertical; min-height: 64px; }
       <div><div class="form-section-title">要求</div><div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么做</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:72px"></textarea>
+      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
       <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div></div>
     </div>
   </div>
@@ -570,14 +564,14 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
     <div class="form-grid">
       <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30"></div>
-
+      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢"></div>
       <div class="full">
         <label>工作方式偏好</label>
         <div class="checkbox-group">
           <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
           <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
           <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none'"><span>自动化总结汇报</span></label>
+          <label class="cb-pill"><input type="checkbox" value="autoreport" onchange="var r=document.getElementById('riRow');if(r)r.style.display=this.checked?'block':'none';setTimeout(function(){try{updateProgress()}catch(e){}},50)"><span>自动化总结汇报</span></label>
         </div>
         <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
           <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
@@ -656,21 +650,6 @@ textarea { resize: vertical; min-height: 64px; }
 
 
 // ===== persona switching =====
-(function() {
-  document.getElementById('personaPills').addEventListener('click', function(e) {
-    var btn = e.target.closest('.persona-pill');
-    if (!btn) return;
-    document.querySelectorAll('.persona-pill').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    var p = btn.dataset.persona;
-    if (!p) return;
-    document.querySelectorAll('.persona-fields').forEach(function(el) { el.style.display = 'none'; });
-    var t = document.getElementById('F' + p.charAt(0).toUpperCase() + p.slice(1));
-    if (t) t.style.display = 'block';
-    try { updateProgress(); } catch(e) {}
-  });
-})();
-
 <script>
 // ===== state =====
 
