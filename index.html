@@ -670,105 +670,33 @@ textarea { resize: vertical; min-height: 64px; }
 
 
 <script>
-// Polyfill NodeList.forEach for older browsers
+// NodeList.forEach polyfill (needed for some browsers)
 if (window.NodeList && !NodeList.prototype.forEach) {
   NodeList.prototype.forEach = Array.prototype.forEach;
 }
 
-// ===== state =====
+// On page ready, bind progress tracking and check once
+(function() {
+  var bind = function() {
+    var form = document.getElementById('formSection');
+    if (form) {
+      form.addEventListener('input', updateProgress);
+      form.addEventListener('change', updateProgress);
+    }
+    updateProgress();
+  };
+  if (document.readyState !== 'loading') { bind(); }
+  else { document.addEventListener('DOMContentLoaded', bind); }
+})();
 
-// ===== persona switching =====
-// ===== auto-report toggle ===== =====
-
-// ===== form progress =====
-function countFilled() {
-    function getActivePersonaFields() {
-    var p = getPersona();
-    if (p === 'solo') return ['soloBiz','soloHelp'];
-    if (p === 'business') return ['bizName','bizAnalysis'];
-    if (p === 'programmer') return ['progTech','progHelp'];
-    if (p === 'student') return ['studyMajor','studyHelp'];
-    return [];
-  }
-  var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
-  var filled = 0;
-  var total = fields.length;
-  // checkbox group counts as one (always pre-filled)
-  var checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
-  if (checked.length > 0) filled += 0.5;
-  for (var fi = 0; fi < fields.length; fi++) {
-    var el = document.getElementById(fields[fi]);
-    if (el && el.value.trim()) filled++;
-  }
-  return { filled, total };
-}
-
-function updateProgress() {
-  const { filled, total } = countFilled();
-  const pct = Math.min(100, Math.round((filled / total) * 100));
-  const bar = document.getElementById('progressBar');
-  const label = document.getElementById('filledCount');
-  const hint = document.getElementById('progressHint');
-  if (bar) bar.style.width = pct + '%';
-  if (label) label.textContent = filled;
-  if (hint) {
-    if (pct === 0) hint.textContent = '先填你的名字';
-    else if (pct < 40) hint.textContent = '继续填，马上就能用了';
-    else if (pct < 80) hint.textContent = '快了，就差几项';
-    else if (pct < 100) hint.textContent = '还差一点点 ✦';
-    else hint.textContent = '所有信息都已填好 ✓';
-  }
-}
-
-// Bind progress updates to all form inputs
-
-function bindEvents() {
-  // Event delegation: one listener catches all input/change events in the form
-  document.getElementById('formSection').addEventListener('input', updateProgress);
-  document.getElementById('formSection').addEventListener('change', updateProgress);
-  // Persona buttons: delegation on pills container
-  document.getElementById('personaPills').addEventListener('click', function() { setTimeout(updateProgress, 100); });
-  // Autoreport checkbox
-  var ar = document.querySelector('input[value="autoreport"]');
-  if (ar) ar.addEventListener('change', function() { setTimeout(updateProgress, 50); });
-  var ri = document.getElementById('reportInterval');
-  if (ri) ri.addEventListener('change', function() { setTimeout(updateProgress, 50); });
-  updateProgress();
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() { try { bindEvents(); } catch(e) {} });
-} else {
-  try { bindEvents(); } catch(e) {}
-}
-// Call updateProgress directly as fallback
-setTimeout(function() { try { updateProgress(); } catch(e) {} }, 50);
-
-let generatedFiles = {};
-
-// ===== helpers =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-function getVal(id) { return document.getElementById(id).value.trim(); }
-function getChecks() {
-  var cbx = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
-  var result = [];
-  for (var ci = 0; ci < cbx.length; ci++) {
-    result.push(cbx[ci].value);
-  }
-  return result;
-}
 
 function getReportInterval() {
-  const el = document.getElementById('reportInterval');
+  var el = document.getElementById('reportInterval');
   return el ? el.value : '1h';
 }
 
 function getPersona() {
-  const active = document.querySelector('.persona-pill.active');
+  var active = document.querySelector('.persona-pill.active');
   return active ? active.dataset.persona : 'solo';
 }
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -832,9 +760,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== token savings =====
 function recalcSavings() {
-  const dcount = parseInt(document.getElementById('dialogCount2').value) || 6;
-  const restart = parseInt(document.getElementById('restartCount').value) || 10;
-  const saved = dcount * restart * 250;
+  var dcount = parseInt(document.getElementById('dialogCount2').value) || 6;
+  var restart = parseInt(document.getElementById('restartCount').value) || 10;
+  var saved = dcount * restart * 250;
   document.getElementById('totalHint').textContent = saved.toLocaleString();
 }
 
