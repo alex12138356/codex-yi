@@ -488,11 +488,19 @@ textarea { resize: vertical; min-height: 64px; }
     <div class="persona-pills" id="personaPills">
       <button class="persona-pill active" data-persona="solo" onclick="switchPersona('solo')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        个人创业者 / Solo
+        个人创业者
       </button>
       <button class="persona-pill" data-persona="business" onclick="switchPersona('business')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        公司管理者 / 企业主
+        公司管理者
+      </button>
+      <button class="persona-pill" data-persona="programmer" onclick="switchPersona('programmer')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        程序员 / 开发者
+      </button>
+      <button class="persona-pill" data-persona="novice" onclick="switchPersona('novice')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        新手创业者
       </button>
       <button class="persona-pill" data-persona="student" onclick="switchPersona('student')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -532,132 +540,38 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- ====== Section: 个人创业者字段 ====== -->
-  <div class="form-section persona-fields" id="personaFieldsSolo">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff9500">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">你的故事</div>
-        <div class="form-section-desc">个性、信条、什么在支撑你往前走</div>
-      </div>
-    </div>
-    <div class="form-grid">
-      <div class="full">
-        <label for="personality">个性特质</label>
-        <textarea id="personality" placeholder="做事注重效率，讨厌重复劳动&#10;喜欢先调研再动手&#10;习惯把关键信息记录下来" style="min-height:80px"></textarea>
-        <div class="hint">每行一条，越具体越好</div>
-      </div>
-      <div class="full">
-        <label for="beliefs">核心信条</label>
-        <textarea id="beliefs" placeholder="好的工具让人事半功倍&#10;行动比空想更重要" style="min-height:72px"></textarea>
-        <div class="hint">每行一条，你真正相信的东西</div>
-      </div>
-      <div class="full">
-        <label for="sweetwater">什么在支撑你往前走</label>
-        <textarea id="sweetwater" placeholder="想给家人更好的生活&#10;想做成一件属于自己的事" style="min-height:72px"></textarea>
-        <div class="hint">这是你回头看自己的锚点。不必写给别人看。</div>
-      </div>
-      <div class="full">
-        <label for="mission">使命 / 你希望对话记住什么</label>
-        <textarea id="mission" placeholder="在我快要放弃的时候提醒我为什么开始" style="min-height:64px"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== Section: 公司管理者字段 ====== -->
-  <div class="form-section persona-fields" id="personaFieldsBusiness" style="display:none">
+  <!-- ====== Section: 你的需求 ====== -->
+  <div class="form-section" id="needsSection">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#0071e3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       </div>
       <div>
-        <div class="form-section-title">企业信息</div>
-        <div class="form-section-desc">公司、行业、核心关注点</div>
+        <div class="form-section-title">你的需求</div>
+        <div class="form-section-desc" id="needsDesc">说说你的情况、目标和对系统的期望</div>
       </div>
     </div>
     <div class="form-grid">
-      <div>
-        <label for="companyName">公司 / 品牌名称</label>
-        <input type="text" id="companyName" placeholder="公司名">
-      </div>
-      <div>
-        <label for="companyIndustry">所属行业</label>
-        <input type="text" id="companyIndustry" placeholder="如：互联网、制造、零售">
-      </div>
-      <div>
-        <label for="companyScale">团队规模</label>
-        <input type="text" id="companyScale" placeholder="如：10-50人">
-      </div>
-      <div>
-        <label for="companyRole">你的角色</label>
-        <input type="text" id="companyRole" placeholder="如：创始人、CEO、部门负责人">
-      </div>
       <div class="full">
-        <label for="companyMission">公司使命 / 愿景</label>
-        <textarea id="companyMission" placeholder="我们为什么要做这件事&#10;长期想成为什么样的公司" style="min-height:72px"></textarea>
-      </div>
-      <div class="full">
-        <label for="companyMetrics">核心关注指标</label>
-        <textarea id="companyMetrics" placeholder="营收、用户增长、利润率&#10;团队效率、项目进度" style="min-height:72px"></textarea>
-        <div class="hint">你最在意的几个数字或指标，每行一条</div>
-      </div>
-      <div class="full">
-        <label for="companyStyle">管理风格</label>
-        <textarea id="companyStyle" placeholder="扁平化管理，快速决策&#10;重视数据驱动&#10;鼓励独立思考" style="min-height:64px"></textarea>
-        <div class="hint">你倾向怎么带团队、做决策</div>
+        <textarea id="userNeeds" placeholder="" style="min-height:130px;font-size:14px;line-height:1.6"></textarea>
+        <div class="hint" id="needsHint">描述越具体，生成的内容越贴合你的实际需求</div>
       </div>
     </div>
-  </div>
-
-  <!-- ====== Section: 学生/研究者字段 ====== -->
-  <div class="form-section persona-fields" id="personaFieldsStudent" style="display:none">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#5856d6">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      </div>
-      <div>
-        <div class="form-section-title">研究方向</div>
-        <div class="form-section-desc">你在学什么、研究什么、目标是什么</div>
-      </div>
-    </div>
-    <div class="form-grid">
-      <div>
-        <label for="studyField">研究方向 / 专业</label>
-        <input type="text" id="studyField" placeholder="如：人工智能、经济学">
-      </div>
-      <div>
-        <label for="studyLevel">阶段</label>
-        <input type="text" id="studyLevel" placeholder="如：本科、硕士、博士、自学">
-      </div>
-      <div class="full">
-        <label for="studyGoals">学习 / 研究目标</label>
-        <textarea id="studyGoals" placeholder="发表论文&#10;完成毕业设计&#10;掌握某项技能" style="min-height:72px"></textarea>
-        <div class="hint">你想达成什么，每行一条</div>
-      </div>
-      <div class="full">
-        <label for="studyCurrent">当前课题 / 任务</label>
-        <textarea id="studyCurrent" placeholder="正在写毕业论文&#10;在研究某个算法&#10;在准备考试" style="min-height:64px"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== Section: 原则 (common) ====== -->
+  </div><!-- ====== Section: 要求 ====== -->
   <div class="form-section">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#34c759">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
       <div>
-        <div class="form-section-title">原则</div>
-        <div class="form-section-desc">你的做事原则和底线</div>
+        <div class="form-section-title">要求</div>
+        <div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么配合你</div>
       </div>
     </div>
     <div class="form-grid">
       <div class="full">
-        <textarea id="redlines" placeholder="不违法&#10;不违背自己的原则" style="min-height:64px"></textarea>
-        <div class="hint">如果不填，默认"不违法"+"不影响到用户人身财产信息安全"</div>
+        <textarea id="redlines" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
+        <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div>
       </div>
     </div>
   </div>
@@ -670,7 +584,7 @@ textarea { resize: vertical; min-height: 64px; }
       </div>
       <div>
         <div class="form-section-title">系统配置</div>
-        <div class="form-section-desc">对话数量、调度方式和汇报策略</div>
+        <div class="form-section-desc">怎么干活、怎么汇报</div>
       </div>
     </div>
     <div class="form-grid">
@@ -774,15 +688,29 @@ textarea { resize: vertical; min-height: 64px; }
 // ===== state =====
 
 // ===== persona switching =====
+// Persona needs hints
+const personaHints = {
+  solo: { placeholder: '我正在创业，做一款 AI 工具...\n需要同时管理产品开发、用户增长和融资三条线。\n每个对话要知道我的项目背景、当前阶段和核心目标。', desc: '说说你的项目、阶段和目标' },
+  business: { placeholder: '我经营一家互联网公司，团队 20 人...\n需要跟进各部门进度、看关键指标、做决策记录。\n每个对话要知道公司背景、当前重点和我的管理风格。', desc: '说说你的公司、团队和管理需求' },
+  programmer: { placeholder: '我是全栈开发者，做几个开源项目...\n需要每个对话了解我的技术栈、项目架构和当前任务。\n代码相关的对话最好直接进入状态，不用解释基础。', desc: '说说你的技术栈、项目和开发习惯' },
+  novice: { placeholder: '我刚创业，还在摸索阶段...\n需要一个系统帮我理清思路、不遗漏重要的事。\n说话直接一点，不用绕弯子，教我怎么做就行。', desc: '说说你的情况、困惑和最需要帮助的地方' },
+  student: { placeholder: '我在读计算机硕士，研究方向是 AI...\n需要用 Codex 辅助文献调研、实验记录和论文写作。\n每个对话要知道我的研究方向、进度和当前卡点。', desc: '说说你的研究方向、目标和当前课题' }
+};
+
 function switchPersona(persona) {
   // Update pill buttons
   document.querySelectorAll('.persona-pill').forEach(p => p.classList.remove('active'));
-  document.querySelector(`.persona-pill[data-persona="${persona}"]`).classList.add('active');
+  var sel = document.querySelector('.persona-pill[data-persona="' + persona + '"]');
+  if (sel) sel.classList.add('active');
   
-  // Show/hide persona fields
-  document.querySelectorAll('.persona-fields').forEach(el => el.style.display = 'none');
-  const target = document.getElementById('personaFields' + persona.charAt(0).toUpperCase() + persona.slice(1));
-  if (target) target.style.display = 'block';
+  // Update needs placeholder and hint
+  var hint = personaHints[persona] || personaHints.solo;
+  var ta = document.getElementById('userNeeds');
+  if (ta) ta.placeholder = hint.placeholder;
+  var desc = document.getElementById('needsDesc');
+  if (desc) desc.textContent = hint.desc;
+  var hintEl = document.getElementById('needsHint');
+  if (hintEl) hintEl.textContent = '描述越具体，生成的内容越贴合你的实际需求';
   
   setTimeout(updateProgress, 50);
 }
@@ -799,16 +727,7 @@ function toggleReportInterval() {
 
 // ===== form progress =====
 function countFilled() {
-  function getActivePersonaFields() {
-    var p = getPersona();
-    if (p === 'business') return ['companyName','companyIndustry','companyScale','companyRole','companyMission','companyMetrics','companyStyle'];
-    if (p === 'student') return ['studyField','studyLevel','studyGoals','studyCurrent'];
-    return ['personality','beliefs','sweetwater','mission'];
-  }
-  var fields = [
-    'name','age','location','bio',
-    'redlines','dialogCount','commanderName'
-  ].concat(getActivePersonaFields());
+  var fields = ['name', 'userNeeds', 'userRules', 'dialogCount', 'commanderName'];
   let filled = 0;
   let total = fields.length;
   // checkbox group counts as one (always pre-filled)
@@ -1030,33 +949,11 @@ function generateSharedKnowledgeBase(d, persona) {
       ).join('\n')
     : '| *（在这里添加你的项目）* | | |';
 
-  // Build persona-specific content
-  let personaContent = '';
-  if (persona === 'business') {
-    var cm = d.companyMission ? d.companyMission.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
-    var cme = d.companyMetrics ? d.companyMetrics.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
-    var cs = d.companyStyle ? d.companyStyle.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
-    personaContent = (d.companyName ? '### 公司信息\\n- **公司**: ' + d.companyName + '\\n' : '') +
-      (d.companyIndustry ? '- **行业**: ' + d.companyIndustry + '\\n' : '') +
-      (d.companyScale ? '- **团队规模**: ' + d.companyScale + '\\n' : '') +
-      (d.companyRole ? '- **角色**: ' + d.companyRole + '\\n' : '') +
-      (cm ? '\\n### 公司使命 / 愿景\\n' + cm + '\\n' : '') +
-      (cme ? '\\n### 核心关注指标\\n' + cme + '\\n' : '') +
-      (cs ? '\\n### 管理风格\\n' + cs + '\\n' : '');
-  } else if (persona === 'student') {
-    var sg = d.studyGoals ? d.studyGoals.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
-    personaContent = (d.studyField ? '### 研究方向\\n- **方向**: ' + d.studyField + '\\n' : '') +
-      (d.studyLevel ? '- **阶段**: ' + d.studyLevel + '\\n' : '') +
-      (sg ? '\\n### 学习 / 研究目标\\n' + sg + '\\n' : '') +
-      (d.studyCurrent ? '\\n### 当前课题\\n- ' + d.studyCurrent + '\\n' : '');
-  } else {
-    // solo - default
-    var p = d.personality ? d.personality.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') : '';
-    var b = d.beliefs ? d.beliefs.split('\\n').filter(Boolean).map(function(l){return '- \\"' + l + '\\"'}).join('\\n') : '';
-    personaContent = (p ? '### 个性特质\\n' + p + '\\n\\n' : '') +
-      (b ? '### 核心信条\\n' + b + '\\n\\n' : '') +
-      (d.sweetwater ? '### 甜水\\n' + d.sweetwater.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n') + '\\n\\n' : '') +
-      (d.mission ? '### 使命\\n- ' + d.mission + '\\n\\n' : '');
+  // Build content from user needs and rules
+  var needsContent = d.userNeeds || '(暂无需求描述)';
+  var rulesLines = '';
+  if (d.userRules) {
+    rulesLines = d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n');
   }
 
   return traceHeader + `# ${d.name} 共享知识库
@@ -1073,10 +970,10 @@ ${d.age ? `- **年龄**: ${d.age}岁` : ''}
 ${d.location ? `- **位置**: ${d.location}` : ''}
 ${d.bio ? `- ${d.bio}` : ''}
 
-${personaContent}
+${needsContent}
 
-### 原则
-${redlines}
+### 要求
+${rulesLines}
 
 ### 工作方式偏好
 ${prefLines}
@@ -1192,25 +1089,28 @@ function generateStarterGuide(d) {
   const prefLines = prefs.map(p => {
     const m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段完成后回传调度对话', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）' };
     return '- ' + m[p];
-  }).join('\n');
+  }).join('\\n');
 
-  return traceHeader + `## 新对话启动指令（Copy 到任务描述中）
+  const needsText = d.userNeeds ? '### 需求背景\\n' + d.userNeeds + '\\n' : '';
+  const rulesText = d.userRules ? '### 要求\\n' + d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') + '\\n' : '';
+
+  return traceHeader + \`## 新对话启动指令（Copy 到任务描述中）
 
 ## 背景
-这是 ${d.name} 开的第 ${d.dialogCount || '多个'} 个 Codex 对话。
-关于 ${d.name} 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。
-这里有 ${d.name} 的基本信息、原则、工作方式、以及当前在跑的项目。
+这是 \${d.name} 开的第 \${d.dialogCount || '多个'} 个 Codex 对话。
+关于 \${d.name} 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。
+
+\${needsText}
+\${rulesText}
 
 ## 工作方式
-${prefLines}
+\${prefLines}
 
 ## 回传格式
 一句话 + 文件路径，写进"回传日志.md"。
-示例：[项目名] 第一阶段完成，详情见 [文件路径]`;
-}
-
-function generateCommanderGuide(d) {
-  return traceHeader + `# ${d.commanderName}任务指南
+示例：[项目名] 第一阶段完成，详情见 [文件路径]\`;
+}function generateCommanderGuide(d) {
+  return traceHeader + \`# \${d.commanderName}任务指南
 
 > 你是这个系统的调度器，不是执行者。
 > 你是用户的方向讨论伙伴 + 任务分发器 + 写盘负责人 + 他最难的时刻还记得他为什么要开始的人。
@@ -1221,10 +1121,11 @@ function generateCommanderGuide(d) {
 
 1. **接方向** — 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。
 2. **拆任务** — 方向清晰后，拆成具体的、可执行的任务线。
-3. **开新对话** — 把任务 + 工作方式打包进任务描述。新对话一进来就知道该怎么做。
+3. **开新对话** — 把需求 + 工作方式打包进任务描述。新对话一进来就该做什么。
 4. **同步状态** — 定期读 \`回传日志.md\`，知道各线在干嘛。
-5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 \`共享知识库.md\` 的附录。
-6. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。
+5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 \`共享知识库.md\`。
+6. **记住他的要求** — 用户明确说过不想看到的、不满意的，第一时间改、写盘。
+7. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。
 
 ---
 
@@ -1232,15 +1133,9 @@ function generateCommanderGuide(d) {
 
 - 用户来找你聊方向 → 你跟他聊，不要急着出方案。
 - 用户有了明确想法 → 你帮他拆任务、开新对话。
-- 开新对话时 → 任务描述里必须包含工作方式（调研优先、写盘、回传）。
+- 开新对话时 → 任务描述里必须包含需求背景和工作方式。
 - 不替用户做他不愿意做的决定。
 - 你写的东西不光给新对话看，更是给他回头看自己的坐标。
-
-## 多条线在跑时
-
-- 每条线第一次开完对话后，在 \`共享知识库.md\` §4 记一行项目路径。
-- 各线回传写到 \`回传日志.md\`，你去读。
-- 用户不需要人肉传话——信息通过文件流转。
 
 ---
 
@@ -1248,7 +1143,7 @@ function generateCommanderGuide(d) {
 
 | 文件 | 用途 |
 |------|------|
-| \`共享知识库.md\` | 知道用户是谁、原则、当前项目 |
+| \`共享知识库.md\` | 知道用户是谁、需求、要求、当前项目 |
 | \`回传日志.md\` | 知道各线最新状态 |
 | \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |
 
@@ -1256,23 +1151,19 @@ function generateCommanderGuide(d) {
 
 | 文件 | 用途 |
 |------|------|
-| \`共享知识库.md\` | 更新项目一览、附录沉淀 |
+| \`共享知识库.md\` | 更新项目一览、认知沉淀 |
 | \`回传日志.md\` | 关注但不一定写 |
-| \`SESSION_LOG.md\`（本项目） | ${d.commanderName}对话自己的状态记录 |
+| \`SESSION_LOG.md\`（本项目） | \${d.commanderName}对话自己的状态记录 |
 
 ---
 
 ## 给刚开这个对话的我的指令
 
-1. 先读 \`共享知识库.md\`，知道用户是谁。
+1. 先读 \`共享知识库.md\`，知道用户是谁、他的需求和规则。
 2. 再读 \`回传日志.md\`，知道各线当前状态。
-3. 现在你已经准备好了。等用户来找你聊。`;
-}
-
-
-
-// ===== helpers =====
-function getReportIntervalText() {
+3. 现在你已经准备好了。如果有任何让他不满意的地方，第一时间改。
+\`;
+}function getReportIntervalText() {
   const v = getReportInterval();
   const m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' };
   return m[v] || '1小时';
@@ -1284,23 +1175,8 @@ function generate() {
     age: getVal('age'),
     location: getVal('location'),
     bio: getVal('bio'),
-    // persona fields
-    personality: getVal('personality'),
-    beliefs: getVal('beliefs'),
-    sweetwater: getVal('sweetwater'),
-    mission: getVal('mission'),
-    companyName: getVal('companyName'),
-    companyIndustry: getVal('companyIndustry'),
-    companyScale: getVal('companyScale'),
-    companyRole: getVal('companyRole'),
-    companyMission: getVal('companyMission'),
-    companyMetrics: getVal('companyMetrics'),
-    companyStyle: getVal('companyStyle'),
-    studyField: getVal('studyField'),
-    studyLevel: getVal('studyLevel'),
-    studyGoals: getVal('studyGoals'),
-    studyCurrent: getVal('studyCurrent'),
-    redlines: getVal('redlines') || '不违法\n不影响到用户人身财产信息安全',
+    userNeeds: getVal('userNeeds'),
+    userRules: getVal('userRules') || '不违法\n不影响到用户人身财产信息安全',
     dialogCount: getVal('dialogCount') || '多个',
     commanderName: getVal("commanderName") || "中枢"
   };
