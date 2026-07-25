@@ -465,7 +465,7 @@ textarea { resize: vertical; min-height: 64px; }
   <!-- Progress -->
   <div id="formProgress" style="margin-bottom:24px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">8</span> 项</span>
+      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">10</span> 项</span>
       <span style="font-size:12px;color:#34c759" id="progressHint">先填你的名字</span>
     </div>
     <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
@@ -521,47 +521,44 @@ function switchPersona(p) {
   <div class="form-section persona-fields" id="Fsolo">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff9500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg></div>
-      <div><div class="form-section-title">你的目标</div><div class="form-section-desc">说说你目前最想做成的事</div></div>
+      <div><div class="form-section-title">我能帮你做什么</div><div class="form-section-desc">跟进产品进度、分析数据、制定策略——告诉我你的项目情况</div></div>
     </div>
     <div class="form-grid">
-      <div class="full"><label for="soloGoal">目前最想做成的事</label><input type="text" id="soloGoal" placeholder="如：上线一款产品、跑通变现、搭建团队"></div>
-      <div class="full"><label for="soloPain">目前最大的困扰</label><textarea id="soloPain" placeholder="如：不懂技术、不清楚优先级、时间不够用" style="min-height:64px"></textarea></div>
+      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务"></div>
+      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略&#10;梳理融资材料和商业计划书" style="min-height:80px"></textarea></div>
     </div>
   </div>
 
   <div class="form-section persona-fields" id="Fbusiness" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-      <div><div class="form-section-title">企业信息</div><div class="form-section-desc">公司、角色和核心方向</div></div>
+      <div><div class="form-section-title">我能帮你管理什么</div><div class="form-section-desc">分析财报、跟踪KPI、整理报表——告诉我你的公司情况</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="bizCompany">公司 / 品牌名称</label><input type="text" id="bizCompany" placeholder="公司名"></div>
-      <div><label for="bizRole">你的角色</label><input type="text" id="bizRole" placeholder="创始人 / CEO / 部门负责人"></div>
-      <div class="full"><label for="bizFocus">核心关注方向</label><textarea id="bizFocus" placeholder="如：营收增长、团队效率、产品迭代" style="min-height:64px"></textarea></div>
+      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名"></div>
+      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研&#10;看现金流和成本趋势" style="min-height:80px"></textarea></div>
     </div>
   </div>
 
   <div class="form-section persona-fields" id="Fprogrammer" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-      <div><div class="form-section-title">开发信息</div><div class="form-section-desc">技术栈、项目和开发习惯</div></div>
+      <div><div class="form-section-title">我能帮你写什么</div><div class="form-section-desc">跑代码、改bug、写测试、搭项目——告诉我你的开发需求</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="progStack">技术栈</label><input type="text" id="progStack" placeholder="如：React、Python、Go"></div>
-      <div><label for="progProject">主要项目</label><input type="text" id="progProject" placeholder="目前在做什么项目"></div>
-      <div class="full"><label for="progHabit">开发习惯或偏好</label><textarea id="progHabit" placeholder="如：代码优先、喜欢先搭框架再填细节" style="min-height:64px"></textarea></div>
+      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统"></div>
+      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭建项目脚手架和配置文件&#10;写单元测试和集成测试" style="min-height:80px"></textarea></div>
     </div>
   </div>
 
   <div class="form-section persona-fields" id="Fstudent" style="display:none">
     <div class="form-section-header">
       <div class="form-section-icon" style="color:#ff3b30"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-      <div><div class="form-section-title">研究方向</div><div class="form-section-desc">专业、课题和目标</div></div>
+      <div><div class="form-section-title">我能帮你学什么</div><div class="form-section-desc">整理书籍要点、梳理知识体系、辅导论文——告诉我你的学习方向</div></div>
     </div>
     <div class="form-grid">
-      <div><label for="studyField">研究方向 / 专业</label><input type="text" id="studyField" placeholder="如：人工智能、经济学"></div>
-      <div><label for="studyCurrent">当前课题</label><input type="text" id="studyCurrent" placeholder="论文 / 项目 / 考试"></div>
-      <div class="full"><label for="studyGoal">目标</label><textarea id="studyGoal" placeholder="如：发论文、完成毕设、掌握某项技能" style="min-height:64px"></textarea></div>
+      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学"></div>
+      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研&#10;制定学习路线和计划" style="min-height:80px"></textarea></div>
     </div>
   </div>
 
@@ -679,10 +676,10 @@ function switchPersona(p) {
 function countFilled() {
     function getActivePersonaFields() {
     var p = getPersona();
-    if (p === 'solo') return ['soloGoal','soloPain'];
-    if (p === 'business') return ['bizCompany','bizRole','bizFocus'];
-    if (p === 'programmer') return ['progStack','progProject','progHabit'];
-    if (p === 'student') return ['studyField','studyCurrent','studyGoal'];
+    if (p === 'solo') return ['soloBiz','soloHelp'];
+    if (p === 'business') return ['bizName','bizAnalysis'];
+    if (p === 'programmer') return ['progTech','progHelp'];
+    if (p === 'student') return ['studyMajor','studyHelp'];
     return [];
   }
   var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
@@ -1153,20 +1150,17 @@ function generate() {
     bio: getVal('bio'),
     userRules: getVal('userRules') || '不违法\n不影响到用户人身财产信息安全',
     // Solo
-    soloGoal: getVal('soloGoal'),
-    soloPain: getVal('soloPain'),
+    soloBiz: getVal('soloBiz'),
+    soloHelp: getVal('soloHelp'),
     // Business
-    bizCompany: getVal('bizCompany'),
-    bizRole: getVal('bizRole'),
-    bizFocus: getVal('bizFocus'),
+    bizName: getVal('bizName'),
+    bizAnalysis: getVal('bizAnalysis'),
     // Programmer
-    progStack: getVal('progStack'),
-    progProject: getVal('progProject'),
-    progHabit: getVal('progHabit'),
+    progTech: getVal('progTech'),
+    progHelp: getVal('progHelp'),
     // Student
-    studyField: getVal('studyField'),
-    studyCurrent: getVal('studyCurrent'),
-    studyGoal: getVal('studyGoal'),
+    studyMajor: getVal('studyMajor'),
+    studyHelp: getVal('studyHelp'),
     dialogCount: getVal('dialogCount') || '多个',
     commanderName: getVal("commanderName") || "中枢"
   };
