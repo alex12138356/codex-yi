@@ -540,21 +540,131 @@ textarea { resize: vertical; min-height: 64px; }
     </div>
   </div>
 
-  <!-- ====== Section: 你的需求 ====== -->
-  <div class="form-section" id="needsSection">
+  <!-- ====== Section: 你的情况（按用户类型切换） ====== -->
+
+  <!-- Solo: 个人创业者 -->
+  <div class="form-section persona-fields" id="fieldsSolo">
     <div class="form-section-header">
-      <div class="form-section-icon" style="color:#0071e3">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <div class="form-section-icon" style="color:#ff9500">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg>
       </div>
       <div>
-        <div class="form-section-title">你的需求</div>
-        <div class="form-section-desc" id="needsDesc">说说你的情况、目标和对系统的期望</div>
+        <div class="form-section-title" id="personaTitle">你的目标</div>
+        <div class="form-section-desc" id="personaDesc">说说你目前最想做成的事</div>
       </div>
     </div>
     <div class="form-grid">
       <div class="full">
-        <textarea id="userNeeds" placeholder="" style="min-height:130px;font-size:14px;line-height:1.6"></textarea>
-        <div class="hint" id="needsHint">描述越具体，生成的内容越贴合你的实际需求</div>
+        <label for="soloGoal">目前最想做成的事</label>
+        <input type="text" id="soloGoal" placeholder="如：上线一款产品、跑通变现、搭建团队">
+      </div>
+      <div class="full">
+        <label for="soloPain">目前最大的困扰</label>
+        <textarea id="soloPain" placeholder="如：不懂技术、不清楚优先级、时间不够用" style="min-height:64px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business: 公司管理者 -->
+  <div class="form-section persona-fields" id="fieldsBusiness" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#0071e3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">企业信息</div>
+        <div class="form-section-desc">公司、角色和核心关注方向</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="bizCompany">公司 / 品牌名称</label>
+        <input type="text" id="bizCompany" placeholder="公司名">
+      </div>
+      <div>
+        <label for="bizRole">你的角色</label>
+        <input type="text" id="bizRole" placeholder="如：创始人、CEO、部门负责人">
+      </div>
+      <div class="full">
+        <label for="bizFocus">核心关注方向</label>
+        <textarea id="bizFocus" placeholder="如：营收增长、团队效率、产品迭代" style="min-height:64px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Programmer: 程序员/开发者 -->
+  <div class="form-section persona-fields" id="fieldsProgrammer" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#5856d6">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">开发信息</div>
+        <div class="form-section-desc">技术栈、项目和开发习惯</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="progStack">技术栈</label>
+        <input type="text" id="progStack" placeholder="如：React、Python、Go">
+      </div>
+      <div>
+        <label for="progProject">主要项目</label>
+        <input type="text" id="progProject" placeholder="目前在做什么项目">
+      </div>
+      <div class="full">
+        <label for="progHabit">开发习惯或偏好</label>
+        <textarea id="progHabit" placeholder="如：代码优先、喜欢先搭框架再填细节" style="min-height:64px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Novice: 新手创业者 -->
+  <div class="form-section persona-fields" id="fieldsNovice" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#34c759">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">创业现状</div>
+        <div class="form-section-desc">你目前在什么阶段、需要什么帮助</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="noviceStage">目前阶段</label>
+        <input type="text" id="noviceStage" placeholder="想法阶段 / 启动期 / 已运营">
+      </div>
+      <div class="full">
+        <label for="noviceNeed">最需要什么帮助</label>
+        <textarea id="noviceNeed" placeholder="如：理清思路、制定计划、学习基础知识" style="min-height:64px"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student: 学生/研究者 -->
+  <div class="form-section persona-fields" id="fieldsStudent" style="display:none">
+    <div class="form-section-header">
+      <div class="form-section-icon" style="color:#ff3b30">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div>
+        <div class="form-section-title">研究方向</div>
+        <div class="form-section-desc">专业、课题和目标</div>
+      </div>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="studyField">研究方向 / 专业</label>
+        <input type="text" id="studyField" placeholder="如：人工智能、经济学">
+      </div>
+      <div>
+        <label for="studyCurrent">当前课题</label>
+        <input type="text" id="studyCurrent" placeholder="论文 / 项目 / 考试">
+      </div>
+      <div class="full">
+        <label for="studyGoal">目标</label>
+        <textarea id="studyGoal" placeholder="如：发论文、完成毕设、掌握某项技能" style="min-height:64px"></textarea>
       </div>
     </div>
   </div><!-- ====== Section: 要求 ====== -->
@@ -688,29 +798,16 @@ textarea { resize: vertical; min-height: 64px; }
 // ===== state =====
 
 // ===== persona switching =====
-// Persona needs hints
-const personaHints = {
-  solo: { placeholder: '我正在创业，做一款 AI 工具...\n需要同时管理产品开发、用户增长和融资三条线。\n每个对话要知道我的项目背景、当前阶段和核心目标。', desc: '说说你的项目、阶段和目标' },
-  business: { placeholder: '我经营一家互联网公司，团队 20 人...\n需要跟进各部门进度、看关键指标、做决策记录。\n每个对话要知道公司背景、当前重点和我的管理风格。', desc: '说说你的公司、团队和管理需求' },
-  programmer: { placeholder: '我是全栈开发者，做几个开源项目...\n需要每个对话了解我的技术栈、项目架构和当前任务。\n代码相关的对话最好直接进入状态，不用解释基础。', desc: '说说你的技术栈、项目和开发习惯' },
-  novice: { placeholder: '我刚创业，还在摸索阶段...\n需要一个系统帮我理清思路、不遗漏重要的事。\n说话直接一点，不用绕弯子，教我怎么做就行。', desc: '说说你的情况、困惑和最需要帮助的地方' },
-  student: { placeholder: '我在读计算机硕士，研究方向是 AI...\n需要用 Codex 辅助文献调研、实验记录和论文写作。\n每个对话要知道我的研究方向、进度和当前卡点。', desc: '说说你的研究方向、目标和当前课题' }
-};
-
 function switchPersona(persona) {
   // Update pill buttons
-  document.querySelectorAll('.persona-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.persona-pill').forEach(function(p) { p.classList.remove('active'); });
   var sel = document.querySelector('.persona-pill[data-persona="' + persona + '"]');
   if (sel) sel.classList.add('active');
   
-  // Update needs placeholder and hint
-  var hint = personaHints[persona] || personaHints.solo;
-  var ta = document.getElementById('userNeeds');
-  if (ta) ta.placeholder = hint.placeholder;
-  var desc = document.getElementById('needsDesc');
-  if (desc) desc.textContent = hint.desc;
-  var hintEl = document.getElementById('needsHint');
-  if (hintEl) hintEl.textContent = '描述越具体，生成的内容越贴合你的实际需求';
+  // Show/hide persona field sections
+  document.querySelectorAll('.persona-fields').forEach(function(el) { el.style.display = 'none'; });
+  var target = document.getElementById('fields' + persona.charAt(0).toUpperCase() + persona.slice(1));
+  if (target) target.style.display = 'block';
   
   setTimeout(updateProgress, 50);
 }
@@ -727,7 +824,16 @@ function toggleReportInterval() {
 
 // ===== form progress =====
 function countFilled() {
-  var fields = ['name', 'userNeeds', 'userRules', 'dialogCount', 'commanderName'];
+    function getActivePersonaFields() {
+    var p = getPersona();
+    if (p === 'solo') return ['soloGoal','soloPain'];
+    if (p === 'business') return ['bizCompany','bizRole','bizFocus'];
+    if (p === 'programmer') return ['progStack','progProject','progHabit'];
+    if (p === 'novice') return ['noviceStage','noviceNeed'];
+    if (p === 'student') return ['studyField','studyCurrent','studyGoal'];
+    return [];
+  }
+  var fields = ['name', 'userRules', 'dialogCount', 'commanderName'].concat(getActivePersonaFields());
   let filled = 0;
   let total = fields.length;
   // checkbox group counts as one (always pre-filled)
@@ -949,8 +1055,29 @@ function generateSharedKnowledgeBase(d, persona) {
       ).join('\n')
     : '| *（在这里添加你的项目）* | | |';
 
-  // Build content from user needs and rules
-  var needsContent = d.userNeeds || '(暂无需求描述)';
+  // Build persona-specific content
+  var personaContent = '';
+  if (persona === 'business') {
+    personaContent = (d.bizCompany ? '### 公司信息\\n- **公司**: ' + d.bizCompany + '\\n' : '') +
+      (d.bizRole ? '- **角色**: ' + d.bizRole + '\\n' : '') +
+      (d.bizFocus ? '\\n### 核心关注方向\\n' + d.bizFocus + '\\n' : '');
+  } else if (persona === 'programmer') {
+    personaContent = (d.progStack ? '- **技术栈**: ' + d.progStack + '\\n' : '') +
+      (d.progProject ? '\\n### 主要项目\\n' + d.progProject + '\\n' : '') +
+      (d.progHabit ? '\\n### 开发习惯\\n' + d.progHabit + '\\n' : '');
+  } else if (persona === 'novice') {
+    personaContent = (d.noviceStage ? '- **目前阶段**: ' + d.noviceStage + '\\n' : '') +
+      (d.noviceNeed ? '\\n### 最需要什么帮助\\n' + d.noviceNeed + '\\n' : '');
+  } else if (persona === 'student') {
+    personaContent = (d.studyField ? '- **研究方向**: ' + d.studyField + '\\n' : '') +
+      (d.studyCurrent ? '\\n### 当前课题\\n' + d.studyCurrent + '\\n' : '') +
+      (d.studyGoal ? '\\n### 目标\\n' + d.studyGoal + '\\n' : '');
+  } else {
+    // solo - default
+    personaContent = (d.soloGoal ? '### 目前最想做成的事\\n' + d.soloGoal + '\\n\\n' : '') +
+      (d.soloPain ? '### 目前最大的困扰\\n' + d.soloPain + '\\n' : '');
+  }
+
   var rulesLines = '';
   if (d.userRules) {
     rulesLines = d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n');
@@ -970,7 +1097,7 @@ ${d.age ? `- **年龄**: ${d.age}岁` : ''}
 ${d.location ? `- **位置**: ${d.location}` : ''}
 ${d.bio ? `- ${d.bio}` : ''}
 
-${needsContent}
+${personaContent}
 
 ### 要求
 ${rulesLines}
@@ -1091,8 +1218,8 @@ function generateStarterGuide(d) {
     return '- ' + m[p];
   }).join('\\n');
 
-  const needsText = d.userNeeds ? '### 需求背景\\n' + d.userNeeds + '\\n' : '';
-  const rulesText = d.userRules ? '### 要求\\n' + d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') + '\\n' : '';
+  var needsText = '';
+  var rulesText = d.userRules ? '### 要求\\n' + d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') + '\\n' : '';
 
   return traceHeader + \`## 新对话启动指令（Copy 到任务描述中）
 
@@ -1175,8 +1302,25 @@ function generate() {
     age: getVal('age'),
     location: getVal('location'),
     bio: getVal('bio'),
-    userNeeds: getVal('userNeeds'),
     userRules: getVal('userRules') || '不违法\n不影响到用户人身财产信息安全',
+    // Solo
+    soloGoal: getVal('soloGoal'),
+    soloPain: getVal('soloPain'),
+    // Business
+    bizCompany: getVal('bizCompany'),
+    bizRole: getVal('bizRole'),
+    bizFocus: getVal('bizFocus'),
+    // Programmer
+    progStack: getVal('progStack'),
+    progProject: getVal('progProject'),
+    progHabit: getVal('progHabit'),
+    // Novice
+    noviceStage: getVal('noviceStage'),
+    noviceNeed: getVal('noviceNeed'),
+    // Student
+    studyField: getVal('studyField'),
+    studyCurrent: getVal('studyCurrent'),
+    studyGoal: getVal('studyGoal'),
     dialogCount: getVal('dialogCount') || '多个',
     commanderName: getVal("commanderName") || "中枢"
   };
