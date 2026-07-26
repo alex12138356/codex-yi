@@ -151,7 +151,11 @@ textarea{resize:vertical;min-height:64px}
   <p>Codex &#x58e; 是一个模板生成器。填一次你是谁、在做什么、怎么干活，自动输出完整的多线程协作系统。以后再开新对话，它自己就知道。</p>
   <div class="hero-actions">
     <button class="btn btn-gen" onclick="document.getElementById('formSec').scrollIntoView({behavior:'smooth'})">开始配置 &#8594;</button>
-    <button class="btn btn2" onclick="document.getElementById('demoSec').scrollIntoView({behavior:'smooth'})">看实际效果</button>
+    <button class="btn btn2" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'})">找人帮你搭 &#8594;</button>
+  </div>
+  <div style="margin-top:12px;font-size:13px;color:var(--t3)">
+    &#128161; 不想自己研究配置？
+    <a href="#pricingSec" style="color:var(--blue);text-decoration:none;font-weight:500" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'});return false">点这里，付费帮你搭好 &#8599;</a>
   </div>
   <div class="stats">
     <div class="stat"><div class="stat-n">7</div><div class="stat-l">个文件</div></div>
@@ -231,7 +235,7 @@ textarea{resize:vertical;min-height:64px}
   <div class="sd">一个真实的多线 Codex 系统在运行时的状态。下面是一个示例：</div>
 
   <div class="showcase">
-    <div class="showcase-header">&#x1f4e1; 运行中的系统（示例）&mdash; 刘尚坤的多线程架构</div>
+    <div class="showcase-header">&#x1f4e1; 运行中的系统（示例）&mdash; 用户的多线程架构</div>
     <div class="showcase-body">
       <div class="showcase-grid">
         <div class="sc-card">
@@ -309,6 +313,36 @@ textarea{resize:vertical;min-height:64px}
   </div>
 </div>
 
+<!-- Pricing / Services -->
+<div class="section" id="pricingSec">
+  <div class="sl">服务和定价</div>
+  <div class="st">免费自用，或付费帮你搭好</div>
+  <div class="sd">生成器是免费的，你随便用。如果你不想研究配置，我帮你搭好整套系统。</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="fc" style="text-align:center;padding:32px 20px">
+      <h3 style="font-size:18px;font-weight:700">免费自用</h3>
+      <div style="font-size:48px;font-weight:700;color:var(--blue);margin:16px 0">&#165;0</div>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:20px">在线自助配置，生成文件自己部署。<br>完整功能，不限用量。</p>
+      <button class="btn" onclick="document.getElementById('formSec').scrollIntoView({behavior:'smooth'})">开始配置 →</button>
+    </div>
+    <div class="fc" style="text-align:center;padding:32px 20px;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12);position:relative">
+      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:3px 14px;border-radius:20px;font-size:11px;font-weight:600">推荐</div>
+      <h3 style="font-size:18px;font-weight:700">找人帮你搭</h3>
+      <div style="font-size:48px;font-weight:700;margin:16px 0">&#165;39.9</div>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">加微信，把你的背景发我。<br>帮你生成 + 部署好整套多线系统。<br>附送使用指导，一杯咖啡的钱。</p>
+      <div style="background:#f5f5f7;border-radius:12px;padding:16px;display:inline-block">
+        <div style="font-size:12px;color:var(--t3);margin-bottom:8px;font-weight:500">加微信联系</div>
+        <img src="wechat-qr.png" style="width:140px;height:140px;border-radius:8px;display:block;margin:0 auto" alt="微信收款码">
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;padding:16px;background:var(--bbg);border-radius:var(--r);font-size:13px;color:var(--t2)">
+    <strong>企业 / 团队定制</strong> &middot; 需要定制工作流、多角色权限、私有化部署？加微信聊。
+  </div>
+</div>
+
 <!-- Form -->
 <div class="section" id="formSec">
   <div class="sl">开始配置</div>
@@ -343,7 +377,7 @@ textarea{resize:vertical;min-height:64px}
         <div><div class="fst">基本信息</div><div class="fsd">你是谁、在哪、做什么</div></div>
       </div>
       <div class="fg2">
-        <div><label>你的名字 *</label><input type="text" id="fi_n" placeholder="刘尚坤"></div>
+        <div><label>你的名字 *</label><input type="text" id="fi_n" placeholder="用户"></div>
         <div><label>年龄</label><input type="text" id="fi_a" placeholder="23"></div>
         <div class="full"><label>位置</label><input type="text" id="fi_l" placeholder="深圳前海"></div>
         <div class="full"><label>一句话介绍</label><input type="text" id="fi_b" placeholder="从零开始的创业者 / 做产品 / 搞开发"></div>
@@ -535,7 +569,8 @@ textarea{resize:vertical;min-height:64px}
 <div class="ftr">
   Made with &#x2764;&#xfe0f; by &#x5218;&#x5c1a;&#x5764; &middot; 
   <a href="https://github.com/alex12138356/codex-yi" target="_blank">GitHub</a> &middot; 
-  &#x81ea;&#x7531;&#x4f7f;&#x7528;&middot; &#x514d;&#x8d39;
+  <a href="#pricingSec" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'});return false">&#128179; 付费帮你搭</a> &middot;
+  &#x81ea;&#x7531;&#x4f7f;&#x7528;
 </div>
 
 </div>
