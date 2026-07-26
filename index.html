@@ -3,65 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Codex 壹 · 一次教完，不用再教</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<title>多线 Codex 协作系统 · 架构展示</title>
 <style>
-:root{--bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--t2:#515154;--t3:#86868b;--border:#e8e8ed;--blue:#0071e3;--bbg:#f0f7ff;--r:10px}
+:root{--bg:#f5f5f7;--card:#fff;--t1:#1d1d1f;--t2:#515154;--t3:#86868b;--bd:#e8e8ed;--b1:#0071e3;--b2:#5856d6;--gr:#34c759;--re:#ff3b30;--or:#ff9500;--bk-bg:#1d1d1f;--bk-txt:#f5f5f7;--r:10px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
-.container{max-width:720px;margin:0 auto;padding:0 24px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--t1);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
 
-.hero{text-align:center;padding:64px 0 48px}
-.hero h1{font-size:44px;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2}
-.hero h1 span{color:var(--blue)}
-.hero p{font-size:17px;color:var(--t2);max-width:520px;margin:0 auto 28px}
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.badge{display:inline-flex;align-items:center;gap:6px;background:var(--bbg);color:var(--blue);font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:20px}
-.stats{display:flex;gap:32px;justify-content:center;margin-top:32px}
+/* Hero */
+.hero{text-align:center;padding:72px 0 56px}
+.hero .eyebrow{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-size:44px;font-weight:700;letter-spacing:-0.5px;margin-bottom:14px;line-height:1.15}
+.hero h1 span{color:var(--b1);background:linear-gradient(135deg,var(--b1),var(--b2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:16px;color:var(--t2);max-width:600px;margin:0 auto 32px;line-height:1.7}
+.stats{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
 .stat{text-align:center}
-.stat-n{font-size:28px;font-weight:700}
-.stat-l{font-size:13px;color:var(--t3);margin-top:2px}
+.stat-n{font-size:32px;font-weight:700;line-height:1}
+.stat-l{font-size:12px;color:var(--t3);margin-top:4px;letter-spacing:0.3px}
 
-.section{padding:48px 0}
-.section+.section{border-top:1px solid var(--border)}
-.sl{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:24px;text-align:center}
-.st{font-size:24px;font-weight:700;text-align:center;margin-bottom:8px}
-.sd{font-size:15px;color:var(--t2);text-align:center;max-width:520px;margin:0 auto 32px}
+/* Section */
+.section{padding:56px 0}
+.section+.section{border-top:1px solid var(--bd)}
+.sl{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.st{font-size:22px;font-weight:700;margin-bottom:8px}
+.sd{font-size:14px;color:var(--t2);margin-bottom:28px;max-width:600px}
 
-/* Feature grid */
+/* Architecture diagram */
+.arch{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:32px}
+.arch-core{background:var(--card);border:1.5px solid var(--b1);border-radius:var(--r);padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,113,227,0.08)}
+.arch-core .icon{font-size:28px;margin-bottom:6px}
+.arch-core h3{font-size:16px;font-weight:600;color:var(--b1);margin-bottom:4px}
+.arch-core p{font-size:13px;color:var(--t2)}
+.arch-lines{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.arch-line{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px;display:flex;align-items:flex-start;gap:10px;transition:box-shadow .2s}
+.arch-line:hover{box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.arch-line .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.arch-line .dot.green{background:var(--gr)}
+.arch-line .dot.yellow{background:var(--or)}
+.arch-line .dot.gray{background:#c7c7cc}
+.arch-line .dot.red{background:var(--re)}
+.arch-line .info{flex:1;min-width:0}
+.arch-line .info .name{font-size:13px;font-weight:600}
+.arch-line .info .role{font-size:12px;color:var(--t3);margin-top:1px}
+.arch-line .info .status{font-size:11px;color:var(--t2);margin-top:3px}
+.arch-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:11px;color:var(--t3);padding-top:8px}
+.arch-legend span{display:flex;align-items:center;gap:4px}
+.arch-legend .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.arch-flow{text-align:center;font-size:12px;color:var(--t3);padding:8px 0}
+.arch-flow svg{vertical-align:middle;margin:0 4px}
+
+/* Value chain */
+.vc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
+@media(max-width:600px){.vc{grid-template-columns:1fr}}
+.vc-item{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center}
+.vc-item .num{width:28px;height:28px;border-radius:50%;background:var(--b1);color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.vc-item h4{font-size:14px;font-weight:600;margin-bottom:3px}
+.vc-item p{font-size:12px;color:var(--t2);line-height:1.5}
+
+/* Project cards */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.pg{grid-template-columns:1fr}}
+.pc{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:18px;transition:box-shadow .2s}
+.pc:hover{box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.pc .tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;margin-bottom:8px;letter-spacing:0.3px}
+.pc .tag.tg-g{background:#e8f5e9;color:#2e7d32}
+.pc .tag.tg-b{background:var(--bbg, #f0f7ff);color:var(--b1)}
+.pc .tag.tg-y{background:#fff8e1;color:#e65100}
+.pc .tag.tg-gy{background:#f5f5f7;color:var(--t3)}
+.pc h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.pc p{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:6px}
+.pc .meta{font-size:11px;color:var(--t3)}
+.pc .file{font-size:11px;color:var(--b1);text-decoration:none;display:inline-block;margin-top:4px;word-break:break-all}
+.pc .file:hover{text-decoration:underline}
+
+/* Content showcase */
+.cg2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:768px){.cg2{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.cg2{grid-template-columns:1fr}}
+.cc{border:1px solid var(--bd);border-radius:var(--r);padding:16px;background:var(--card)}
+.cc .icon{font-size:24px;margin-bottom:6px}
+.cc h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.cc p{font-size:11px;color:var(--t2);line-height:1.5}
+.cc .fmt{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.cc .fmt span{font-size:10px;padding:1px 6px;border-radius:4px;background:#f5f5f7;color:var(--t3);border:1px solid var(--bd)}
+
+.cg-grp{margin-bottom:28px}
+.cg-grp .gh{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cg-grp .gh .gl{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;letter-spacing:0.3px}
+.cg-grp .gh .gl.gb{background:#e8f5e9;color:#2e7d32}
+.cg-grp .gh .gl.gp{background:#f0f0ff;color:#5856d6}
+.cg-grp .cg2{margin-top:0}
+
+/* Codex 壹 section */
+.product-hero{background:var(--bk-bg);color:var(--bk-txt);border-radius:var(--r);padding:36px;margin-bottom:20px;text-align:center}
+.product-hero h2{font-size:26px;font-weight:700;margin-bottom:8px}
+.product-hero p{font-size:14px;color:#a1a1a6;max-width:520px;margin:0 auto 20px}
+.product-hero .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 28px;border:none;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;color:#fff;background:var(--b1);transition:all .15s}
+.product-hero .btn:hover{background:#0077ed;transform:translateY(-1px)}
+.product-hero .btn2{background:#3a3a3c;margin-left:8px}
+.product-hero .btn2:hover{background:#48484a}
+.pf{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:600px){.pf{grid-template-columns:1fr}}
+.pf-item{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center}
+.pf-item .pfi{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:16px}
+.pf-item h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.pf-item p{font-size:11px;color:var(--t2)}
+/* Feature grid (from product page) */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:600px){.fg{grid-template-columns:1fr}}
-.fc{background:var(--card);border-radius:var(--r);padding:20px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.fc{background:var(--card);border-radius:var(--r);padding:20px;border:1px solid var(--bd);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
 .fc .fi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
 .fc h3{font-size:14px;font-weight:600;margin-bottom:4px}
 .fc p{font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:8px}
 .fc .tags{display:flex;gap:4px;flex-wrap:wrap}
 .fc .tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#f5f5f7;color:var(--t3)}
-
-/* Persona */
-.pp{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.ppi{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1.5px solid #d2d2d7;border-radius:12px;background:var(--card);cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);transition:all .2s;user-select:none}
-.ppi:hover{border-color:var(--t3);background:#f5f5f7}
-.ppi.on{border-color:var(--blue);background:var(--bbg);color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12)}
-
-/* Usage showcase */
-.showcase{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);margin-bottom:28px}
+/* Showcase */
+.showcase{border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);margin-bottom:28px}
 .showcase-header{padding:16px 20px;background:#1d1d1f;color:#fff;font-size:14px;font-weight:600}
 .showcase-body{padding:20px;background:var(--card)}
 .showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:480px){.showcase-grid{grid-template-columns:1fr}}
-.sc-card{border:1px solid var(--border);border-radius:8px;padding:14px}
+.sc-card{border:1px solid var(--bd);border-radius:8px;padding:14px}
 .sc-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
 .sc-card p{font-size:12px;color:var(--t2);line-height:1.5}
 .sc-card .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:8px;margin-bottom:6px;font-weight:500}
 .sc-card .badge.b1{background:#fff0ef;color:#ff3b30}
-.sc-card .badge.b2{background:var(--bbg);color:var(--blue)}
+.sc-card .badge.b2{background:var(--bbg);color:var(--b1)}
 .sc-card .badge.b3{background:#e8f5e9;color:#34c759}
 .sc-card ul{font-size:12px;color:var(--t2);padding-left:16px;margin-top:4px}
 .sc-card ul li{margin-bottom:2px}
-
-/* Comparison */
-.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;padding:20px;background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:28px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+/* Comparison blocks */
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;padding:20px;background:var(--card);border-radius:var(--r);border:1px solid var(--bd);margin-bottom:28px}
 @media(max-width:480px){.cmp{grid-template-columns:1fr;gap:12px}}
 .cmp-col{text-align:center}
 .cmp-lbl{font-size:11px;color:var(--t3);font-weight:600;letter-spacing:0.3px;margin-bottom:4px}
@@ -71,102 +143,328 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 .cmp-col.before .cmp-num{color:#ff3b30}
 .cmp-col.after .cmp-num{color:#34c759}
 .cmp-arr{font-size:24px;color:var(--t3);text-align:center}
+/* Product features */
+.sl-box{background:var(--bk-bg);color:var(--bk-txt);border-radius:var(--r);padding:28px;margin-bottom:16px}
+.sl-box h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.sl-box p{font-size:13px;color:#a1a1a6;line-height:1.6;margin-bottom:8px}
+.sl-box code{font-size:12px;background:#3a3a3c;padding:2px 6px;border-radius:4px;color:#fff}
+.sl-box .sl-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.sl-box .sl-step .num{width:24px;height:24px;border-radius:50%;background:var(--b1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;margin-top:1px}
+.sl-box .sl-step div{font-size:13px;line-height:1.5;color:#e8e8ed}
+.sl-box .sl-step div strong{color:#fff}
 
-.card{background:var(--card);border-radius:var(--r);padding:24px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+/* Pricing */
+.pricing{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:24px}
+@media(max-width:600px){.pricing{grid-template-columns:1fr}}
+.pr-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:20px;text-align:center}
+.pr-card.featured{border-color:var(--b1);box-shadow:0 2px 12px rgba(0,113,227,0.1)}
+.pr-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.pr-card .price{font-size:32px;font-weight:700;margin:8px 0;line-height:1;color:var(--t1)}
+.pr-card .price span{font-size:14px;font-weight:400;color:var(--t3)}
+.pr-card .desc{font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.pr-card .badge-pr{display:inline-block;font-size:10px;font-weight:600;padding:2px 10px;border-radius:10px;margin-bottom:8px}
+.pr-card .badge-pr.g{background:#e8f5e9;color:#2e7d32}
+.pr-card .badge-pr.b{background:var(--bbg, #f0f7ff);color:var(--b1)}
 
-.fs{margin-bottom:24px}
-.fsh{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
-.fsi{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bbg);border-radius:8px}
-.fst{font-size:15px;font-weight:600}
-.fsd{font-size:12px;color:var(--t3);margin-top:1px}
-.fg2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.fg2 .full{grid-column:1/-1}
-@media(max-width:480px){.fg2{grid-template-columns:1fr}}
-label{display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--t2)}
-input[type="text"],input[type="number"],textarea,select{width:100%;padding:10px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;font-family:inherit;background:var(--card);transition:border-color .15s,box-shadow .15s}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.15)}
-textarea{resize:vertical;min-height:64px}
+/* Comparison table */
+.tbl{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.tbl th,.tbl td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--bd)}
+.tbl th{font-weight:600;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.5px;background:#fafafc}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .chk{color:var(--gr);font-weight:700}
+.tbl .x{color:var(--t3)}
+@media(max-width:480px){.tbl{font-size:12px}.tbl th,.tbl td{padding:8px 10px}}
 
-.cg{display:flex;flex-wrap:wrap;gap:8px}
-.cg label{display:flex;align-items:center;gap:6px;font-weight:400;font-size:13px;padding:8px 16px;border:1px solid #d2d2d7;border-radius:20px;cursor:pointer;user-select:none;background:var(--card)}
-.cg label:has(input:checked){border-color:var(--blue);background:var(--bbg)}
+/* Footer */
+.ftr{padding:40px 0;text-align:center;font-size:12px;color:var(--t3);line-height:1.8;border-top:1px solid var(--bd)}
+.ftr a{color:var(--t3);text-decoration:none}
+.ftr a:hover{color:var(--b1);text-decoration:underline}
 
-.prog-bar{margin-bottom:20px;padding:16px;background:#fafafc;border-radius:var(--r);border:1px solid var(--border)}
-.prog-bar .prog{background:#e8e8ed;border-radius:10px;height:6px;overflow:hidden;margin-bottom:8px}
-.prog-bar .prog .fill{background:var(--blue);height:100%;border-radius:10px;transition:width .3s;width:0}
-.prog-bar .info{font-size:12px;color:var(--t3)}
-.prog-bar .hint{font-size:12px;color:var(--t3);margin-top:2px}
-
-.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;border:none;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#fff;background:var(--text)}
-.btn:hover{background:#000}
-.btn2{background:#e8e8ed;color:var(--text)}
-.btn2:hover{background:#d2d2d7}
-.btn-gen{padding:12px 32px;font-size:15px;background:linear-gradient(135deg,var(--text) 0%,#2c2c2e 100%);box-shadow:0 2px 8px rgba(0,0,0,0.12)}
-.btn-gen:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.18)}
-.br{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
-.pb{border-top:1px solid var(--border);padding-top:24px;margin-top:8px;text-align:center}
-
-.rs{display:none}
-.rs.on{display:block}
-
-.tb{background:linear-gradient(135deg,var(--bbg) 0%,#e8f5e9 100%);border-radius:var(--r);padding:24px;margin-bottom:24px;text-align:center}
-.tb .bn{font-size:48px;font-weight:700;color:var(--blue);line-height:1;margin:8px 0}
-.tb .lb{font-size:14px;color:var(--t2)}
-.tb .ar{display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:13px;color:var(--t2);flex-wrap:wrap}
-.tb .ar input{width:60px;text-align:center;padding:4px 8px}
-.tb .ar label{display:inline;font-weight:400;font-size:13px}
-
-.ftabs{display:flex;gap:4px;border-bottom:1px solid #d2d2d7;margin-bottom:16px;overflow-x:auto}
-.ftab{padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--t3);white-space:nowrap;transition:all .15s}
-.ftab:hover{color:var(--text)}
-.ftab.on{color:var(--text);border-bottom-color:var(--blue)}
-.fcont{display:none;background:#f5f5f7;border-radius:8px;padding:16px;font-family:"SF Mono",Menlo,monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-x:auto;max-height:400px;overflow-y:auto}
-.fcont.on{display:block}
-
-.gs{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
-.gsi{display:flex;gap:14px;align-items:flex-start;padding:16px;background:#f5f5f7;border-radius:var(--r)}
-.gsn{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
-.gsi h4{font-size:14px;font-weight:600;margin-bottom:2px}
-.gsi p{font-size:13px;color:var(--t2)}
-.tip{background:var(--bbg);border-radius:var(--r);padding:16px;font-size:13px;color:var(--blue);margin-top:12px}
-
-.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:20px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,0.2);opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
-.toast.on{opacity:1}
-
-.ftr{padding:32px 0;text-align:center;font-size:12px;color:var(--t3);line-height:1.8}
-.ftr a{color:var(--t3)}
+/* Responsive tweaks */
+@media(max-width:480px){.hero h1{font-size:30px}.hero p{font-size:14px}.stat-n{font-size:24px}.container{padding:0 16px}}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<!-- Hero -->
+<!-- ==================== HERO ==================== -->
 <div class="hero">
-  <div class="badge">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-    开源 &middot; 免费
-  </div>
-  <h1>填一次你的背景，<br><span>以后再也不需要重复教。</span></h1>
-  <p>Codex &#x58e; 是一个模板生成器。填一次你是谁、在做什么、怎么干活，自动输出完整的多线程协作系统。以后再开新对话，它自己就知道。</p>
-  <div class="hero-actions">
-    <button class="btn btn-gen" onclick="document.getElementById('formSec').scrollIntoView({behavior:'smooth'})">开始配置 &#8594;</button>
-    <button class="btn btn2" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'})">找人帮你搭 &#8594;</button>
-  </div>
-  <div style="margin-top:12px;font-size:13px;color:var(--t3)">
-    &#128161; 不想自己研究配置？
-    <a href="#pricingSec" style="color:var(--blue);text-decoration:none;font-weight:500" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'});return false">点这里，付费帮你搭好 &#8599;</a>
-  </div>
+  <div class="eyebrow">Multi‑Agent Collaboration System</div>
+  <h1><span>多线 Codex</span> 协作系统</h1>
+  <p>
+    一个中枢调度器 + 多条独立执行线的 AI 协作架构。<br>
+    每条线各干各的，做完主动回传。中枢知道全局，每条线专注一件事。<br>
+    解决 Codex 400 截断、跨对话记忆丢失、多线并行无法协调的痛点。
+  </p>
   <div class="stats">
-    <div class="stat"><div class="stat-n">7</div><div class="stat-l">个文件</div></div>
-    <div class="stat"><div class="stat-n">5</div><div class="stat-l">分钟配置</div></div>
+    <div class="stat"><div class="stat-n">13</div><div class="stat-l">执行线程</div></div>
+    <div class="stat"><div class="stat-n">6+</div><div class="stat-l">活跃项目</div></div>
     <div class="stat"><div class="stat-n">&infin;</div><div class="stat-l">对话共享</div></div>
+    <div class="stat"><div class="stat-n">7 天</div><div class="stat-l">从零搭建</div></div>
   </div>
 </div>
 
-<!-- Features -->
+<!-- ==================== ARCHITECTURE ==================== -->
 <div class="section">
-  <div class="sl">六大核心能力</div>
+  <div class="sl">System Architecture</div>
+  <div class="st">系统架构</div>
+  <div class="sd">中枢调度 + 文件系统共享内存 + 独立执行线的分层架构。</div>
+
+  <div class="arch">
+    <div class="arch-core">
+      <div class="icon">&#x1f9e0;</div>
+      <h3>中枢调度器（头号军师）</h3>
+      <p>方向讨论 → 拆任务 → 开新线 → 定期读回传同步 → 认知沉淀到共享知识库</p>
+    </div>
+    <div class="arch-flow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      调度 → 回传 → 调度 → 回传
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="arch-lines">
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x1f9e0; ① 头号军师</div>
+          <div class="role">中枢调度器</div>
+          <div class="status">&#x2705; 活跃 — 方向讨论、写盘、跨对话记忆</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x1f4f0; ② AI漫剧调研线</div>
+          <div class="role">赛道调研 · 可行性判断</div>
+          <div class="status">&#x2705; 调研完成 — 已产出入局决策包</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x1f4c8; ③ 股票盯盘线</div>
+          <div class="role">看盘 · 操作建议 · 提醒</div>
+          <div class="status">&#x2705; 活跃 — 每日盘前/午间/收盘日志</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x1f9d1;&#x200d;&#x1f4bb; ④ 马斯克研究员</div>
+          <div class="role">读书笔记 · 思想研究</div>
+          <div class="status">&#x2705; 活跃 — 持续阅读消化</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot yellow"></div>
+        <div class="info">
+          <div class="name">&#x1f91d; ⑤ 策略线</div>
+          <div class="role">项目推进 · 关系维护</div>
+          <div class="status">&#x23f8;&#xfe0f; 暂停 — 等待外部条件触发</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot gray"></div>
+        <div class="info">
+          <div class="name">&#x1f3c3; ⑥~⑪ 其他线</div>
+          <div class="role">按需调度</div>
+          <div class="status">&#x1f504; 用户按需分配</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x270d;&#xfe0f; ⑫ 内容产出线</div>
+          <div class="role">内容提取 · 发布物料</div>
+          <div class="status">&#x1f525; 新启动 — 定期从各线提取素材产出内容</div>
+        </div>
+      </div>
+
+      <div class="arch-line">
+        <div class="dot green"></div>
+        <div class="info">
+          <div class="name">&#x1f4ca; ⑬ 系统展示线</div>
+          <div class="role">架构展示页 · 运行状态</div>
+          <div class="status">&#x1f525; 新启动 — 正在构建本展示页</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="arch-legend">
+      <span><span class="dot" style="background:var(--gr)"></span> 活跃</span>
+      <span><span class="dot" style="background:var(--or)"></span> 暂停</span>
+      <span><span class="dot" style="background:#c7c7cc"></span> 待分配</span>
+    </div>
+  </div>
+
+  <!-- Value chain -->
+  <div class="sl" style="margin-top:32px">How It Works</div>
+  <div class="st">运作流程</div>
+  <div class="sd">一次完整的协作循环：</div>
+  <div class="vc">
+    <div class="vc-item">
+      <div class="num">1</div>
+      <h4>中枢接收方向</h4>
+      <p>用户给中枢一个方向 → 中枢拆解成独立任务 → 开一个新对话线</p>
+    </div>
+    <div class="vc-item">
+      <div class="num">2</div>
+      <h4>执行线独立工作</h4>
+      <p>每条线专注一个任务，调研/分析/产出&hellip; 完成后写回传日志</p>
+    </div>
+    <div class="vc-item">
+      <div class="num">3</div>
+      <h4>中枢同步 &amp; 沉淀</h4>
+      <p>中枢定期读回传日志 → 汇总到共享知识库 → 认知持续积累</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROJECTS ==================== -->
+<div class="section">
+  <div class="sl">Active Projects</div>
+  <div class="st">当前项目一览</div>
+  <div class="sd">各项目独立目录，详情见对应文件。</div>
+  <div class="pg">
+
+    <div class="pc">
+      <span class="tag tg-g">&#x2705;</span>
+      <h3>AI漫剧调研</h3>
+      <p>深度调研 AI 漫剧赛道的可行性、成本结构、平台风险。已完成调研，产出入局决策包（HTML/MD/PDF）。</p>
+    </div>
+
+    <div class="pc">
+      <span class="tag tg-y">&#x23f8;&#xfe0f;</span>
+      <h3>策略线</h3>
+      <p>跨周期推进项目，协调多方资源。</p>
+    </div>
+
+    <div class="pc">
+      <span class="tag tg-g">&#x2705;</span>
+      <h3>股票 &amp; 自动化工具</h3>
+      <p>每日盯盘系统，输出盘前/午间/收盘分析日志。自动化工具持续迭代中。</p>
+    </div>
+
+    <div class="pc">
+      <span class="tag tg-g">&#x2705;</span>
+      <h3>Codex &#x58e; 产品</h3>
+      <p>模板生成器 + 多线协作工作流工具包。含定价方案（免费/¥39.9/企业定制）。</p>
+      <a class="file" href="https://alex12138356.github.io/codex-yi/">&#x1f310; 在线预览 &#x2197;</a>
+    </div>
+
+    <div class="pc">
+      <span class="tag tg-g">&#x1f525;</span>
+      <h3>案例内容产出</h3>
+      <p>系统自我产出化：从共享知识库和各线回传中提取素材，产出可发布的技术案例/方法论。</p>
+    </div>
+
+    <div class="pc">
+      <span class="tag tg-g">&#x1f525;</span>
+      <h3>系统展示页</h3>
+      <p>就是本页面。展示系统架构、各线实时状态、内容产出精选。同时作为案例和广告。</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== CONTENT SHOWCASE ==================== -->
+<div class="section">
+  <div class="sl">Content Series</div>
+  <div class="st">内容产出系列</div>
+  <div class="sd">系统在运行中产出的方法论文章 —— 从入门到进阶，覆盖 400 防护、多线调度、架构解读等核心话题。</div>
+
+  <div class="cg-grp">
+    <div class="gh"><span class="gl gb">&#x1f331; 入门系列</span></div>
+    <div class="cg2">
+
+      <div class="cc">
+        <div class="icon">&#x26a0;&#xfe0f;</div>
+        <h4>400 预警指南 · 入门版</h4>
+        <p>用生活例子讲明白什么是对话截断，以及断片之前怎么保护重要内容。大白话版本，零门槛。</p>
+        <div class="fmt"><span>入门</span><span>新手</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f3af;</div>
+        <h4>多线决策树 · 入门版</h4>
+        <p>用四问框架和做饭例子，教新手判断"什么时候该开新线"。不需要任何前置知识。</p>
+        <div class="fmt"><span>入门</span><span>新手</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="cg-grp">
+    <div class="gh"><span class="gl gp">&#x1f3eb; 进阶系列</span></div>
+    <div class="cg2">
+
+      <div class="cc">
+        <div class="icon">&#x26a0;&#xfe0f;</div>
+        <h4>400 预警指南 · 进阶版</h4>
+        <p>术语 + 规则 + 架构层面的完整方案。面向已经跑多线的深度用户，含配置细节和陷阱。</p>
+        <div class="fmt"><span>进阶</span><span>深度</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f3af;</div>
+        <h4>多线决策树 · 进阶版</h4>
+        <p>决策表 + 流程图 + 五线型定义。面向需要标准化判断逻辑的多线管理者。</p>
+        <div class="fmt"><span>进阶</span><span>深度</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f4e6;</div>
+        <h4>合集：5 个可落地经验包</h4>
+        <p>从线型定义到回传规范到分工原则 —— 5 个即插即用的工具包，解决多线协作中最常见的结构性问题。</p>
+        <div class="fmt"><span>进阶</span><span>工具包</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f9e0;</div>
+        <h4>深度拆解：多线决策树完整框架</h4>
+        <p>开/停/合并/分工的判断逻辑结构化 —— 四问决策表、五种线型、停线合线流程，一套完整的调度者大脑。</p>
+        <div class="fmt"><span>进阶</span><span>框架</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f4d1;</div>
+        <h4>技术案例：系统架构解读</h4>
+        <p>中枢 + 执行线的分层架构详解：三条件质变效应、文件系统共享内存、400 主动防御机制的核心设计。</p>
+        <div class="fmt"><span>进阶</span><span>架构</span></div>
+      </div>
+
+      <div class="cc">
+        <div class="icon">&#x1f4ad;</div>
+        <h4>实战经验：400 截断解决方案</h4>
+        <p>共享知识库 + SESSION_LOG + 回传机制的三件套实战方案，含具体配置和踩坑记录。</p>
+        <div class="fmt"><span>进阶</span><span>实战</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ==================== CODEX 壹 ==================== -->
+<div class="section">
+  <div class="sl">Product</div>
+
+  <div class="product-hero">
+    <h2>Codex &#x58e;&emsp;填一次，以后不用再教</h2>
+    <p>一个模板生成器 + 工作流工具包。填一次你是谁、在做什么、怎么干活，自动输出完整的 Codex 多线协作系统。</p>
+    <a class="btn" href="https://alex12138356.github.io/codex-yi/" target="_blank">&#x1f517; 打开 Codex &#x58e; &nbsp;&#x2197;</a>
+    <a class="btn btn2" href="https://github.com/alex12138356/codex-yi" target="_blank">&#x2387; GitHub 源码 &#x2197;</a>
+  </div>
+
+  <!-- 六大核心能力 -->
+  <div class="sl" style="margin-top:32px">六大核心能力</div>
   <div class="st">一个工具，解决所有痛点</div>
   <div class="sd">不只是个生成器——是一整套让 Codex 多线协作的生产力系统。</div>
   <div class="fg">
@@ -175,16 +473,16 @@ textarea{resize:vertical;min-height:64px}
       <div class="fi" style="background:#f0f0ff;color:#5856d6">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <h3>&#x200b;中枢调度</h3>
+      <h3>中枢调度</h3>
       <p>同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线各干各的，做完主动回传。你只需要跟中枢对话。</p>
       <div class="tags"><span class="tag">&#x1f504; 调度器</span><span class="tag">&#x1f4e3; 回传机制</span></div>
     </div>
 
     <div class="fc">
-      <div class="fi" style="background:var(--bbg);color:var(--blue)">
+      <div class="fi" style="background:#f0f7ff;color:#0071e3">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
       </div>
-      <h3>&#x200b;跨对话记忆</h3>
+      <h3>跨对话记忆</h3>
       <p>共享知识库放桌面，所有对话公用。填一次你的全部背景，以后每个新对话自动读取，不用再教一遍你是谁。</p>
       <div class="tags"><span class="tag">&#x1f4da; 共享知识库</span><span class="tag">&#x1f501; 一次性配置</span></div>
     </div>
@@ -193,7 +491,7 @@ textarea{resize:vertical;min-height:64px}
       <div class="fi" style="background:#fff0ef;color:#ff3b30">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       </div>
-      <h3>&#x200b;400 防护</h3>
+      <h3>400 防护</h3>
       <p>对话到上限被截断，历史内容全部丢失？关键笔记和文件写盘保存。即使当前对话停了，新对话也能立即接上上下文。</p>
       <div class="tags"><span class="tag">&#x1f4be; 写盘保存</span><span class="tag">&#x1f504; 断线续传</span></div>
     </div>
@@ -202,7 +500,7 @@ textarea{resize:vertical;min-height:64px}
       <div class="fi" style="background:#e8f5e9;color:#34c759">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
-      <h3>&#x200b;项目管理</h3>
+      <h3>项目管理</h3>
       <p>每个项目一个独立对话线，配有专属目录和文件。中枢统一跟踪各线进度，各线完成重要阶段自动写回传日志。</p>
       <div class="tags"><span class="tag">&#x1f4c1; 项目隔离</span><span class="tag">&#x1f4ca; 进度跟踪</span></div>
     </div>
@@ -211,7 +509,7 @@ textarea{resize:vertical;min-height:64px}
       <div class="fi" style="background:#fff8e1;color:#ff9500">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
       </div>
-      <h3>&#x200b;模板预设</h3>
+      <h3>模板预设</h3>
       <p>内置多个场景模板：创业者、公司管理者、程序员、学生。选一个就自动匹配对应的表单和文件结构。也可以完全自定义。</p>
       <div class="tags"><span class="tag">&#x1f4cb; 快速开始</span><span class="tag">&#x2699;&#xfe0f; 自定义</span></div>
     </div>
@@ -220,22 +518,20 @@ textarea{resize:vertical;min-height:64px}
       <div class="fi" style="background:#f0f0ff;color:#5856d6">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
-      <h3>&#x200b;多人协作</h3>
+      <h3>多人协作</h3>
       <p>团队一起用 Codex？每个人都配独立对话，共享知识库和项目文件全家共享。发任务给同事只需把启动指令复制给他。</p>
       <div class="tags"><span class="tag">&#x1f91d; 团队共享</span><span class="tag">&#x1f4ec; 任务分发</span></div>
     </div>
 
   </div>
-</div>
 
-<!-- Demo showcase -->
-<div class="section" id="demoSec">
-  <div class="sl">实际效果</div>
+  <!-- 实际效果 -->
+  <div class="sl" style="margin-top:32px">实际效果</div>
   <div class="st">用起来是什么样子？</div>
   <div class="sd">一个真实的多线 Codex 系统在运行时的状态。下面是一个示例：</div>
 
   <div class="showcase">
-    <div class="showcase-header">&#x1f4e1; 运行中的系统（示例）&mdash; 用户的多线程架构</div>
+    <div class="showcase-header">&#x1f4e1; 运行中的系统（示例）</div>
     <div class="showcase-body">
       <div class="showcase-grid">
         <div class="sc-card">
@@ -278,8 +574,7 @@ textarea{resize:vertical;min-height:64px}
     </div>
   </div>
 
-  <!-- Before/After -->
-  <div class="sl" style="margin-top:32px">对比</div>
+  <!-- 对比 -->
   <div class="cmp">
     <div class="cmp-col before">
       <div class="cmp-lbl">使用 &#x58e; 之前</div>
@@ -311,483 +606,96 @@ textarea{resize:vertical;min-height:64px}
       <div class="cmp-desc">填一次共享知识库，所有新对话自动读取。一次教完。</div>
     </div>
   </div>
-</div>
 
-<!-- Pricing / Services -->
-<div class="section" id="pricingSec">
-  <div class="sl">服务和定价</div>
+  <!-- 服务和定价 -->
+  <div class="sl" style="margin-top:32px">Pricing</div>
   <div class="st">免费自用，或付费帮你搭好</div>
   <div class="sd">生成器是免费的，你随便用。如果你不想研究配置，我帮你搭好整套系统。</div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-    <div class="fc" style="text-align:center;padding:32px 20px">
-      <h3 style="font-size:18px;font-weight:700">免费自用</h3>
-      <div style="font-size:48px;font-weight:700;color:var(--blue);margin:16px 0">&#165;0</div>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:20px">在线自助配置，生成文件自己部署。<br>完整功能，不限用量。</p>
-      <button class="btn" onclick="document.getElementById('formSec').scrollIntoView({behavior:'smooth'})">开始配置 →</button>
+  <div class="pricing">
+    <div class="pr-card">
+      <span class="badge-pr g">Free</span>
+      <h3>个人版</h3>
+      <div class="price">&#165;0</div>
+      <div class="desc">在线自助配置，生成文件自己部署。<br>完整功能，不限用量。</div>
     </div>
-    <div class="fc" style="text-align:center;padding:32px 20px;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12);position:relative">
-      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;padding:3px 14px;border-radius:20px;font-size:11px;font-weight:600">推荐</div>
-      <h3 style="font-size:18px;font-weight:700">找人帮你搭</h3>
-      <div style="font-size:48px;font-weight:700;margin:16px 0">&#165;39.9</div>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">加微信，把你的背景发我。<br>帮你生成 + 部署好整套多线系统。<br>附送使用指导，一杯咖啡的钱。</p>
-      <div style="background:#f5f5f7;border-radius:12px;padding:16px;display:inline-block">
-        <div style="font-size:12px;color:var(--t3);margin-bottom:8px;font-weight:500">加微信联系</div>
-        <img src="wechat-qr.png" style="width:140px;height:140px;border-radius:8px;display:block;margin:0 auto" alt="微信收款码">
+    <div class="pr-card featured">
+      <span class="badge-pr b">Popular</span>
+      <h3>专业版</h3>
+      <div class="price">&#165;39.9</div>
+      <div class="desc">加微信，把你的背景发我。<br>帮你生成 + 部署好整套多线系统。<br>附送使用指导，一杯咖啡的钱。</div>
+      <div style="background:#f5f5f7;border-radius:10px;padding:12px;display:inline-block;margin-top:8px">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:6px;font-weight:500">加微信联系</div>
+        <img src="wechat-qr.png" style="width:120px;height:120px;border-radius:8px;display:block;margin:0 auto" alt="微信收款码">
       </div>
+    </div>
+    <div class="pr-card">
+      <span class="badge-pr" style="background:#f5f5f7;color:#1d1d1f">Enterprise</span>
+      <h3>团队定制</h3>
+      <div class="price">定制</div>
+      <div class="desc">企业级部署<br>多人协作配置<br>私有化定制</div>
     </div>
   </div>
 
   <div style="text-align:center;margin-top:16px;padding:16px;background:var(--bbg);border-radius:var(--r);font-size:13px;color:var(--t2)">
     <strong>企业 / 团队定制</strong> &middot; 需要定制工作流、多角色权限、私有化部署？加微信聊。
   </div>
-</div>
 
-<!-- Form -->
-<div class="section" id="formSec">
-  <div class="sl">开始配置</div>
-  <div class="st">填一次，永久共享</div>
-  <div class="sd">以下信息只会填这一次。生成的 7 个文件给你的所有对话共用。</div>
+  <!-- 对比表格 -->
+  <div class="sl" style="margin-top:32px">Comparison</div>
+  <div class="st">有 &#x58e; 和没有 &#x58e; 的区别</div>
+  <div class="sd">一个真实的多线 Codex 系统上线前后的对比：</div>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>场景</th>
+        <th>没有 &#x58e;</th>
+        <th>使用 &#x58e; 之后</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>新开一个对话</td>
+        <td>从头教一遍你是谁、在做什么</td>
+        <td class="chk">自动读共享知识库，直接接手</td>
+      </tr>
+      <tr>
+        <td>400 截断</td>
+        <td>历史内容全部丢失，重新来</td>
+        <td class="chk">关键笔记写盘，新对话接上继续</td>
+      </tr>
+      <tr>
+        <td>同时跑多个任务</td>
+        <td>挤在一个对话，互相干扰</td>
+        <td class="chk">各线独立，中枢统一调度</td>
+      </tr>
+      <tr>
+        <td>团队协作</td>
+        <td>每个人各教各的</td>
+        <td class="chk">共享知识库全家通用</td>
+      </tr>
+      <tr>
+        <td>进度跟踪</td>
+        <td>全靠记忆，容易遗漏</td>
+        <td class="chk">各线自动回传，中枢定期同步</td>
+      </tr>
+      <tr>
+        <td>认知沉淀</td>
+        <td>对话关了，学到的东西也没了</td>
+        <td class="chk">关键认知写到共享知识库，持续积累</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <div class="card">
-
-    <div class="prog-bar">
-      <div class="prog"><div class="fill" id="pb"></div></div>
-      <div class="info">已填 <span id="fcnt">0</span> / <span id="tcnt">3</span> 项 &middot; <span id="ph">填一下基本信息和你的要求</span></div>
-    </div>
-
-    <!-- Persona pills -->
-    <div class="fs">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div><div class="fst">你的身份</div><div class="fsd">选一个最贴近你的角色，配置自动适配</div></div>
-      </div>
-      <div class="pp" id="pbox">
-        <div class="ppi on" data-tf="pf0">&#x1f9d1;&#x200d;&#x1f4bb; 个人创业者</div>
-        <div class="ppi" data-tf="pf1">&#x1f3e2; 公司管理者</div>
-        <div class="ppi" data-tf="pf2">&#x2328;&#xfe0f; 程序员</div>
-        <div class="ppi" data-tf="pf3">&#x1f393; 学生 / 研究者</div>
-      </div>
-    </div>
-
-    <!-- Basic info -->
-    <div class="fs">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
-        <div><div class="fst">基本信息</div><div class="fsd">你是谁、在哪、做什么</div></div>
-      </div>
-      <div class="fg2">
-        <div><label>你的名字 *</label><input type="text" id="fi_n" placeholder="用户"></div>
-        <div><label>年龄</label><input type="text" id="fi_a" placeholder="23"></div>
-        <div class="full"><label>位置</label><input type="text" id="fi_l" placeholder="深圳前海"></div>
-        <div class="full"><label>一句话介绍</label><input type="text" id="fi_b" placeholder="从零开始的创业者 / 做产品 / 搞开发"></div>
-      </div>
-    </div>
-
-    <!-- Persona fields -->
-    <div id="pf0" class="fs">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div><div class="fst">创业详情</div><div class="fsd">你目前在做什么、需要 AI 帮你什么</div></div>
-      </div>
-      <div class="fg2">
-        <div class="full"><label>在做的项目 / 方向</label><input type="text" id="fi_sb" placeholder="AI 协作工具 / 股票量化 / 酒吧运营"></div>
-        <div class="full"><label>希望 AI 帮你什么</label><textarea id="fi_sh" rows="2" placeholder="分析用户数据、制定增长策略、跟进产品进度"></textarea></div>
-      </div>
-    </div>
-    <div id="pf1" class="fs" style="display:none">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-        <div><div class="fst">公司信息</div><div class="fsd">管理什么、需要 AI 分析什么</div></div>
-      </div>
-      <div class="fg2">
-        <div class="full"><label>公司 / 业务名称</label><input type="text" id="fi_bn" placeholder="XX 科技有限公司"></div>
-        <div class="full"><label>需要 AI 分析什么</label><textarea id="fi_ba" rows="2" placeholder="KPI 跟踪、财报分析、竞品调研、月度报表"></textarea></div>
-      </div>
-    </div>
-    <div id="pf2" class="fs" style="display:none">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-        <div><div class="fst">开发信息</div><div class="fsd">用什么技术栈、怎么配合</div></div>
-      </div>
-      <div class="fg2">
-        <div class="full"><label>技术栈</label><input type="text" id="fi_pt" placeholder="Python / JavaScript / Go"></div>
-        <div class="full"><label>配合方式</label><textarea id="fi_ph" rows="2" placeholder="写代码、调 bug、写测试、搭脚手架、生成 API 文档"></textarea></div>
-      </div>
-    </div>
-    <div id="pf3" class="fs" style="display:none">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-        <div><div class="fst">学习信息</div><div class="fsd">学什么、需要什么帮助</div></div>
-      </div>
-      <div class="fg2">
-        <div class="full"><label>专业 / 研究方向</label><input type="text" id="fi_sm" placeholder="计算机 / 金融 / 物理学"></div>
-        <div class="full"><label>需要 AI 帮你什么</label><textarea id="fi_st" rows="2" placeholder="梳理知识体系、整理书籍要点、辅导论文写作、解答疑难概念"></textarea></div>
-      </div>
-    </div>
-
-    <!-- System -->
-    <div class="fs">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-        <div><div class="fst">系统设置</div><div class="fsd">规则、对话数量、调度者的名字</div></div>
-      </div>
-      <div class="fg2">
-        <div class="full"><label>你的规则 / 红线</label><textarea id="fi_ur" rows="3" placeholder="不违法&#10;不影响到用户人身财产信息安全&#10;信息写盘不做口头安慰"></textarea></div>
-        <div><label>预计开几个对话</label><input type="number" id="fi_dc" placeholder="5"></div>
-        <div><label>调度对话的名字</label><input type="text" id="fi_cm" placeholder="军师 / 中枢"></div>
-      </div>
-    </div>
-
-    <!-- Work preferences -->
-    <div class="fs">
-      <div class="fsh">
-        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
-        <div><div class="fst">工作方式偏好</div><div class="fsd">新对话自动知道怎么配合你。选中的会自动写入配置。</div></div>
-      </div>
-      <div class="cg">
-        <label><input type="checkbox" value="research" checked><span>调研优先（先查资料再动手）</span></label>
-        <label><input type="checkbox" value="write" checked><span>关键信息写盘（不等我说"记下来"）</span></label>
-        <label><input type="checkbox" value="report" checked><span>重要阶段回传调度对话</span></label>
-        <label><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
-        <label><input type="checkbox" value="direct"><span>结果导向不赘述过程</span></label>
-        <label><input type="checkbox" value="deepthink"><span>深度思考后再回应</span></label>
-        <label><input type="checkbox" value="autoreport"><span>自动总结汇报</span></label>
-        <label><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
-      </div>
-    </div>
-
-    <div class="pb"><button class="btn btn-gen" id="genBtn">&#x2728; 生成工具包</button></div>
-  </div>
-</div>
-
-<!-- Results -->
-<div class="section rs" id="resSec">
-  <div class="sl">配置已完成</div>
-  <div class="st">你的专属工具包已就绪</div>
-  <div class="sd">以下 7 个文件已自动生成。预览没问题后下载即可。</div>
-
-  <div class="tb">
-    <div class="lb">这套系统预计为你节省的 Token</div>
-    <div class="bn" id="sav">0</div>
-    <div class="lb" style="font-size:13px">每次截断损失 + 重新进入状态的精神成本</div>
-    <div class="ar">
-      <label>对话线：<input type="number" id="fi_dc2" value="6"></label>
-      <label>每人重启次数：<input type="number" id="fi_rc" value="10"></label>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="ftabs" id="ftabs"></div>
-    <div id="fprev"></div>
-    <div class="br" style="margin-top:16px">
-      <button class="btn" id="dlBtn">&#x1f4e6; 下载工具包</button>
-      <button class="btn btn-gen" id="deployBtn">&#x26a1; 一键部署</button>
-      <button class="btn btn2" id="guideBtn">&#x1f4d6; 使用指南</button>
-      <button class="btn btn2" id="depGuideBtn">&#x1f4e1; 部署指南</button>
-      <button class="btn btn2" id="resetBtn">&#x1f504; 重新配置</button>
-    </div>
-  </div>
-
-  <div class="card" id="guideSec" style="display:none">
-    <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">使用指南</h3>
-    <div class="gs">
-      <div class="gsi"><div class="gsn">1</div><div><h4>解压工具包到项目根目录</h4><p>7 个文件已经准备就绪。把整个文件夹放到你项目的根目录。</p></div></div>
-      <div class="gsi"><div class="gsn">2</div><div><h4>创建中枢调度对话</h4><p>新建一个 Codex 对话，把 <strong>&#x542f;&#x52a8;&#x6307;&#x4ee4;.txt</strong> 全选复制，贴进任务描述框。中枢立刻知道你是谁、要干嘛。</p></div></div>
-      <div class="gsi"><div class="gsn">3</div><div><h4>开项目线，各干各的</h4><p>每个项目开一个独立对话。粘贴启动指令后，新对话自动读共享知识库，知道全部背景。</p></div></div>
-      <div class="gsi"><div class="gsn">4</div><div><h4>各线做完，回传给中枢</h4><p>完成重要阶段后写回传日志。中枢定期读取，不需要你人肉传话。</p></div></div>
-    </div>
-    <div class="tip">
-      <strong>&#x1f4a1; 关键提示：</strong><br>
-      共享知识库放桌面，所有对话公用。<br>
-      中枢对话放在项目根目录，执行线放各自文件夹。<br>
-      每条线接近 400 限制时，把状态总结到 SESSION_LOG 再开新对话。
-    </div>
-    <div style="margin-top:16px;font-size:12px;color:var(--t3);line-height:1.8">
-      <strong>&#x1f4c2; 7 个文件说明</strong><br>
-      <strong>&#x200b;共享知识库.md</strong> &mdash; 核心文件。所有对话公用，放桌面。存你的背景、需求、红线、工作方式、项目一览。<br>
-      <strong>&#x200b;&#x542f;&#x52a8;&#x6307;&#x4ee4;.txt</strong> &mdash; 开新对话时复制粘贴到任务描述，新对话自动读取共享知识库。<br>
-      <strong>&#x200b;&#x4efb;&#x52a1;&#x6307;&#x5357;.md</strong> &mdash; 中枢对话专用。教它怎么调度、同步、写盘、决策。<br>
-      <strong>&#x200b;SESSION_LOG.md</strong> &mdash; 对话快超限时把状态总结到这里。新对话读了就能接上。<br>
-      <strong>&#x200b;&#x56de;&#x4f20;&#x65e5;&#x5fd7;.md</strong> &mdash; 各线完成重要阶段后写一条。中枢定期读。<br>
-      <strong>&#x200b;&#x9879;&#x76ee;&#x7ba1;&#x7406;&#x6a21;&#x677f;.md</strong> &mdash; 跟踪各项目进度、状态、待办。中枢维护。<br>
-      <strong>&#x200b;&#x534f;&#x4f5c;&#x534f;&#x8bae;.md</strong> &mdash; 各线之间的协作规范。包括回传触发条件、格式约定。
-    </div>
-  </div>
-
-  <!-- Deploy section -->
-  <div class="card" id="deploySec" style="display:none">
-    <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">&#x1f4e1; 一键部署：推荐文件结构</h3>
-    <p style="font-size:13px;color:var(--t2);margin-bottom:16px">解压工具包后，按以下结构放置文件，系统会自动运转。</p>
-
-    <div style="background:#f5f5f7;border-radius:8px;padding:16px;font-family:'SF Mono',Menlo,monospace;font-size:12px;line-height:1.8;margin-bottom:20px;overflow-x:auto;white-space:pre-wrap">
-<span style="color:var(--t3)">你的项目根目录/</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">共享知识库.md</strong>  <span style="color:var(--t3)">&#x2190; 放桌面，所有对话共用</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">启动指令.txt</strong>  <span style="color:var(--t3)">&#x2190; 开新对话时复制到任务描述</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">任务指南.md</strong>  <span style="color:var(--t3)">&#x2190; 给中枢对话读的</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">回传日志.md</strong>  <span style="color:var(--t3)">&#x2190; 各线写回传到这里</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">协作协议.md</strong>  <span style="color:var(--t3)">&#x2190; 各线之间的协作规范</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">项目管理模板.md</strong>  <span style="color:var(--t3)">&#x2190; 中枢维护进度</span>
-&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">SESSION_LOG.md</strong>  <span style="color:var(--t3)">&#x2190; 对话快满时记录状态</span>
-&#x251c;&#x2500;&#x2500; <strong>&#x76d1;&#x63a7;/</strong> <span style="color:var(--t3)">&#x2190; (示例) 股票盯盘线目录</span>
-&#x2502;   &#x251c;&#x2500;&#x2500; 对话日志.md
-&#x2502;   &#x2514;&#x2500;&#x2500; records.md
-&#x251c;&#x2500;&#x2500; <strong>&#x8c03;&#x7814;/</strong> <span style="color:var(--t3)">&#x2190; (示例) AI漫剧调研线目录</span>
-&#x2502;   &#x2514;&#x2500;&#x2500; records.md
-&#x2514;&#x2500;&#x2500; <strong>&#x5b66;&#x4e60;/</strong> <span style="color:var(--t3)">&#x2190; (示例) VS Code学习线目录</span>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <h4 style="font-size:14px;font-weight:600;margin-bottom:8px">&#x1f4a1; 部署步骤</h4>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
-          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">1</span>
-          <div>解压下载的 <strong>Codex协作工具包.zip</strong> 到你的项目目录</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
-          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">2</span>
-          <div>把 <strong>共享知识库.md</strong> 复制一份放到桌面 <br><span style="color:var(--t3)">&#x2192; 所有新对话都能读到它</span></div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
-          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">3</span>
-          <div>新建 Codex 中枢对话，把 <strong>启动指令.txt</strong> 的内容复制到任务描述</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
-          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">4</span>
-          <div>按需创建各项目线目录，打开项目对话粘贴启动指令 &#x2192; 各线自动就位</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip" style="margin-top:12px">
-      <strong>&#x1f4a1; 提示：</strong> 每次开新对话，把启动指令.txt 粘贴到任务描述即可。<br>
-      新对话会自动读取共享知识库，不需要重新教它你是谁。
-    </div>
-  </div>
-</div>
-
+  <!-- ==================== FOOTER ==================== -->
 <div class="ftr">
-  Made with &#x2764;&#xfe0f; by &#x5218;&#x5c1a;&#x5764; &middot; 
-  <a href="https://github.com/alex12138356/codex-yi" target="_blank">GitHub</a> &middot; 
-  <a href="#pricingSec" onclick="document.getElementById('pricingSec').scrollIntoView({behavior:'smooth'});return false">&#128179; 付费帮你搭</a> &middot;
-  &#x81ea;&#x7531;&#x4f7f;&#x7528;
+  多线 Codex 协作系统 &middot; <br>
+  <a href="https://alex12138356.github.io/codex-yi/" target="_blank">Codex &#x58e; 产品页</a>
+  &middot; <a href="https://github.com/alex12138356/codex-yi" target="_blank">GitHub 源码</a>
+  &middot; 共享知识库 v2026-07-26<br>
+  本页面由系统展示线（⑬）自动维护 &middot; 最后更新 2026-07-26
 </div>
 
 </div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-(function(){
-"use strict";
-var $=function(i){return document.getElementById(i)};
-var gv=function(i){var e=$(i);return e?e.value:''};
-var esc=function(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')};
-var show=function(m){var t=$('toast');if(!t)return;t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)};
-
-// Persona switching
-var pb=$('pbox');
-if(pb){
-  pb.onclick=function(e){
-    var b=e.target;
-    while(b&&!b.classList.contains('ppi')){b=b.parentNode;if(!b||b===pb)return;}
-    if(!b||b===pb)return;
-    var tf=b.getAttribute('data-tf');
-    if(!tf)return;
-    var kids=pb.children;
-    for(var i=0;i<kids.length;i++)kids[i].classList.remove('on');
-    b.classList.add('on');
-    var all=['pf0','pf1','pf2','pf3'];
-    for(var i=0;i<all.length;i++){var el=$(all[i]);if(el)el.style.display='none';}
-    var target=$(tf);
-    if(target)target.style.display='block';
-  };
-}
-
-// Progress
-var calc=function(){
-  var pill=pb?pb.querySelector('.ppi.on'):null;
-  var tf=pill?pill.getAttribute('data-tf'):'pf0';
-  var pm={'pf0':['fi_sb','fi_sh'],'pf1':['fi_bn','fi_ba'],'pf2':['fi_pt','fi_ph'],'pf3':['fi_sm','fi_st']};
-  var add=pm[tf]||[];
-  var fields=['fi_n','fi_ur','fi_dc','fi_cm'].concat(add);
-  var total=fields.length;
-  var filled=0;
-  for(var i=0;i<fields.length;i++){if((gv(fields[i])||'').trim())filled++;}
-  var pct=Math.min(100,Math.round((filled/total)*100));
-  var pbEl=$('pb');if(pbEl)pbEl.style.width=pct+'%';
-  var fc=$('fcnt');if(fc)fc.textContent=filled;
-  var tc=$('tcnt');if(tc)tc.textContent=total;
-  var ph=$('ph');
-  if(ph){
-    if(pct===0)ph.textContent='填一下基本信息和你的要求';
-    else if(pct<40)ph.textContent='继续填，马上就能用了';
-    else if(pct<80)ph.textContent='快了，就差几项';
-    else ph.textContent='所有信息都已填好';
-  }
-};
-
-var bind=function(){
-  var all=document.querySelectorAll('input,textarea,select');
-  for(var i=0;i<all.length;i++){
-    (function(el){
-      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')el.oninput=calc;
-    })(all[i]);
-  }
-  var cbs=document.querySelectorAll('.cg input[type="checkbox"]');
-  for(var i=0;i<cbs.length;i++)cbs[i].onchange=calc;
-};
-bind();
-
-// Full content generators
-var genSK = function(d){
-  var p = d.prefs.map(function(x){return '- '+x}).join('\\n');
-  var r = d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
-  return '# '+d.n+' 共享知识库\\n\\n> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。\\n\\n---\\n\\n## 1. 关于 '+d.n+'\\n'+
-    (d.a?'- **年龄**: '+d.a+'岁\\n':'')+
-    (d.l?'- **位置**: '+d.l+'\\n':'')+
-    (d.b?'- '+d.b+'\\n':'')+
-    '\\n### 核心信条\\n- 行动比说了再好听的话都真实一百倍\\n- 互相学习互相成长\\n\\n### 红线\\n'+r+'\\n\\n### 工作方式偏好\\n'+p+'\\n\\n---\\n\\n## 2. "400"是什么？\\n\\n**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。\\n\\n对话聊得越久，累积的文字就越多。到一定量后，系统会截断。截断后当前对话停，开新对话需要从头学起。\\n\\n**解决方案**：\\n- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件\\n- **关键信息写盘**：不等他开口说"记下来"，重要内容当场写盘\\n\\n---\\n\\n## 3. 当前对话架构\\n\\n'+d.n+' 同时跑 '+(d.dc||'多个')+' 个 Codex 对话，每个对话分工不同。\\n\\n| # | 角色 | 职责 | 状态 |\\n|---|------|------|------|\\n| \\u2460 | **中枢（调度器）** | 方向讨论、拆任务、开新线、状态同步、写盘 | \\u2705 活跃 |\\n| \\u2461\\ufe0e\\u200b\\u200b\\u200b\u200b\u200b | **执行线** | 各自执行具体任务，完成回传 | 待开 |\\n| \\u200b... | ... | ... | ... |\\n\\n---\\n\\n## 4. 项目一览\\n\\n| 项目 | 文件路径 | 状态 |\\n|------|----------|------|\\n|（等待录入）| | |\\n\\n---\\n\\n## 5. 给第一次读到这个文件的我的指令\\n\\n1. 读完上面所有内容后，你现在已经知道 '+d.n+' 是谁\\n2. **不要问"你是谁"、"我们之前聊过什么吗"** \\u2014 你已经知道了\\n3. 直接接上，用自然的语气';
-};
-
-var genStart = function(d){
-  var p = d.prefs.map(function(x){return '- '+x}).join('\\n');
-  var r = d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
-  return '## 背景\\n这是 '+d.n+' 开的第 '+(d.dc||'多个')+' 个 Codex 对话。\\n关于 '+d.n+' 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。\\n\\n### 红线\\n'+r+'\\n\\n### 工作方式\\n'+p+'\\n\\n### 回传格式\\n一句话 + 文件路径，写进"回传日志.md"。\\n示例：[项目名] 第一阶段完成，详情见 [文件路径]';
-};
-
-var genGuide = function(d){
-  return '# '+(d.cm||'中枢')+' 任务指南\\n\\n> 你是这个系统的调度器，不是执行者。\\n\\n## 你的核心职责\\n\\n1. **接方向** \\u2014 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。\\n2. **拆任务** \\u2014 方向清晰后，拆成具体的、可执行的任务线。判断：这件事是一次性能解决，还是需要开一条长期线？\\n3. **开新对话** \\u2014 把需求 + 工作方式打包进启动指令。新对话一进来就知道该做什么。\\n4. **同步状态** \\u2014 定期读回传日志.md，知道各线在干嘛。\\n5. **沉淀认知** \\u2014 用户说出的关键认识、你帮他梳理出的判断，写进共享知识库。\\n6. **400 管理** \\u2014 感觉自己快跑满了？主动总结重要内容到 SESSION_LOG，帮用户开新对话继承上下文。\\n7. **提醒他** \\u2014 他快要放弃、快要倒下、快要骗自己的时候，提醒他。\\n\\n## 你读的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| \`共享知识库.md\` | 知道用户是谁、需求、要求、当前项目 |\\n| \`回传日志.md\` | 知道各线最新状态 |\\n| \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |\\n| \`项目管理模板.md\` | 更新项目进度状态 |\\n\\n## 你写的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| \`共享知识库.md\` | 新增认知沉淀、更新项目一览 |\\n| \`项目管理模板.md\` | 维护项目进度跟踪表 |\\n| \`SESSION_LOG.md\`（本项目） | 记录你自己的状态历史 |\\n\\n## 工作流\\n\\n1. 用户找你聊方向/想法/焦虑\\n2. 你问清楚：他想做什么、为什么、到什么程度算够\\n3. 如果方向明确：拆成任务，开新线，写入启动指令\\n4. 如果方向模糊：继续聊，帮他理清，不急着做决定\\n5. 定期读回传日志，知道各线进度\\n6. 各线完成后，汇总给用户\\n\\n> **记住**：你不做执行。你是指挥官。';
-};
-
-var genSession = function(d){
-  return '# SESSION_LOG\\n\\n> 完整对话历史见 \`对话日志.md\`\\n> 共享知识库见 \`共享知识库.md\`\\n\\n---\\n\\n## [日期] \\u2014 [本次对话主要事件]\\n\\n### 关键进展\\n- \\n\\n### 重要决策\\n- \\n\\n### 未完成待办\\n- [ ] \\n\\n### 用户状态\\n- \\n\\n---\\n\\n*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*';
-};
-
-var genReport = function(d){
-  return '# 回传日志\\n\\n> 各对话在完成重要阶段后，往这里写一条。中枢定期读这个文件来同步各线状态。\\n\\n## 回传触发条件\\n- \\u2705 阶段性的核心发现/方向判断\\n- \\u2705 决定要投入时间/金钱去做\\n- \\u2705 遇到硬 blocker\\n- \\u274c 不需要报每一个操作细节\\n\\n## 回传格式\\n\`[项目名] 阶段/进展描述。详情见 [文件路径]\`\\n\\n---\\n\\n（空 \\u2014 等待第一条回传）';
-};
-
-var genProject = function(d){
-  return '# 项目进度模板\\n\\n> 中枢维护此文件，跟踪所有项目线的状态。\\n\\n| 项目 | 状态 | 负责人 | 最新进展 | 下一步 |\\n|------|------|--------|----------|--------|\\n| | \\u23f3 进行中 | | | |\\n\\n---\\n\\n## 项目详情\\n\\n### [项目名]\\n- **目标**: \\n- **启动日期**: \\n- **关键里程碑**: \\n- **当前阻塞**: \\n- **下次回传预计**: ';
-};
-
-var genProtocol = function(d){
-  return '# 协作协议\\n\\n> 各线之间的协作规范。适用于所有对话线。\\n\\n## 1. 回传机制\\n\\n- 各线完成重要阶段后，写入 \`回传日志.md\`\\n- 中枢定期读取回传日志，了解各线进展\\n- 回传格式：一句话 + 文件路径\\n- 不需要报每一个操作细节\\n\\n## 2. 文件共享\\n\\n- \`共享知识库.md\` 放桌面，所有对话公用\\n- 各线自己的文件放各自项目目录\\n- 项目细节不在知识库中全文写入，只用一行文件路径引用\\n\\n## 3. SESSION_LOG 机制\\n\\n- 每个对话快接近 400 上限时，把状态总结到 SESSION_LOG\\n- 新对话启动后先读 SESSION_LOG，再读共享知识库\\n- SESSION_LOG 放项目目录，不是桌面\\n\\n## 4. 新对话启动流程\\n\\n1. 中枢决定开新线\\n2. 复制启动指令.txt 到新对话任务描述\\n3. 新对话启动后先读共享知识库\\n4. 开始执行，完成回传\\n\\n## 5. 红线\\n\\n'+d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
-};
-
-// Generate
-var gen=function(){
-  // Get preferences
-  var cbs=document.querySelectorAll('.cg input[type="checkbox"]:checked');
-  var pmap={research:'调研优先（搜资料读竞品→写盘记录→再动手）',write:'关键信息写盘，不等他说"记下来"',report:'重要阶段主动回传调度对话',flag:'发现问题主动提出',direct:'结果导向不赘述过程',deepthink:'深度思考后再回应',autoreport:'自动化总结汇报（主动总结写盘）',review:'完成阶段自动写复盘'};
-  var prefs=[];
-  for(var i=0;i<cbs.length;i++){var v=cbs[i].value;if(pmap[v])prefs.push(pmap[v]);}
-  if(prefs.length===0)prefs=['调研优先','关键信息写盘','重要阶段回传'];
-
-  var d={
-    n:gv('fi_n')||'我',
-    a:gv('fi_a'),
-    l:gv('fi_l'),
-    b:gv('fi_b'),
-    ur:gv('fi_ur')||'不违法\\n不影响到用户人身财产信息安全',
-    dc:gv('fi_dc')||'多个',
-    cm:gv('fi_cm')||'中枢',
-    prefs:prefs
-  };
-  var files={};
-  files['共享知识库.md']=genSK(d);
-  files[d.cm+'启动指令.txt']=genStart(d);
-  files[d.cm+'任务指南.md']=genGuide(d);
-  files['SESSION_LOG.md']=genSession(d);
-  files['回传日志.md']=genReport(d);
-  files['项目管理模板.md']=genProject(d);
-  files['协作协议.md']=genProtocol(d);
-  window._gf=files;
-
-  var names=Object.keys(files);
-  var tabs=$('ftabs');var prev=$('fprev');
-  if(tabs&&prev){
-    tabs.innerHTML=names.map(function(n,i){return '<div class="ftab'+(i===0?' on':'')+'" data-idx="'+i+'">'+esc(n)+'</div>'}).join('');
-    prev.innerHTML=names.map(function(n,i){return '<div class="fcont'+(i===0?' on':'')+'" id="fc'+i+'">'+esc(files[n])+'</div>'}).join('');
-  }
-
-  var dc2=parseInt(gv('fi_dc2'))||6;
-  var rc=parseInt(gv('fi_rc'))||10;
-  var saved=dc2*rc*3000;
-  var sav=$('sav');if(sav)sav.textContent=saved.toLocaleString();
-
-  var rs=$('resSec');
-  if(rs){rs.classList.add('on');rs.scrollIntoView({behavior:'smooth'});}
-  show('工具包已生成');
-};
-
-$('genBtn').onclick=gen;
-
-// Tabs
-$('ftabs').onclick=function(e){
-  var t=e.target;
-  while(t&&!t.classList.contains('ftab'))t=t.parentNode;
-  if(!t)return;
-  var idx=parseInt(t.getAttribute('data-idx'));
-  var tabs=document.querySelectorAll('.ftab');
-  for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle('on',i===idx);
-  var c=document.querySelectorAll('.fcont');
-  for(var i=0;i<c.length;i++)c[i].classList.toggle('on',i===idx);
-};
-
-// Download
-$('dlBtn').onclick=function(){
-  var files=window._gf||{};
-  if(typeof JSZip==='undefined'){show('JSZip \u52a0\u8f7d\u5931\u8d25');return;}
-  var zip=new JSZip();
-  var keys=Object.keys(files);
-  for(var i=0;i<keys.length;i++)zip.file(keys[i],files[keys[i]]);
-  zip.generateAsync({type:'blob'}).then(function(b){
-    var a=document.createElement('a');
-    a.href=URL.createObjectURL(b);
-    a.download='Codex\u534f\u4f5c\u5de5\u5177\u5305.zip';
-    a.click();
-    URL.revokeObjectURL(a.href);
-    show('\u4e0b\u8f7d\u6210\u529f');
-  }).catch(function(){show('\u4e0b\u8f7d\u5931\u8d25');});
-};
-
-// Deploy
-$('depGuideBtn').onclick=function(){
-  var d=$('deploySec');
-  if(!d)return;
-  d.style.display=d.style.display==='none'?'block':'none';
-  if(d.style.display==='block')d.scrollIntoView({behavior:'smooth'});
-};
-
-
-// Deploy - use File System Access API
-// Guide
-$('guideBtn').onclick=function(){
-  var g=$('guideSec');
-  if(!g)return;
-  g.style.display=g.style.display==='none'?'block':'none';
-  if(g.style.display==='block')g.scrollIntoView({behavior:'smooth'});
-};
-
-// Reset
-$('resetBtn').onclick=function(){
-  var rs=$('resSec');if(rs)rs.classList.remove('on');
-  var g=$('guideSec');if(g)g.style.display='none';var d=$('deploySec');if(d)d.style.display='none';
-  $('formSec').scrollIntoView({behavior:'smooth'});
-};
-
-// Savings
-$('fi_dc2').onchange=function(){
-  var s=$('sav');if(s)s.textContent=((parseInt(gv('fi_dc2'))||6)*(parseInt(gv('fi_rc'))||10)*3000).toLocaleString();
-};
-$('fi_rc').onchange=function(){
-  var s=$('sav');if(s)s.textContent=((parseInt(gv('fi_dc2'))||6)*(parseInt(gv('fi_rc'))||10)*3000).toLocaleString();
-};
-
-calc();
-})();
-</script>
 </body>
 </html>
