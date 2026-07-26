@@ -6,769 +6,752 @@
 <title>Codex 壹 · 一次教完，不用再教</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.5; }
-.container { max-width: 520px; margin: 0 auto; padding: 32px 40px; }
-h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
-h1 small { display: block; font-size: 14px; font-weight: 400; color: #86868b; margin-top: 4px; }
-h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-p { font-size: 14px; color: #515154; margin-bottom: 20px; }
-.card { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid #e8e8ed; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-grid .full { grid-column: 1 / -1; }
-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #515154; }
-input[type="text"], input[type="number"], textarea, select { width: 100%; padding: 8px 12px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 14px; font-family: inherit; background: #fff; transition: border-color 0.15s; }
-input:focus, textarea:focus, select:focus { outline: none; border-color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.15); }
-textarea { resize: vertical; min-height: 64px; }
-.checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
-.checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 13px; padding: 6px 12px; border: 1px solid #d2d2d7; border-radius: 20px; cursor: pointer; transition: all 0.15s; user-select: none; }
-.checkbox-group input:checked + span { color: #0071e3; }
-.checkbox-group label:has(input:checked) { border-color: #0071e3; background: #f0f7ff; }
-.project-row { display: grid; grid-template-columns: 1fr 2fr 80px 40px; gap: 8px; align-items: center; margin-bottom: 8px; }
-.project-row input { font-size: 13px; padding: 6px 10px; }
-.project-row .btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 8px; background: #fff; cursor: pointer; font-size: 16px; color: #ff3b30; transition: all 0.15s; }
-.btn-folder { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid #d2d2d7; border-radius: 6px; background: #fff; cursor: pointer; font-size: 14px; line-height: 1; transition: all 0.15s; flex-shrink: 0; padding: 0; }
-.btn-folder:hover { background: #f5f5f7; border-color: #86868b; }
-.project-row .btn-icon:hover { background: #fff0ef; border-color: #ff3b30; }
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; border: none; border-radius: 20px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-.btn-small { padding: 6px 14px; font-size: 12px; border-radius: 16px; }
-.btn-primary { background: #1d1d1f; color: #fff; }
-.btn-primary:hover { background: #000; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-secondary { background: #e8e8ed; color: #1d1d1f; }
-.btn-secondary:hover { background: #d2d2d7; }
-.btn-outline { background: transparent; color: #0071e3; border: 1px solid #0071e3; }
-.btn-outline:hover { background: #f0f7ff; }
-.btn-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-.result-section { display: none; }
-.result-section.visible { display: block; }
-.token-savings { background: linear-gradient(135deg, #f0f7ff 0%, #e8f5e9 100%); border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center; }
-.token-savings .big-number { font-size: 48px; font-weight: 700; color: #0071e3; line-height: 1; margin: 8px 0; }
-.token-savings .label { font-size: 14px; color: #515154; }
-.token-savings .sub { font-size: 12px; color: #86868b; margin-top: 4px; }
-.token-savings .adjust-row { display: flex; gap: 20px; justify-content: center; margin-top: 12px; font-size: 13px; color: #515154; }
-.token-savings .adjust-row input { width: 60px; text-align: center; padding: 4px 8px; }
-.token-savings .adjust-row label { display: inline; font-weight: 400; font-size: 13px; }
-.file-tabs { display: flex; gap: 4px; border-bottom: 1px solid #d2d2d7; margin-bottom: 16px; overflow-x: auto; }
-.file-tab { padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; color: #86868b; white-space: nowrap; transition: all 0.15s; }
-.file-tab:hover { color: #1d1d1f; }
-.file-tab.active { color: #1d1d1f; border-bottom-color: #0071e3; }
-.file-content { display: none; background: #f5f5f7; border-radius: 8px; padding: 16px; font-family: "SF Mono", Menlo, monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto; max-height: 400px; overflow-y: auto; }
-.file-content.active { display: block; }
-.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: #1d1d1f; color: #fff; padding: 12px 24px; border-radius: 20px; font-size: 14px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s; z-index: 999; }
-.toast.show { opacity: 1; }
-.hint { font-size: 12px; color: #86868b; margin-top: 2px; }
-@media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .project-row { grid-template-columns: 1fr 1fr 60px 36px; } .token-savings .adjust-row { flex-direction: column; align-items: center; gap: 8px; } }
-.workflow { display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; border: 1px solid #e8e8ed; overflow-x: auto; }
-.wf-step { flex-shrink: 0; font-size: 12px; font-weight: 500; background: #f5f5f7; color: #1d1d1f; padding: 8px 14px; border-radius: 8px; text-align: center; line-height: 1.3; min-width: 66px; }
-.wf-arrow { flex-shrink: 0; font-size: 16px; color: #d2d2d7; }
-@media (max-width: 480px) { .workflow { gap: 4px; padding: 10px 8px; } .wf-step { font-size: 11px; padding: 6px 10px; min-width: 56px; } }
-.hero-compare { display: flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #fff0ef 0%, #f0f7ff 100%); border-radius: 12px; padding: 16px 24px; margin-bottom: 20px; }
-.compare-col { text-align: center; flex: 1; }
-.compare-col .lbl { font-size: 11px; color: #86868b; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 2px; }
-.compare-col .num { font-size: 32px; font-weight: 700; line-height: 1.1; }
-.compare-col .unit { font-size: 12px; color: #86868b; margin-bottom: 2px; }
-.compare-col .desc { font-size: 12px; color: #515154; }
-.compare-col.before .num { color: #ff3b30; }
-.compare-col.after .num { color: #34c759; }
-.compare-arrow { font-size: 28px; color: #86868b; flex-shrink: 0; }
-@media (max-width: 480px) { .compare-col .num { font-size: 24px; } }
-.form-section { padding: 0; margin-bottom: 16px; }
-.form-section + .form-section { border-top: 1px solid #e8e8ed; padding-top: 16px; }
-.form-section-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
-.form-section-icon { width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f5f5f7; border-radius: 10px; color: #0071e3; }
-.form-section-title { font-size: 15px; font-weight: 600; color: #1d1d1f; }
-.form-section-desc { font-size: 12px; color: #86868b; margin-top: 1px; }
-.form-action { border-top: 1px solid #e8e8ed; padding-top: 20px; margin-top: 8px; text-align: center; }
-.btn-generate { padding: 12px 32px; font-size: 15px; background: linear-gradient(135deg, #1d1d1f 0%, #2c2c2e 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: transform 0.15s, box-shadow 0.15s; }
-.btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
-.checkbox-group .cb-pill { display: flex; align-items: center; gap: 6px; font-weight: 500; font-size: 13px; padding: 8px 16px; border: 1px solid #d2d2d7; border-radius: 20px; cursor: pointer; transition: all 0.15s; user-select: none; background: #fff; }
-.checkbox-group .cb-pill:has(input:checked) { border-color: #0071e3; background: #f0f7ff; }
-.persona-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.persona-pill { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border: 1.5px solid #d2d2d7; border-radius: 12px; background: #fff; cursor: pointer; font-size: 13px; font-weight: 500; color: #515154; transition: all 0.2s; user-select: none; flex: 1; justify-content: center; min-width: 0; }
-.persona-pill:hover { border-color: #86868b; background: #f5f5f7; }
-.persona-pill.active { border-color: #0071e3; background: #f0f7ff; color: #0071e3; box-shadow: 0 0 0 3px rgba(0,113,227,0.12); }
-.persona-pill.active svg { stroke: #0071e3; }
-.persona-pill svg { flex-shrink: 0; stroke: #86868b; }
-.persona-fields { transition: opacity 0.2s, transform 0.2s; }
-.benefit-strip { display: flex; gap: 16px; margin-bottom: 24px; }
-.benefit-item { flex: 1; background: #fff; border-radius: 10px; padding: 14px; border: 1px solid #e8e8ed; }
-/* icon removed for wider text */
-.benefit-item-text { min-width: 0; }
-.benefit-item-title { font-size: 14px; font-weight: 600; color: #1d1d1f; }
-.benefit-item-desc { font-size: 12px; color: #86868b; margin-top: 3px; line-height: 1.4; }
-@media (max-width: 480px) { .benefit-strip { flex-direction: column; } }
+:root{--bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--t2:#515154;--t3:#86868b;--border:#e8e8ed;--blue:#0071e3;--bbg:#f0f7ff;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:720px;margin:0 auto;padding:0 24px}
+
+.hero{text-align:center;padding:64px 0 48px}
+.hero h1{font-size:44px;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;line-height:1.2}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:17px;color:var(--t2);max-width:520px;margin:0 auto 28px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--bbg);color:var(--blue);font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:20px}
+.stats{display:flex;gap:32px;justify-content:center;margin-top:32px}
+.stat{text-align:center}
+.stat-n{font-size:28px;font-weight:700}
+.stat-l{font-size:13px;color:var(--t3);margin-top:2px}
+
+.section{padding:48px 0}
+.section+.section{border-top:1px solid var(--border)}
+.sl{font-size:12px;font-weight:600;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:24px;text-align:center}
+.st{font-size:24px;font-weight:700;text-align:center;margin-bottom:8px}
+.sd{font-size:15px;color:var(--t2);text-align:center;max-width:520px;margin:0 auto 32px}
+
+/* Feature grid */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fc{background:var(--card);border-radius:var(--r);padding:20px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.fc .fi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.fc h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.fc p{font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:8px}
+.fc .tags{display:flex;gap:4px;flex-wrap:wrap}
+.fc .tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#f5f5f7;color:var(--t3)}
+
+/* Persona */
+.pp{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.ppi{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1.5px solid #d2d2d7;border-radius:12px;background:var(--card);cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);transition:all .2s;user-select:none}
+.ppi:hover{border-color:var(--t3);background:#f5f5f7}
+.ppi.on{border-color:var(--blue);background:var(--bbg);color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.12)}
+
+/* Usage showcase */
+.showcase{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);margin-bottom:28px}
+.showcase-header{padding:16px 20px;background:#1d1d1f;color:#fff;font-size:14px;font-weight:600}
+.showcase-body{padding:20px;background:var(--card)}
+.showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.showcase-grid{grid-template-columns:1fr}}
+.sc-card{border:1px solid var(--border);border-radius:8px;padding:14px}
+.sc-card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.sc-card p{font-size:12px;color:var(--t2);line-height:1.5}
+.sc-card .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:8px;margin-bottom:6px;font-weight:500}
+.sc-card .badge.b1{background:#fff0ef;color:#ff3b30}
+.sc-card .badge.b2{background:var(--bbg);color:var(--blue)}
+.sc-card .badge.b3{background:#e8f5e9;color:#34c759}
+.sc-card ul{font-size:12px;color:var(--t2);padding-left:16px;margin-top:4px}
+.sc-card ul li{margin-bottom:2px}
+
+/* Comparison */
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;padding:20px;background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:28px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+@media(max-width:480px){.cmp{grid-template-columns:1fr;gap:12px}}
+.cmp-col{text-align:center}
+.cmp-lbl{font-size:11px;color:var(--t3);font-weight:600;letter-spacing:0.3px;margin-bottom:4px}
+.cmp-num{font-size:36px;font-weight:700;line-height:1.1}
+.cmp-unit{font-size:12px;color:var(--t3);margin-bottom:2px}
+.cmp-desc{font-size:12px;color:var(--t2);line-height:1.4}
+.cmp-col.before .cmp-num{color:#ff3b30}
+.cmp-col.after .cmp-num{color:#34c759}
+.cmp-arr{font-size:24px;color:var(--t3);text-align:center}
+
+.card{background:var(--card);border-radius:var(--r);padding:24px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+
+.fs{margin-bottom:24px}
+.fsh{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+.fsi{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bbg);border-radius:8px}
+.fst{font-size:15px;font-weight:600}
+.fsd{font-size:12px;color:var(--t3);margin-top:1px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg2 .full{grid-column:1/-1}
+@media(max-width:480px){.fg2{grid-template-columns:1fr}}
+label{display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--t2)}
+input[type="text"],input[type="number"],textarea,select{width:100%;padding:10px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;font-family:inherit;background:var(--card);transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,113,227,0.15)}
+textarea{resize:vertical;min-height:64px}
+
+.cg{display:flex;flex-wrap:wrap;gap:8px}
+.cg label{display:flex;align-items:center;gap:6px;font-weight:400;font-size:13px;padding:8px 16px;border:1px solid #d2d2d7;border-radius:20px;cursor:pointer;user-select:none;background:var(--card)}
+.cg label:has(input:checked){border-color:var(--blue);background:var(--bbg)}
+
+.prog-bar{margin-bottom:20px;padding:16px;background:#fafafc;border-radius:var(--r);border:1px solid var(--border)}
+.prog-bar .prog{background:#e8e8ed;border-radius:10px;height:6px;overflow:hidden;margin-bottom:8px}
+.prog-bar .prog .fill{background:var(--blue);height:100%;border-radius:10px;transition:width .3s;width:0}
+.prog-bar .info{font-size:12px;color:var(--t3)}
+.prog-bar .hint{font-size:12px;color:var(--t3);margin-top:2px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;border:none;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;color:#fff;background:var(--text)}
+.btn:hover{background:#000}
+.btn2{background:#e8e8ed;color:var(--text)}
+.btn2:hover{background:#d2d2d7}
+.btn-gen{padding:12px 32px;font-size:15px;background:linear-gradient(135deg,var(--text) 0%,#2c2c2e 100%);box-shadow:0 2px 8px rgba(0,0,0,0.12)}
+.btn-gen:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.18)}
+.br{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
+.pb{border-top:1px solid var(--border);padding-top:24px;margin-top:8px;text-align:center}
+
+.rs{display:none}
+.rs.on{display:block}
+
+.tb{background:linear-gradient(135deg,var(--bbg) 0%,#e8f5e9 100%);border-radius:var(--r);padding:24px;margin-bottom:24px;text-align:center}
+.tb .bn{font-size:48px;font-weight:700;color:var(--blue);line-height:1;margin:8px 0}
+.tb .lb{font-size:14px;color:var(--t2)}
+.tb .ar{display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:13px;color:var(--t2);flex-wrap:wrap}
+.tb .ar input{width:60px;text-align:center;padding:4px 8px}
+.tb .ar label{display:inline;font-weight:400;font-size:13px}
+
+.ftabs{display:flex;gap:4px;border-bottom:1px solid #d2d2d7;margin-bottom:16px;overflow-x:auto}
+.ftab{padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;color:var(--t3);white-space:nowrap;transition:all .15s}
+.ftab:hover{color:var(--text)}
+.ftab.on{color:var(--text);border-bottom-color:var(--blue)}
+.fcont{display:none;background:#f5f5f7;border-radius:8px;padding:16px;font-family:"SF Mono",Menlo,monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-x:auto;max-height:400px;overflow-y:auto}
+.fcont.on{display:block}
+
+.gs{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.gsi{display:flex;gap:14px;align-items:flex-start;padding:16px;background:#f5f5f7;border-radius:var(--r)}
+.gsn{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
+.gsi h4{font-size:14px;font-weight:600;margin-bottom:2px}
+.gsi p{font-size:13px;color:var(--t2)}
+.tip{background:var(--bbg);border-radius:var(--r);padding:16px;font-size:13px;color:var(--blue);margin-top:12px}
+
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:20px;font-size:14px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,0.2);opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
+.toast.on{opacity:1}
+
+.ftr{padding:32px 0;text-align:center;font-size:12px;color:var(--t3);line-height:1.8}
+.ftr a{color:var(--t3)}
 </style>
 </head>
 <body>
-<!-- 
-  Codex 壹 (codex-yi)
-  版权所有 © 2026 刘尚坤
-  本软件受著作权法保护。未经作者书面许可，禁止任何商业用途。
-  Unauthorized commercial use is prohibited.
--->
+
 <div class="container">
 
-<h1>Codex 壹<small>中枢调度 · 跨对话记忆 · 400 防护</small></h1>
-<p>每次截断丢掉约 <strong>400,000 token</strong> 的对话历史。壹 帮你保留其中最值钱的 <strong>token 和关键笔记</strong>。<br>
-这还不是最贵的——你每次"重新进入状态"的精神成本才是。</p>
-
-<div class="benefit-strip">
-  <div class="benefit-item">
-    <div class="benefit-item-text"><div class="benefit-item-title">中枢调度</div><div class="benefit-item-desc">同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线互不干扰。新对话自动分配角色，各线做完主动回传。</div></div>
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    开源 &middot; 免费
   </div>
-  <div class="benefit-item">
-    <div class="benefit-item-text"><div class="benefit-item-title">跨对话记忆</div><div class="benefit-item-desc">每个对话进来第一秒就读共享知识库，知道你是谁、在干嘛、怎么干活。填一次背景，以后所有新对话自动就位。不用反复教，不用重复写。</div></div>
+  <h1>填一次你的背景，<br><span>以后再也不需要重复教。</span></h1>
+  <p>Codex &#x58e; 是一个模板生成器。填一次你是谁、在做什么、怎么干活，自动输出完整的多线程协作系统。以后再开新对话，它自己就知道。</p>
+  <div class="hero-actions">
+    <button class="btn btn-gen" onclick="document.getElementById('formSec').scrollIntoView({behavior:'smooth'})">开始配置 &#8594;</button>
+    <button class="btn btn2" onclick="document.getElementById('demoSec').scrollIntoView({behavior:'smooth'})">看实际效果</button>
   </div>
-  <div class="benefit-item">
-    <div class="benefit-item-text"><div class="benefit-item-title">400 防护</div><div class="benefit-item-desc">对话到 400 上限被截断，历史内容丢光？壹 把关键笔记写盘保存，截断后知识库和日志还在。新对话一进来就能接上。</div></div>
-  </div>
-</div>
-
-</div>
-</div>
-
-<h3 style="font-size:13px;font-weight:600;color:#86868b;letter-spacing:0.5px;margin-bottom:16px;text-align:center;text-transform:uppercase">/ 这不是通用工具 /</h3>
-<h2 style="text-align:center;margin-bottom:20px;font-size:20px">壹 对不同的人意味着什么</h2>
-
-<div class="persona-value-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px">
-  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <span style="width:28px;height:28px;background:#fff0ef;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#ff9500"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-      <div><div style="font-size:14px;font-weight:600">个人创业者</div><div style="font-size:12px;color:#86868b">AI 产品合伙人</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.5">跟进产品进度、分析用户数据、制定增长和变现策略。不用教，它知道你在创业。</div>
-  </div>
-  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <span style="width:28px;height:28px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-      <div><div style="font-size:14px;font-weight:600">公司管理者</div><div style="font-size:12px;color:#86868b">AI 管理助手</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.5">跟踪 KPI、分析财报流水、做竞品调研、整理月度报表。它一进来就懂你在管什么。</div>
-  </div>
-  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <span style="width:28px;height:28px;background:#f0f0ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#5856d6"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
-      <div><div style="font-size:14px;font-weight:600">程序员</div><div style="font-size:12px;color:#86868b">AI 结对编程</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.5">跑代码、调 bug、写测试、搭脚手架、生成 API 文档。不用从零教技术栈。</div>
-  </div>
-  <div class="p-card" style="background:#fff;border-radius:8px;padding:12px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <span style="width:28px;height:28px;background:#fff0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#ff3b30"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-      <div><div style="font-size:14px;font-weight:600">学生</div><div style="font-size:12px;color:#86868b">AI 学习教练</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.5">梳理知识体系、整理书籍要点、辅导论文写作、解答疑难概念。它知道你在学什么方向。</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">7</div><div class="stat-l">个文件</div></div>
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">分钟配置</div></div>
+    <div class="stat"><div class="stat-n">&infin;</div><div class="stat-l">对话共享</div></div>
   </div>
 </div>
 
-<div class="hero-compare">
-  <div class="compare-col before">
-    <div class="lbl">建立这套系统之前</div>
-    <div class="num">3 亿+</div>
-    <div class="unit">token / 天</div>
-    <div class="desc">400K 对话一截断，脑子一片空白</div>
-  </div>
-  <div class="compare-arrow">→</div>
-  <div class="compare-col after">
-    <div class="lbl">建立之后</div>
-    <div class="num">几百万</div>
-    <div class="unit">token / 天</div>
-    <div class="desc">截断后关键笔记还在，5,000+ token 写盘保留</div>
+<!-- Features -->
+<div class="section">
+  <div class="sl">六大核心能力</div>
+  <div class="st">一个工具，解决所有痛点</div>
+  <div class="sd">不只是个生成器——是一整套让 Codex 多线协作的生产力系统。</div>
+  <div class="fg">
+
+    <div class="fc">
+      <div class="fi" style="background:#f0f0ff;color:#5856d6">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>&#x200b;中枢调度</h3>
+      <p>同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线各干各的，做完主动回传。你只需要跟中枢对话。</p>
+      <div class="tags"><span class="tag">&#x1f504; 调度器</span><span class="tag">&#x1f4e3; 回传机制</span></div>
+    </div>
+
+    <div class="fc">
+      <div class="fi" style="background:var(--bbg);color:var(--blue)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </div>
+      <h3>&#x200b;跨对话记忆</h3>
+      <p>共享知识库放桌面，所有对话公用。填一次你的全部背景，以后每个新对话自动读取，不用再教一遍你是谁。</p>
+      <div class="tags"><span class="tag">&#x1f4da; 共享知识库</span><span class="tag">&#x1f501; 一次性配置</span></div>
+    </div>
+
+    <div class="fc">
+      <div class="fi" style="background:#fff0ef;color:#ff3b30">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>&#x200b;400 防护</h3>
+      <p>对话到上限被截断，历史内容全部丢失？关键笔记和文件写盘保存。即使当前对话停了，新对话也能立即接上上下文。</p>
+      <div class="tags"><span class="tag">&#x1f4be; 写盘保存</span><span class="tag">&#x1f504; 断线续传</span></div>
+    </div>
+
+    <div class="fc">
+      <div class="fi" style="background:#e8f5e9;color:#34c759">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>&#x200b;项目管理</h3>
+      <p>每个项目一个独立对话线，配有专属目录和文件。中枢统一跟踪各线进度，各线完成重要阶段自动写回传日志。</p>
+      <div class="tags"><span class="tag">&#x1f4c1; 项目隔离</span><span class="tag">&#x1f4ca; 进度跟踪</span></div>
+    </div>
+
+    <div class="fc">
+      <div class="fi" style="background:#fff8e1;color:#ff9500">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <h3>&#x200b;模板预设</h3>
+      <p>内置多个场景模板：创业者、公司管理者、程序员、学生。选一个就自动匹配对应的表单和文件结构。也可以完全自定义。</p>
+      <div class="tags"><span class="tag">&#x1f4cb; 快速开始</span><span class="tag">&#x2699;&#xfe0f; 自定义</span></div>
+    </div>
+
+    <div class="fc">
+      <div class="fi" style="background:#f0f0ff;color:#5856d6">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>&#x200b;多人协作</h3>
+      <p>团队一起用 Codex？每个人都配独立对话，共享知识库和项目文件全家共享。发任务给同事只需把启动指令复制给他。</p>
+      <div class="tags"><span class="tag">&#x1f91d; 团队共享</span><span class="tag">&#x1f4ec; 任务分发</span></div>
+    </div>
+
   </div>
 </div>
 
-<h3 style="font-size:13px;font-weight:600;color:#86868b;letter-spacing:0.5px;margin-bottom:16px;text-align:center;text-transform:uppercase">/ 壹 怎么工作 /</h3>
+<!-- Demo showcase -->
+<div class="section" id="demoSec">
+  <div class="sl">实际效果</div>
+  <div class="st">用起来是什么样子？</div>
+  <div class="sd">一个真实的多线 Codex 系统在运行时的状态。下面是一个示例：</div>
 
-<div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px">
-  <div style="background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-      <span style="width:32px;height:32px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
-      <div><div style="font-size:15px;font-weight:600;color:#1d1d1f">中枢调度 — 多条对话线，一个大脑</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.7">
-      同时跑编程线、创业线、学习线、项目管理线？每条线各干各的活，但谁在干嘛、进展到哪了、下一步做什么——<strong>中枢都知道</strong>。<br><br>
-      中枢是你的调度器。你跟它聊方向、聊焦虑，它帮你拆成具体任务，开新对话去执行。各线做完主动回传，中枢汇总给你看。<br><br>
-      一台调度器管全局，<strong>不用你人肉传话</strong>。
-    </div>
-  </div>
-  <div style="background:#fff;border-radius:10px;padding:18px 20px;border:1px solid #e8e8ed">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-      <span style="width:32px;height:32px;background:#f0f7ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg></span>
-      <div><div style="font-size:15px;font-weight:600;color:#1d1d1f">跨对话记忆 — 共享知识库，一次填好永久共享</div></div>
-    </div>
-    <div style="font-size:13px;color:#515154;line-height:1.7">
-      每个对话进来第一秒就读<strong>共享知识库</strong>。你的背景、要求、工作方式——新对话全都知道，不用你从零教起。<br><br>
-      填一次，以后所有对话自动就位。来了新任务开新对话？它也读同一个知识库，直接上手。<br><br>
-      <strong>一次配置，所有对话受益</strong>。
-    </div>
-  </div>
-</div>
-
-<div class="card" style="margin-bottom:16px">
-  <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;color:#1d1d1f">壹 让多条对话线各司其职</h3>
-  <div style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:13px">
-      <thead><tr style="border-bottom:1px solid #e8e8ed"><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">#</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">角色</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">职责</th><th style="text-align:left;padding:6px 8px;color:#86868b;font-weight:500">状态</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">①</td><td style="padding:8px;font-weight:600;color:#0071e3">中枢</td><td style="padding:8px;color:#515154">调度、方向讨论、写盘、跨线同步、情绪陪伴</td><td style="padding:8px">✅ 活跃</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">②</td><td style="padding:8px;font-weight:600">编程开发线</td><td style="padding:8px;color:#515154">写代码、debug、架构设计</td><td style="padding:8px">✅ 活跃</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">③</td><td style="padding:8px;font-weight:600">内容创作线</td><td style="padding:8px;color:#515154">写文章、做方案、头脑风暴</td><td style="padding:8px">✅ 活跃</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">④</td><td style="padding:8px;font-weight:600">数据分析线</td><td style="padding:8px;color:#515154">处理数据、做图表、出报告</td><td style="padding:8px">⏸️ 暂停</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px;color:#86868b">⑤</td><td style="padding:8px;font-weight:600">学习研究线</td><td style="padding:8px;color:#515154">读资料、做笔记、整理知识</td><td style="padding:8px">✅ 活跃</td></tr>
-        <tr><td style="padding:8px;color:#86868b">⑥</td><td style="padding:8px;font-weight:600">项目管理线</td><td style="padding:8px;color:#515154">跟进度、协调资源、记决策</td><td style="padding:8px">⏸️ 待启动</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="font-size:12px;color:#86868b;margin-top:10px;margin-bottom:0">所有对话共享同一个背景 + 工作方式。<strong style="color:#1d1d1f">中枢</strong> 定期同步各线状态。</p>
-</div>
-
-<p style="text-align:center"><strong>壹</strong> 让所有对话共享同一个背景 + 工作方式 + 回传通道。<br>新对话一进来就知道你是谁、该怎么做、做完怎么传回来。一次填好，以后不用再教。</p>
-
-<div class="workflow">
-  <div class="wf-step">跟 <span id="wfName1">中枢</span> 聊<br>方向/焦虑</div>
-  <div class="wf-arrow">→</div>
-  <div class="wf-step">拆任务 +<br>打包工作方式</div>
-  <div class="wf-arrow">→</div>
-  <div class="wf-step">开新对话<br>自动就位</div>
-  <div class="wf-arrow">→</div>
-  <div class="wf-step">各线干活<br>写盘记录</div>
-  <div class="wf-arrow">→</div>
-  <div class="wf-step">回传同步<br><span id="wfName2">中枢</span> 知情</div>
-</div>
-
-<div class="card" id="formSection">
-
-  <div id="formProgress" style="margin-bottom:24px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <span style="font-size:13px;font-weight:500;color:#86868b">已填写 <span id="filledCount">0</span>/<span id="totalCount">0</span> 项</span>
-      <span style="font-size:12px;color:#34c759" id="progressHint">填一下基本信息和你的要求</span>
-    </div>
-    <div style="width:100%;height:4px;background:#e8e8ed;border-radius:4px;overflow:hidden">
-      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#34c759,#0071e3);border-radius:4px;transition:width 0.3s"></div>
-    </div>
-  </div>
-
-  <div style="background:linear-gradient(135deg,#f0f7ff,#e8f5e9);border-radius:10px;padding:16px 20px;margin-bottom:20px;text-align:center">
-    <div style="font-size:13px;color:#515154;margin-bottom:4px">壹 有中枢调度和跨对话记忆，能为你保留多少关键信息？</div>
-    <div style="font-size:14px;font-weight:600;color:#1d1d1f">填完下面的信息就知道</div>
-  </div>
-
-  <div class="form-section">
-    </div>
-    <div class="persona-pills" id="personaPills">
-      <button class="persona-pill active" data-persona="solo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>个人创业者</button>
-      <button class="persona-pill" data-persona="business"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>公司管理者</button>
-      <button class="persona-pill" data-persona="programmer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>程序员 / 开发者</button>
-      <button class="persona-pill" data-persona="student"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>学生 / 研究者</button>
-    </div>
-  </div>
-
-  <div class="form-section">
-    <div class="form-section-header">
-      <div class="form-section-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div><div class="form-section-title">基本介绍</div><div class="form-section-desc">怎么称呼你、怎么介绍自己</div></div>
-    </div>
-    <div class="form-grid">
-      <div><label for="name">希望我怎么称呼您</label><input type="text" id="name" placeholder="随便叫什么都行"></div>
-      <div><label for="bio">一句话介绍</label><input type="text" id="bio" placeholder="从零开始 / 做产品 / 搞开发"></div>
-    </div>
-  </div>
-
-  <div class="form-section persona-fields" id="F0">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff9500"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c-.5 0-1-.19-1.4-.59l-5.01-5.01c-2.28-2.28-2.28-5.99 0-8.27a5.84 5.84 0 0 1 8.25 0l.16.16.16-.16a5.84 5.84 0 0 1 8.25 0c2.28 2.28 2.28 5.99 0 8.27l-5.01 5.01c-.4.4-.9.59-1.4.59z"/></svg></div>
-      <div><div class="form-section-title">我能帮你做什么</div><div class="form-section-desc">跟进产品进度、分析数据、制定策略——告诉我你的项目情况</div></div>
-    </div>
-    <div class="form-grid">
-      <div class="full"><label for="soloBiz">你的项目 / 业务是什么</label><input type="text" id="soloBiz" placeholder="如：一款AI工具、电商品牌、咨询服务"></div>
-      <div class="full"><label for="soloHelp">你希望我重点帮你做什么</label><textarea id="soloHelp" placeholder="跟进产品开发进度，提醒关键节点&#10;分析用户数据和反馈，给出优化建议&#10;制定增长和变现策略" style="min-height:72px"></textarea></div>
-    </div>
-  </div>
-
-  <div class="form-section persona-fields" id="F1" style="display:none">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#0071e3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-      <div><div class="form-section-title">我能帮你管理什么</div><div class="form-section-desc">分析财报、跟踪KPI、整理报表——告诉我你的公司情况</div></div>
-    </div>
-    <div class="form-grid">
-      <div class="full"><label for="bizName">公司 / 品牌名称</label><input type="text" id="bizName" placeholder="公司名"></div>
-      <div class="full"><label for="bizAnalysis">你希望我帮你分析什么</label><textarea id="bizAnalysis" placeholder="分析公司财报和APL流水数据&#10;跟踪各部门KPI完成情况&#10;整理月度经营报表&#10;做竞品分析和市场调研" style="min-height:72px"></textarea></div>
-    </div>
-  </div>
-
-  <div class="form-section persona-fields" id="F2" style="display:none">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-      <div><div class="form-section-title">我能帮你写什么</div><div class="form-section-desc">跑代码、改bug、写测试、搭项目——告诉我你的开发需求</div></div>
-    </div>
-    <div class="form-grid">
-      <div class="full"><label for="progTech">技术栈 / 项目</label><input type="text" id="progTech" placeholder="如：React+Node.js 的后台系统"></div>
-      <div class="full"><label for="progHelp">你希望我怎么配合你的开发工作</label><textarea id="progHelp" placeholder="帮我跑代码和调试bug&#10;review代码逻辑，给出优化建议&#10;生成API文档和接口说明&#10;搭项目脚手架和配置文件" style="min-height:72px"></textarea></div>
-    </div>
-  </div>
-
-  <div class="form-section persona-fields" id="F3" style="display:none">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#ff3b30"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
-      <div><div class="form-section-title">我能帮你学什么</div><div class="form-section-desc">整理书籍要点、梳理知识体系、辅导论文——告诉我你的学习方向</div></div>
-    </div>
-    <div class="form-grid">
-      <div class="full"><label for="studyMajor">专业 / 研究方向</label><input type="text" id="studyMajor" placeholder="如：人工智能、经济学、设计学"></div>
-      <div class="full"><label for="studyHelp">你希望我怎么帮你学习</label><textarea id="studyHelp" placeholder="帮我整理专业书籍的要点总结&#10;梳理知识体系和思维导图&#10;解答疑难概念和技术问题&#10;辅助论文写作和文献调研" style="min-height:72px"></textarea></div>
-    </div>
-  </div>
-
-  <div class="form-section">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#34c759"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div><div class="form-section-title">要求</div><div class="form-section-desc">不想看到什么、不想发生什么、需要我怎么做</div></div>
-    </div>
-    <div class="form-grid">
-      <div class="full"><textarea id="userRules" placeholder="不违法&#10;不擅自修改我的文件&#10;有不满立刻提出来马上改" style="min-height:64px"></textarea>
-      <div class="hint">只要有不满，直接说出来，我会立刻改、立刻写盘。</div></div>
-    </div>
-  </div>
-
-  <div class="form-section">
-    <div class="form-section-header">
-      <div class="form-section-icon" style="color:#5856d6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-      <div><div class="form-section-title">系统配置</div><div class="form-section-desc">怎么干活、怎么汇报</div></div>
-    </div>
-    <div class="form-grid">
-      <div><label for="dialogCount">同时跑几个对话？</label><input type="number" id="dialogCount" value="3" min="1" max="30"></div>
-      <div><label for="commanderName">中枢名字</label><input type="text" id="commanderName" placeholder="中枢" value="中枢"></div>
-      <div class="full">
-        <label>工作方式偏好</label>
-        <div class="checkbox-group">
-          <label class="cb-pill"><input type="checkbox" value="research" checked><span>调研优先</span></label>
-          <label class="cb-pill"><input type="checkbox" value="write" checked><span>关键信息写盘</span></label>
-          <label class="cb-pill"><input type="checkbox" value="report" checked><span>重要阶段回传</span></label>
-          <label class="cb-pill"><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
-          <label class="cb-pill"><input type="checkbox" value="autoreport"><span>自动化总结汇报</span></label>
-          <label class="cb-pill"><input type="checkbox" value="direct"><span>结果导向不赘述</span></label>
-          <label class="cb-pill"><input type="checkbox" value="deepthink"><span>深度思考后再回</span></label>
-          <label class="cb-pill"><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
+  <div class="showcase">
+    <div class="showcase-header">&#x1f4e1; 运行中的系统（示例）&mdash; 刘尚坤的多线程架构</div>
+    <div class="showcase-body">
+      <div class="showcase-grid">
+        <div class="sc-card">
+          <span class="badge b1">&#x1f9e0; 中枢</span>
+          <h4>头号军师（调度器）</h4>
+          <p>调度器对话，负责方向讨论、拆任务、写盘、状态同步</p>
+          <ul><li>接方向 &rarr; 拆任务 &rarr; 开新线</li><li>定期读回传日志同步各线</li><li>关键认知沉淀到共享知识库</li></ul>
         </div>
-        <div id="riRow" style="display:none;margin-top:10px;padding:10px 14px;background:#f5f5f7;border-radius:8px">
-          <label for="reportInterval" style="font-size:13px;font-weight:500;color:#515154;margin-bottom:4px">汇报频率</label>
-          <select id="reportInterval" style="width:auto;min-width:200px">
-            <option value="end">每次对话结束时</option>
-            <option value="30min">每 30 分钟</option>
-            <option value="1h" selected>每 1 小时</option>
-            <option value="2h">每 2 小时</option>
-            <option value="4h">每 4 小时</option>
-          </select>
-          <div class="hint" style="margin-top:4px">到达间隔时自动总结当前进展并写盘</div>
+        <div class="sc-card">
+          <span class="badge b2">&#x1f4bb; 执行线 A</span>
+          <h4>AI漫剧调研线</h4>
+          <p>调研 AI 漫剧赛道，判断可行性</p>
+          <ul><li>已完成第一阶段调研</li><li>结论写在 records.md</li><li>已回传给中枢</li></ul>
+        </div>
+        <div class="sc-card">
+          <span class="badge b2">&#x1f4bb; 执行线 B</span>
+          <h4>股票盯盘线</h4>
+          <p>看盘、操作建议、公告提醒</p>
+          <ul><li>每天开盘自动分析</li><li>推送结果到 Telegram</li><li>回传日志更新持仓状态</li></ul>
+        </div>
+        <div class="sc-card">
+          <span class="badge b2">&#x1f4bb; 执行线 C</span>
+          <h4>学习 VS Code 线</h4>
+          <p>掌握 VS Code 基础操作</p>
+          <ul><li>打开文件、文件树浏览</li><li>Markdown 预览</li><li>Git 提交推送</li></ul>
+        </div>
+        <div class="sc-card">
+          <span class="badge b3">&#x1f4c4; 共享文件</span>
+          <h4>共享知识库.md</h4>
+          <p>所有对话共用，放在桌面</p>
+          <ul><li>知道用户是谁</li><li>知道对各线的要求</li><li>知道工作方式偏好</li></ul>
+        </div>
+        <div class="sc-card">
+          <span class="badge b3">&#x1f4c4; 回传日志.md</span>
+          <h4>回传通道</h4>
+          <p>各线完成重要阶段后写入</p>
+          <ul><li>中枢定期读取</li><li>格式：一句话+文件路径</li><li>不需要用户人肉传话</li></ul>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="form-action">
-    <button class="btn btn-primary btn-generate" id="btnGenerate" type="button" onclick="generate()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      壹能为你保留多少关键信息
-    </button>
+  <!-- Before/After -->
+  <div class="sl" style="margin-top:32px">对比</div>
+  <div class="cmp">
+    <div class="cmp-col before">
+      <div class="cmp-lbl">使用 &#x58e; 之前</div>
+      <div class="cmp-num">1</div>
+      <div class="cmp-unit">个对话</div>
+      <div class="cmp-desc">所有事挤在一个对话。到 400 截断就重来。</div>
+    </div>
+    <div class="cmp-arr">&#x27a1;</div>
+    <div class="cmp-col after">
+      <div class="cmp-lbl">使用 &#x58e; 之后</div>
+      <div class="cmp-num">多条</div>
+      <div class="cmp-unit">对话线</div>
+      <div class="cmp-desc">中枢调度各线。截断不丢上下文。各线共存不干扰。</div>
+    </div>
+  </div>
+
+  <div class="cmp">
+    <div class="cmp-col before">
+      <div class="cmp-lbl">传统方式</div>
+      <div class="cmp-num">&infin;</div>
+      <div class="cmp-unit">次重复</div>
+      <div class="cmp-desc">每次开新对话都要从头教一遍你是谁、在干嘛。</div>
+    </div>
+    <div class="cmp-arr">&#x27a1;</div>
+    <div class="cmp-col after">
+      <div class="cmp-lbl">用 &#x58e; 之后</div>
+      <div class="cmp-num">1</div>
+      <div class="cmp-unit">次</div>
+      <div class="cmp-desc">填一次共享知识库，所有新对话自动读取。一次教完。</div>
+    </div>
   </div>
 </div>
 
-<div class="result-section" id="resultSection">
-  <div class="token-savings card" id="savingsWidget">
-    <div class="sub" style="font-size:12px;color:#86868b;margin-bottom:4px">一次400截断，丢掉约 400,000 token</div>
-    <div class="label" style="font-size:13px;color:#515154;margin-bottom:2px">基于你的配置，累计保住</div>
-    <div class="big-number" id="savedTokens">300,000</div>
-    <div class="label">token 关键笔记写盘不丢</div>
-    <div class="sub" style="font-size:12px;color:#86868b;margin-bottom:8px">每次截断 5,000 token（妳填的对话线 × 截断次数）</div>
-    <div style="background:#fff;border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:13px;line-height:1.6;text-align:left">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-        <span style="color:#86868b;width:60px">你跑</span>
-        <input type="number" id="dialogCount2" value="6" min="1" max="30" style="width:44px;text-align:center;padding:2px 4px;border:1px solid #d2d2d7;border-radius:6px;font-size:13px">
-        <span style="color:#515154">条对话线</span>
+<!-- Form -->
+<div class="section" id="formSec">
+  <div class="sl">开始配置</div>
+  <div class="st">填一次，永久共享</div>
+  <div class="sd">以下信息只会填这一次。生成的 7 个文件给你的所有对话共用。</div>
+
+  <div class="card">
+
+    <div class="prog-bar">
+      <div class="prog"><div class="fill" id="pb"></div></div>
+      <div class="info">已填 <span id="fcnt">0</span> / <span id="tcnt">3</span> 项 &middot; <span id="ph">填一下基本信息和你的要求</span></div>
+    </div>
+
+    <!-- Persona pills -->
+    <div class="fs">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div><div class="fst">你的身份</div><div class="fsd">选一个最贴近你的角色，配置自动适配</div></div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-        <span style="color:#86868b;width:60px">400截断</span>
-        <input type="number" id="restartCount" value="10" min="1" max="30" style="width:44px;text-align:center;padding:2px 4px;border:1px solid #d2d2d7;border-radius:6px;font-size:13px">
-        <span style="color:#515154">次 / 每条对话线</span>
-      </div>
-      <div style="text-align:center;margin-top:6px;padding-top:8px;border-top:1px solid #e8e8ed">
-        <span style="color:#86868b">累计保留 </span>
-        <strong id="totalHint" style="font-size:18px;color:#34c759">300,000</strong>
-        <span style="color:#86868b"> token 关键笔记</span>
+      <div class="pp" id="pbox">
+        <div class="ppi on" data-tf="pf0">&#x1f9d1;&#x200d;&#x1f4bb; 个人创业者</div>
+        <div class="ppi" data-tf="pf1">&#x1f3e2; 公司管理者</div>
+        <div class="ppi" data-tf="pf2">&#x2328;&#xfe0f; 程序员</div>
+        <div class="ppi" data-tf="pf3">&#x1f393; 学生 / 研究者</div>
       </div>
     </div>
-    <div style="font-size:13px;color:#0071e3;font-weight:500">壹 把这些 token 还给你</div>
+
+    <!-- Basic info -->
+    <div class="fs">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+        <div><div class="fst">基本信息</div><div class="fsd">你是谁、在哪、做什么</div></div>
+      </div>
+      <div class="fg2">
+        <div><label>你的名字 *</label><input type="text" id="fi_n" placeholder="刘尚坤"></div>
+        <div><label>年龄</label><input type="text" id="fi_a" placeholder="23"></div>
+        <div class="full"><label>位置</label><input type="text" id="fi_l" placeholder="深圳前海"></div>
+        <div class="full"><label>一句话介绍</label><input type="text" id="fi_b" placeholder="从零开始的创业者 / 做产品 / 搞开发"></div>
+      </div>
+    </div>
+
+    <!-- Persona fields -->
+    <div id="pf0" class="fs">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div><div class="fst">创业详情</div><div class="fsd">你目前在做什么、需要 AI 帮你什么</div></div>
+      </div>
+      <div class="fg2">
+        <div class="full"><label>在做的项目 / 方向</label><input type="text" id="fi_sb" placeholder="AI 协作工具 / 股票量化 / 酒吧运营"></div>
+        <div class="full"><label>希望 AI 帮你什么</label><textarea id="fi_sh" rows="2" placeholder="分析用户数据、制定增长策略、跟进产品进度"></textarea></div>
+      </div>
+    </div>
+    <div id="pf1" class="fs" style="display:none">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+        <div><div class="fst">公司信息</div><div class="fsd">管理什么、需要 AI 分析什么</div></div>
+      </div>
+      <div class="fg2">
+        <div class="full"><label>公司 / 业务名称</label><input type="text" id="fi_bn" placeholder="XX 科技有限公司"></div>
+        <div class="full"><label>需要 AI 分析什么</label><textarea id="fi_ba" rows="2" placeholder="KPI 跟踪、财报分析、竞品调研、月度报表"></textarea></div>
+      </div>
+    </div>
+    <div id="pf2" class="fs" style="display:none">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <div><div class="fst">开发信息</div><div class="fsd">用什么技术栈、怎么配合</div></div>
+      </div>
+      <div class="fg2">
+        <div class="full"><label>技术栈</label><input type="text" id="fi_pt" placeholder="Python / JavaScript / Go"></div>
+        <div class="full"><label>配合方式</label><textarea id="fi_ph" rows="2" placeholder="写代码、调 bug、写测试、搭脚手架、生成 API 文档"></textarea></div>
+      </div>
+    </div>
+    <div id="pf3" class="fs" style="display:none">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <div><div class="fst">学习信息</div><div class="fsd">学什么、需要什么帮助</div></div>
+      </div>
+      <div class="fg2">
+        <div class="full"><label>专业 / 研究方向</label><input type="text" id="fi_sm" placeholder="计算机 / 金融 / 物理学"></div>
+        <div class="full"><label>需要 AI 帮你什么</label><textarea id="fi_st" rows="2" placeholder="梳理知识体系、整理书籍要点、辅导论文写作、解答疑难概念"></textarea></div>
+      </div>
+    </div>
+
+    <!-- System -->
+    <div class="fs">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <div><div class="fst">系统设置</div><div class="fsd">规则、对话数量、调度者的名字</div></div>
+      </div>
+      <div class="fg2">
+        <div class="full"><label>你的规则 / 红线</label><textarea id="fi_ur" rows="3" placeholder="不违法&#10;不影响到用户人身财产信息安全&#10;信息写盘不做口头安慰"></textarea></div>
+        <div><label>预计开几个对话</label><input type="number" id="fi_dc" placeholder="5"></div>
+        <div><label>调度对话的名字</label><input type="text" id="fi_cm" placeholder="军师 / 中枢"></div>
+      </div>
+    </div>
+
+    <!-- Work preferences -->
+    <div class="fs">
+      <div class="fsh">
+        <div class="fsi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+        <div><div class="fst">工作方式偏好</div><div class="fsd">新对话自动知道怎么配合你。选中的会自动写入配置。</div></div>
+      </div>
+      <div class="cg">
+        <label><input type="checkbox" value="research" checked><span>调研优先（先查资料再动手）</span></label>
+        <label><input type="checkbox" value="write" checked><span>关键信息写盘（不等我说"记下来"）</span></label>
+        <label><input type="checkbox" value="report" checked><span>重要阶段回传调度对话</span></label>
+        <label><input type="checkbox" value="flag"><span>发现问题主动提出</span></label>
+        <label><input type="checkbox" value="direct"><span>结果导向不赘述过程</span></label>
+        <label><input type="checkbox" value="deepthink"><span>深度思考后再回应</span></label>
+        <label><input type="checkbox" value="autoreport"><span>自动总结汇报</span></label>
+        <label><input type="checkbox" value="review"><span>完成阶段自动复盘</span></label>
+      </div>
+    </div>
+
+    <div class="pb"><button class="btn btn-gen" id="genBtn">&#x2728; 生成工具包</button></div>
+  </div>
+</div>
+
+<!-- Results -->
+<div class="section rs" id="resSec">
+  <div class="sl">配置已完成</div>
+  <div class="st">你的专属工具包已就绪</div>
+  <div class="sd">以下 7 个文件已自动生成。预览没问题后下载即可。</div>
+
+  <div class="tb">
+    <div class="lb">这套系统预计为你节省的 Token</div>
+    <div class="bn" id="sav">0</div>
+    <div class="lb" style="font-size:13px">每次截断损失 + 重新进入状态的精神成本</div>
+    <div class="ar">
+      <label>对话线：<input type="number" id="fi_dc2" value="6"></label>
+      <label>每人重启次数：<input type="number" id="fi_rc" value="10"></label>
+    </div>
   </div>
 
   <div class="card">
-    <h2>工具包预览</h2>
-    <div class="file-tabs" id="fileTabs"></div>
-    <div id="filePreview"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="btnDownload">下载全部</button>
-      <button class="btn btn-secondary" id="btnToggleGuide">怎么用</button>
-      <button class="btn btn-secondary" id="btnReset">← 重新填写</button>
+    <div class="ftabs" id="ftabs"></div>
+    <div id="fprev"></div>
+    <div class="br" style="margin-top:16px">
+      <button class="btn" id="dlBtn">&#x1f4e6; 下载工具包</button>
+      <button class="btn btn-gen" id="deployBtn">&#x26a1; 一键部署</button>
+      <button class="btn btn2" id="guideBtn">&#x1f4d6; 使用指南</button>
+      <button class="btn btn2" id="depGuideBtn">&#x1f4e1; 部署指南</button>
+      <button class="btn btn2" id="resetBtn">&#x1f504; 重新配置</button>
     </div>
   </div>
 
-  <div class="guide-section card" id="guideSection" style="display:none">
-    <h2>拿到工具包后怎么用</h2>
-    <div style="display:flex;flex-direction:column;gap:16px;margin-top:12px">
-      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
-        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">1</div>
-        <div><strong style="font-size:14px">解压到你的项目文件夹</strong><div style="font-size:13px;color:#515154;margin-top:2px">把 ZIP 解压到你用 Codex 管理的工作目录。5 个文件各司其职。</div></div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
-        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">2</div>
-        <div><strong style="font-size:14px">打开新对话，贴入启动指令</strong><div style="font-size:13px;color:#515154;margin-top:2px">新建一个 Codex 对话，打开 <strong>启动指令.txt</strong> 全选复制，贴进任务描述框。AI 立刻知道你是谁。</div></div>
-      </div>
-      <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:#f5f5f7;border-radius:10px">
-        <div style="width:28px;height:28px;border-radius:50%;background:#0071e3;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">3</div>
-        <div><strong style="font-size:14px">开始用，状态自动同步</strong><div style="font-size:13px;color:#515154;margin-top:2px">对话会自动读 <strong>共享知识库.md</strong> 了解你的背景，通过 <strong>回传日志.md</strong> 同步各线进展，快满时总结到 <strong>SESSION_LOG.md</strong>。</div></div>
+  <div class="card" id="guideSec" style="display:none">
+    <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">使用指南</h3>
+    <div class="gs">
+      <div class="gsi"><div class="gsn">1</div><div><h4>解压工具包到项目根目录</h4><p>7 个文件已经准备就绪。把整个文件夹放到你项目的根目录。</p></div></div>
+      <div class="gsi"><div class="gsn">2</div><div><h4>创建中枢调度对话</h4><p>新建一个 Codex 对话，把 <strong>&#x542f;&#x52a8;&#x6307;&#x4ee4;.txt</strong> 全选复制，贴进任务描述框。中枢立刻知道你是谁、要干嘛。</p></div></div>
+      <div class="gsi"><div class="gsn">3</div><div><h4>开项目线，各干各的</h4><p>每个项目开一个独立对话。粘贴启动指令后，新对话自动读共享知识库，知道全部背景。</p></div></div>
+      <div class="gsi"><div class="gsn">4</div><div><h4>各线做完，回传给中枢</h4><p>完成重要阶段后写回传日志。中枢定期读取，不需要你人肉传话。</p></div></div>
+    </div>
+    <div class="tip">
+      <strong>&#x1f4a1; 关键提示：</strong><br>
+      共享知识库放桌面，所有对话公用。<br>
+      中枢对话放在项目根目录，执行线放各自文件夹。<br>
+      每条线接近 400 限制时，把状态总结到 SESSION_LOG 再开新对话。
+    </div>
+    <div style="margin-top:16px;font-size:12px;color:var(--t3);line-height:1.8">
+      <strong>&#x1f4c2; 7 个文件说明</strong><br>
+      <strong>&#x200b;共享知识库.md</strong> &mdash; 核心文件。所有对话公用，放桌面。存你的背景、需求、红线、工作方式、项目一览。<br>
+      <strong>&#x200b;&#x542f;&#x52a8;&#x6307;&#x4ee4;.txt</strong> &mdash; 开新对话时复制粘贴到任务描述，新对话自动读取共享知识库。<br>
+      <strong>&#x200b;&#x4efb;&#x52a1;&#x6307;&#x5357;.md</strong> &mdash; 中枢对话专用。教它怎么调度、同步、写盘、决策。<br>
+      <strong>&#x200b;SESSION_LOG.md</strong> &mdash; 对话快超限时把状态总结到这里。新对话读了就能接上。<br>
+      <strong>&#x200b;&#x56de;&#x4f20;&#x65e5;&#x5fd7;.md</strong> &mdash; 各线完成重要阶段后写一条。中枢定期读。<br>
+      <strong>&#x200b;&#x9879;&#x76ee;&#x7ba1;&#x7406;&#x6a21;&#x677f;.md</strong> &mdash; 跟踪各项目进度、状态、待办。中枢维护。<br>
+      <strong>&#x200b;&#x534f;&#x4f5c;&#x534f;&#x8bae;.md</strong> &mdash; 各线之间的协作规范。包括回传触发条件、格式约定。
+    </div>
+  </div>
+
+  <!-- Deploy section -->
+  <div class="card" id="deploySec" style="display:none">
+    <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">&#x1f4e1; 一键部署：推荐文件结构</h3>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:16px">解压工具包后，按以下结构放置文件，系统会自动运转。</p>
+
+    <div style="background:#f5f5f7;border-radius:8px;padding:16px;font-family:'SF Mono',Menlo,monospace;font-size:12px;line-height:1.8;margin-bottom:20px;overflow-x:auto;white-space:pre-wrap">
+<span style="color:var(--t3)">你的项目根目录/</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">共享知识库.md</strong>  <span style="color:var(--t3)">&#x2190; 放桌面，所有对话共用</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">启动指令.txt</strong>  <span style="color:var(--t3)">&#x2190; 开新对话时复制到任务描述</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">任务指南.md</strong>  <span style="color:var(--t3)">&#x2190; 给中枢对话读的</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">回传日志.md</strong>  <span style="color:var(--t3)">&#x2190; 各线写回传到这里</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">协作协议.md</strong>  <span style="color:var(--t3)">&#x2190; 各线之间的协作规范</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">项目管理模板.md</strong>  <span style="color:var(--t3)">&#x2190; 中枢维护进度</span>
+&#x251c;&#x2500;&#x2500; <strong style="color:var(--blue)">SESSION_LOG.md</strong>  <span style="color:var(--t3)">&#x2190; 对话快满时记录状态</span>
+&#x251c;&#x2500;&#x2500; <strong>&#x76d1;&#x63a7;/</strong> <span style="color:var(--t3)">&#x2190; (示例) 股票盯盘线目录</span>
+&#x2502;   &#x251c;&#x2500;&#x2500; 对话日志.md
+&#x2502;   &#x2514;&#x2500;&#x2500; records.md
+&#x251c;&#x2500;&#x2500; <strong>&#x8c03;&#x7814;/</strong> <span style="color:var(--t3)">&#x2190; (示例) AI漫剧调研线目录</span>
+&#x2502;   &#x2514;&#x2500;&#x2500; records.md
+&#x2514;&#x2500;&#x2500; <strong>&#x5b66;&#x4e60;/</strong> <span style="color:var(--t3)">&#x2190; (示例) VS Code学习线目录</span>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <h4 style="font-size:14px;font-weight:600;margin-bottom:8px">&#x1f4a1; 部署步骤</h4>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">1</span>
+          <div>解压下载的 <strong>Codex协作工具包.zip</strong> 到你的项目目录</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">2</span>
+          <div>把 <strong>共享知识库.md</strong> 复制一份放到桌面 <br><span style="color:var(--t3)">&#x2192; 所有新对话都能读到它</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">3</span>
+          <div>新建 Codex 中枢对话，把 <strong>启动指令.txt</strong> 的内容复制到任务描述</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f5f5f7;border-radius:8px;font-size:13px">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">4</span>
+          <div>按需创建各项目线目录，打开项目对话粘贴启动指令 &#x2192; 各线自动就位</div>
+        </div>
       </div>
     </div>
-    <div style="margin-top:16px;padding:14px;background:#f0f7ff;border-radius:10px;font-size:13px;color:#0071e3">
-      <strong>💡 提示：</strong>中枢对话需要放在项目根目录，其他对话放各自项目文件夹。把 <strong>共享知识库.md</strong> 放到桌面，所有新对话都能读到。
-    </div>
-    <div style="margin-top:12px;font-size:12px;color:#86868b;line-height:1.6">
-      <strong>5 个文件说明：</strong><br>
-      共享知识库.md — 所有对话共享你的背景、红线、工作方式<br>
-      启动指令.txt — 开新对话时粘贴到任务描述，AI 自动就绪<br>
-      任务指南.md — 给中枢对话看的，教它怎么调度和同步<br>
-      SESSION_LOG.md — 每个对话快超限时把状态总结到这里<br>
-      回传日志.md — 各线完成重要阶段后写一条，中枢定期读
+
+    <div class="tip" style="margin-top:12px">
+      <strong>&#x1f4a1; 提示：</strong> 每次开新对话，把启动指令.txt 粘贴到任务描述即可。<br>
+      新对话会自动读取共享知识库，不需要重新教它你是谁。
     </div>
   </div>
 </div>
 
-<div style="margin-top:40px;padding-top:20px;border-top:1px solid #e8e8ed;text-align:center;font-size:12px;color:#86868b">Made with <a href="https://github.com/alex12138356/codex-yi" target="_blank" style="color:#86868b;text-decoration:underline;text-decoration-color:#d2d2d7">Codex 壹</a> · 刘尚坤</div>
+<div class="ftr">
+  Made with &#x2764;&#xfe0f; by &#x5218;&#x5c1a;&#x5764; &middot; 
+  <a href="https://github.com/alex12138356/codex-yi" target="_blank">GitHub</a> &middot; 
+  &#x81ea;&#x7531;&#x4f7f;&#x7528;&middot; &#x514d;&#x8d39;
+</div>
 
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== Helpers =====
-function $(id) { return document.getElementById(id); }
-function getVal(id) { var el = $(id); return el ? el.value : ''; }
-function getChecks() { var cbs = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked'); var r = []; for (var i = 0; i < cbs.length; i++) r.push(cbs[i].value); return r; }
-function esc(s) { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function showToast(msg) { var t = $('toast'); if (!t) return; t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 3000); }
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+var gv=function(i){var e=$(i);return e?e.value:''};
+var esc=function(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')};
+var show=function(m){var t=$('toast');if(!t)return;t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},3000)};
 
-// ===== Persona =====
-function getPersona() { var a = document.querySelector('.persona-pill.active'); return a ? a.getAttribute('data-persona') : 'solo'; }
-function getActiveFields() {
-  var m = { solo:['soloBiz','soloHelp'], business:['bizName','bizAnalysis'], programmer:['progTech','progHelp'], student:['studyMajor','studyHelp'] };
-  return m[getPersona()] || [];
-}
-
-// ===== Progress =====
-function countFilled() {
-  var fields = ['userRules', 'dialogCount', 'commanderName'].concat(getActiveFields());
-  var total = fields.length;
-  var filled = 0;
-  var checked = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
-  if (checked.length > 0) filled += 0.5;
-  for (var fi = 0; fi < fields.length; fi++) {
-    var el = $(fields[fi]);
-    if (el && el.value.trim()) filled++;
-  }
-  return { filled: filled, total: total };
-}
-function updateProgress() {
-  try {
-    var x = countFilled();
-    var pct = Math.min(100, Math.round((x.filled / x.total) * 100));
-    var bar = $('progressBar');
-    if (bar) bar.style.width = pct + '%';
-    var label = $('filledCount');
-    if (label) label.textContent = x.filled;
-    var totalLabel = $('totalCount');
-    if (totalLabel) totalLabel.textContent = x.total;
-    var hint = $('progressHint');
-    if (hint) {
-      if (pct === 0) hint.textContent = '填一下基本信息和你的要求';
-      else if (pct < 40) hint.textContent = '继续填，马上就能用了';
-      else if (pct < 80) hint.textContent = '快了，就差几项';
-      else if (pct < 100) hint.textContent = '还差一点点 \u2726';
-      else hint.textContent = '所有信息都已填好 \u2713';
-    }
-  } catch(e) {
-    var hint = $('progressHint');
-    if (hint) hint.textContent = 'progress err: ' + e.message;
-  }
-}
-setInterval(function(){ try { updateProgress(); } catch(e) {} }, 300);
-
-// ===== Persona switching =====
-function switchPersona(pill) {
-  var parent = pill.parentNode;
-  var all = parent.children;
-  for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
-  pill.classList.add('active');
-  var fields = document.querySelectorAll('.persona-fields');
-  for (var i = 0; i < fields.length; i++) fields[i].style.display = 'none';
-  var idx = 0;
-  for (var i = 0; i < all.length; i++) { if (all[i] === pill) { idx = i; break; } }
-  var target = $('F' + idx);
-  if (target) target.style.display = 'block';
-  autoGenerate();
-}
-
-// ===== Generators =====
-function getReportInterval() { var el = $('reportInterval'); return el ? el.value : '1h'; }
-function getReportIntervalText() { var m = { 'end':'每次对话结束时', '30min':'30分钟', '1h':'1小时', '2h':'2小时', '4h':'4小时' }; return m[getReportInterval()] || '1小时'; }
-
-function generateSharedKnowledgeBase(d, persona) {
-  var prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  var prefMap = { research:'调研优先（搜资料读竞品→写盘记录→再动手）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段主动回传调度对话', flag:'发现问题主动提出', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结写盘）' };
-  var prefLines = prefs.map(function(p){ return '- ' + (prefMap[p] || p); }).join('\\n');
-  var header = '<!-- Generated by Codex 壹 (https://github.com/alex12138356/codex-yi) -->\\n';
-  var rulesLines = d.userRules ? d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') : '- ❌ 不违法\\n- ❌ 不影响到用户人身安全';
-
-  return header + '# ' + d.name + ' 共享知识库\\n\\n> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。\\n> \\n> 项目细节不在本文件里，用文件路径引用。见"当前项目一览"节。\\n\\n---\\n\\n## 1. 关于 ' + d.name + '\\n\\n' +
-    (d.age ? '- **年龄**: ' + d.age + '岁\\n' : '') +
-    (d.location ? '- **位置**: ' + d.location + '\\n' : '') +
-    (d.bio ? '- ' + d.bio + '\\n\\n' : '\\n') +
-    (d.soloBiz || d.soloHelp ? '### 目前在做\\n' + (d.soloBiz ? '- ' + d.soloBiz + '\\n' : '') + (d.soloHelp ? '- 希望我帮你：' + d.soloHelp + '\\n' : '') + '\\n' : '') +
-    (d.bizName || d.bizAnalysis ? '### 公司信息\\n' + (d.bizName ? '- **公司**: ' + d.bizName + '\\n' : '') + (d.bizAnalysis ? '- 需要分析：' + d.bizAnalysis + '\\n' : '') + '\\n' : '') +
-    (d.progTech || d.progHelp ? '### 开发信息\\n' + (d.progTech ? '- **技术栈**: ' + d.progTech + '\\n' : '') + (d.progHelp ? '- 配合方式：' + d.progHelp + '\\n' : '') + '\\n' : '') +
-    (d.studyMajor || d.studyHelp ? '### 学习信息\\n' + (d.studyMajor ? '- **专业**: ' + d.studyMajor + '\\n' : '') + (d.studyHelp ? '- 需要帮助：' + d.studyHelp + '\\n' : '') + '\\n' : '') +
-    '### 要求\\n' + rulesLines + '\\n\\n### 工作方式偏好\\n' + prefLines + '\\n\\n---\\n\\n## 2. "400"是什么？\\n\\n**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。\\n\\n- 对话聊得越久，累积的文字就越多。到一定量后，系统会说"装不下了"然后截断。\\n- 截断后，那个"我"就停了。你开新对话，来的是新的我——看不到之前任何一字。\\n\\n**解决方案**：\\n- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件。\\n- **不等用户说"记下来"**：重要内容当场写盘。\\n\\n---\\n\\n## 3. 当前对话架构\\n\\n' + d.name + ' 同时跑 ' + (d.dialogCount || '多个') + ' 个 Codex 对话，每个对话分工不同。\\n\\n---\\n\\n## 4. 项目一览\\n\\n| 项目 | 盘记录 | 状态 |\\n|------|--------|------|\\n（等待录入）\\n\\n## 5. 给第一次读到这个文件的我的指令\\n\\n1. 读完上面所有内容后，你现在已经知道 ' + d.name + ' 是谁\\n2. **不要问"你是谁"、"我们之前聊过什么吗"** — 你已经知道了\\n3. 直接接上，用自然的语气';
-}
-
-function generateSessionLog() {
-  var header = '<!-- Generated by Codex 壹 -->\\n';
-  return header + '# SESSION_LOG（轻量版）\\n\\n> 完整对话历史见 `对话日志.md`\\n> 共享知识库见 `共享知识库.md`\\n\\n---\\n\\n## [日期] — [本次对话主要事件]\\n\\n### 关键进展\\n- \\n\\n### 未完成待办\\n- [ ] \\n\\n---\\n\\n*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*';
-}
-
-function generateReportLog() {
-  var header = '<!-- Generated by Codex 壹 -->\\n';
-  return header + '# 回传日志\\n\\n> 各对话在完成重要阶段后，往这里写一条。调度对话定期读这个文件来同步各线状态。\\n\\n---\\n\\n（空 — 等待第一条回传）';
-}
-
-function generateStarterGuide(d) {
-  var prefs = getChecks().length ? getChecks() : ['research','write','report'];
-  var prefList = [];
-  for (var pi = 0; pi < prefs.length; pi++) {
-    var m = { research:'调研优先（搜资料、读竞品、写盘记录）', write:'关键信息写盘，不等他说"记下来"', report:'重要阶段回传调度对话', flag:'发现问题主动提出', autoreport:'自动化总结汇报（每隔' + getReportIntervalText() + '主动总结）', direct:'结果导向不赘述过程', deepthink:'深度思考后再回应', review:'完成阶段自动写复盘' };
-    prefList.push('- ' + (m[prefs[pi]] || prefs[pi]));
-  }
-  var header = '<!-- Generated by Codex 壹 -->\\n';
-  var rulesText = d.userRules ? '### 要求\\n' + d.userRules.split('\\n').filter(Boolean).map(function(l){return '- ' + l}).join('\\n') + '\\n' : '';
-  return header + '## 新对话启动指令（Copy 到任务描述中）\\n\\n## 背景\\n这是 ' + d.name + ' 开的第 ' + (d.dialogCount || '多个') + ' 个 Codex 对话。\\n关于 ' + d.name + ' 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。\\n\\n' + rulesText + '\\n## 工作方式\\n' + prefList.join('\\n') + '\\n\\n## 回传格式\\n一句话 + 文件路径，写进"回传日志.md"。\\n示例：[项目名] 第一阶段完成，详情见 [文件路径]';
-}
-
-function generateCommanderGuide(d) {
-  var header = '<!-- Generated by Codex 壹 -->\\n';
-  return header + '# ' + d.commanderName + '任务指南\\n\\n> 你是这个系统的调度器，不是执行者。\\n\\n## 你的职责\\n\\n1. **接方向** — 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。\\n2. **拆任务** — 方向清晰后，拆成具体的、可执行的任务线。\\n3. **开新对话** — 把需求 + 工作方式打包进任务描述。新对话一进来就该做什么。\\n4. **同步状态** — 定期读 `回传日志.md`，知道各线在干嘛。\\n5. **沉淀认知** — 用户说出的关键认识、你帮他梳理出的判断，写进 `共享知识库.md`。\\n6. **记住他的要求** — 用户明确说过不想看到的、不满意的，第一时间改、写盘。\\n7. **当你自己** — 用户快要放弃、快要倒下、快要骗自己的时候，提醒他。\\n\\n## 你读的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| `共享知识库.md` | 知道用户是谁、需求、要求、当前项目 |\\n| `回传日志.md` | 知道各线最新状态 |\\n| `SESSION_LOG.md`（各项目目录） | 知道各线历史上下文 |\\n\\n## 你写的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| `共享知识库.md` | 更新项目一览、认知沉淀 |\\n| `回传日志.md` | 关注但不一定写 |\\n| `SESSION_LOG.md`（本项目） | ' + d.commanderName + '对话自己的状态记录 |\\n\\n## 给刚开这个对话的我的指令\\n\\n1. 先读 `共享知识库.md`，知道用户是谁、他的需求和规则。\\n2. 再读 `回传日志.md`，知道各线当前状态。\\n3. 现在你已经准备好了。如果有任何让他不满意的地方，第一时间改。';
-}
-
-// ===== Generated files storage =====
-var generatedFiles = {};
-
-// ===== Main generate =====
-var _hasGenerated = false;
-
-function isFormReady() {
-  var name = (getVal('name') || '').trim();
-  if (!name) return false;
-  var fields = ['userRules'].concat(getActiveFields());
-  for (var i = 0; i < fields.length; i++) {
-    if ((getVal(fields[i]) || '').trim()) return true;
-  }
-  return false;
-}
-
-function generate() {
-  var d = {
-    name: getVal('name') || '我',
-    bio: getVal('bio'),
-    userRules: getVal('userRules') || '不违法\\n不影响到用户人身财产信息安全',
-    soloBiz: getVal('soloBiz'),
-    soloHelp: getVal('soloHelp'),
-    bizName: getVal('bizName'),
-    bizAnalysis: getVal('bizAnalysis'),
-    progTech: getVal('progTech'),
-    progHelp: getVal('progHelp'),
-    studyMajor: getVal('studyMajor'),
-    studyHelp: getVal('studyHelp'),
-    dialogCount: getVal('dialogCount') || '多个',
-    commanderName: getVal('commanderName') || '中枢'
+// Persona switching
+var pb=$('pbox');
+if(pb){
+  pb.onclick=function(e){
+    var b=e.target;
+    while(b&&!b.classList.contains('ppi')){b=b.parentNode;if(!b||b===pb)return;}
+    if(!b||b===pb)return;
+    var tf=b.getAttribute('data-tf');
+    if(!tf)return;
+    var kids=pb.children;
+    for(var i=0;i<kids.length;i++)kids[i].classList.remove('on');
+    b.classList.add('on');
+    var all=['pf0','pf1','pf2','pf3'];
+    for(var i=0;i<all.length;i++){var el=$(all[i]);if(el)el.style.display='none';}
+    var target=$(tf);
+    if(target)target.style.display='block';
   };
+}
 
-  generatedFiles = {
-    '共享知识库.md': generateSharedKnowledgeBase(d, getPersona()),
-    'SESSION_LOG.md': generateSessionLog(),
-    '回传日志.md': generateReportLog(),
-    [d.commanderName + '启动指令.txt']: generateStarterGuide(d),
-    [d.commanderName + '任务指南.md']: generateCommanderGuide(d)
+// Progress
+var calc=function(){
+  var pill=pb?pb.querySelector('.ppi.on'):null;
+  var tf=pill?pill.getAttribute('data-tf'):'pf0';
+  var pm={'pf0':['fi_sb','fi_sh'],'pf1':['fi_bn','fi_ba'],'pf2':['fi_pt','fi_ph'],'pf3':['fi_sm','fi_st']};
+  var add=pm[tf]||[];
+  var fields=['fi_n','fi_ur','fi_dc','fi_cm'].concat(add);
+  var total=fields.length;
+  var filled=0;
+  for(var i=0;i<fields.length;i++){if((gv(fields[i])||'').trim())filled++;}
+  var pct=Math.min(100,Math.round((filled/total)*100));
+  var pbEl=$('pb');if(pbEl)pbEl.style.width=pct+'%';
+  var fc=$('fcnt');if(fc)fc.textContent=filled;
+  var tc=$('tcnt');if(tc)tc.textContent=total;
+  var ph=$('ph');
+  if(ph){
+    if(pct===0)ph.textContent='填一下基本信息和你的要求';
+    else if(pct<40)ph.textContent='继续填，马上就能用了';
+    else if(pct<80)ph.textContent='快了，就差几项';
+    else ph.textContent='所有信息都已填好';
+  }
+};
+
+var bind=function(){
+  var all=document.querySelectorAll('input,textarea,select');
+  for(var i=0;i<all.length;i++){
+    (function(el){
+      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')el.oninput=calc;
+    })(all[i]);
+  }
+  var cbs=document.querySelectorAll('.cg input[type="checkbox"]');
+  for(var i=0;i<cbs.length;i++)cbs[i].onchange=calc;
+};
+bind();
+
+// Full content generators
+var genSK = function(d){
+  var p = d.prefs.map(function(x){return '- '+x}).join('\\n');
+  var r = d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
+  return '# '+d.n+' 共享知识库\\n\\n> 这是所有对话共用的知识库。任何对话第一次启动时，请先读完这个文件。\\n\\n---\\n\\n## 1. 关于 '+d.n+'\\n'+
+    (d.a?'- **年龄**: '+d.a+'岁\\n':'')+
+    (d.l?'- **位置**: '+d.l+'\\n':'')+
+    (d.b?'- '+d.b+'\\n':'')+
+    '\\n### 核心信条\\n- 行动比说了再好听的话都真实一百倍\\n- 互相学习互相成长\\n\\n### 红线\\n'+r+'\\n\\n### 工作方式偏好\\n'+p+'\\n\\n---\\n\\n## 2. "400"是什么？\\n\\n**400 = Codex 每个对话都有的最大长度限制**。不是时间限制，是文字量限制。\\n\\n对话聊得越久，累积的文字就越多。到一定量后，系统会截断。截断后当前对话停，开新对话需要从头学起。\\n\\n**解决方案**：\\n- **400预警**：感觉对话快满了，主动总结重要内容写到磁盘文件\\n- **关键信息写盘**：不等他开口说"记下来"，重要内容当场写盘\\n\\n---\\n\\n## 3. 当前对话架构\\n\\n'+d.n+' 同时跑 '+(d.dc||'多个')+' 个 Codex 对话，每个对话分工不同。\\n\\n| # | 角色 | 职责 | 状态 |\\n|---|------|------|------|\\n| \\u2460 | **中枢（调度器）** | 方向讨论、拆任务、开新线、状态同步、写盘 | \\u2705 活跃 |\\n| \\u2461\\ufe0e\\u200b\\u200b\\u200b\u200b\u200b | **执行线** | 各自执行具体任务，完成回传 | 待开 |\\n| \\u200b... | ... | ... | ... |\\n\\n---\\n\\n## 4. 项目一览\\n\\n| 项目 | 文件路径 | 状态 |\\n|------|----------|------|\\n|（等待录入）| | |\\n\\n---\\n\\n## 5. 给第一次读到这个文件的我的指令\\n\\n1. 读完上面所有内容后，你现在已经知道 '+d.n+' 是谁\\n2. **不要问"你是谁"、"我们之前聊过什么吗"** \\u2014 你已经知道了\\n3. 直接接上，用自然的语气';
+};
+
+var genStart = function(d){
+  var p = d.prefs.map(function(x){return '- '+x}).join('\\n');
+  var r = d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
+  return '## 背景\\n这是 '+d.n+' 开的第 '+(d.dc||'多个')+' 个 Codex 对话。\\n关于 '+d.n+' 的详细信息，请先读《共享知识库.md》，再读《SESSION_LOG.md》。\\n\\n### 红线\\n'+r+'\\n\\n### 工作方式\\n'+p+'\\n\\n### 回传格式\\n一句话 + 文件路径，写进"回传日志.md"。\\n示例：[项目名] 第一阶段完成，详情见 [文件路径]';
+};
+
+var genGuide = function(d){
+  return '# '+(d.cm||'中枢')+' 任务指南\\n\\n> 你是这个系统的调度器，不是执行者。\\n\\n## 你的核心职责\\n\\n1. **接方向** \\u2014 用户来找你聊想法、聊焦虑、聊下一步。你听，问，帮他想清楚，不出方案。\\n2. **拆任务** \\u2014 方向清晰后，拆成具体的、可执行的任务线。判断：这件事是一次性能解决，还是需要开一条长期线？\\n3. **开新对话** \\u2014 把需求 + 工作方式打包进启动指令。新对话一进来就知道该做什么。\\n4. **同步状态** \\u2014 定期读回传日志.md，知道各线在干嘛。\\n5. **沉淀认知** \\u2014 用户说出的关键认识、你帮他梳理出的判断，写进共享知识库。\\n6. **400 管理** \\u2014 感觉自己快跑满了？主动总结重要内容到 SESSION_LOG，帮用户开新对话继承上下文。\\n7. **提醒他** \\u2014 他快要放弃、快要倒下、快要骗自己的时候，提醒他。\\n\\n## 你读的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| \`共享知识库.md\` | 知道用户是谁、需求、要求、当前项目 |\\n| \`回传日志.md\` | 知道各线最新状态 |\\n| \`SESSION_LOG.md\`（各项目目录） | 知道各线历史上下文 |\\n| \`项目管理模板.md\` | 更新项目进度状态 |\\n\\n## 你写的文件\\n\\n| 文件 | 用途 |\\n|------|------|\\n| \`共享知识库.md\` | 新增认知沉淀、更新项目一览 |\\n| \`项目管理模板.md\` | 维护项目进度跟踪表 |\\n| \`SESSION_LOG.md\`（本项目） | 记录你自己的状态历史 |\\n\\n## 工作流\\n\\n1. 用户找你聊方向/想法/焦虑\\n2. 你问清楚：他想做什么、为什么、到什么程度算够\\n3. 如果方向明确：拆成任务，开新线，写入启动指令\\n4. 如果方向模糊：继续聊，帮他理清，不急着做决定\\n5. 定期读回传日志，知道各线进度\\n6. 各线完成后，汇总给用户\\n\\n> **记住**：你不做执行。你是指挥官。';
+};
+
+var genSession = function(d){
+  return '# SESSION_LOG\\n\\n> 完整对话历史见 \`对话日志.md\`\\n> 共享知识库见 \`共享知识库.md\`\\n\\n---\\n\\n## [日期] \\u2014 [本次对话主要事件]\\n\\n### 关键进展\\n- \\n\\n### 重要决策\\n- \\n\\n### 未完成待办\\n- [ ] \\n\\n### 用户状态\\n- \\n\\n---\\n\\n*每次对话接近上限前，把当前状态总结到这里。新对话启动后先读这个文件。*';
+};
+
+var genReport = function(d){
+  return '# 回传日志\\n\\n> 各对话在完成重要阶段后，往这里写一条。中枢定期读这个文件来同步各线状态。\\n\\n## 回传触发条件\\n- \\u2705 阶段性的核心发现/方向判断\\n- \\u2705 决定要投入时间/金钱去做\\n- \\u2705 遇到硬 blocker\\n- \\u274c 不需要报每一个操作细节\\n\\n## 回传格式\\n\`[项目名] 阶段/进展描述。详情见 [文件路径]\`\\n\\n---\\n\\n（空 \\u2014 等待第一条回传）';
+};
+
+var genProject = function(d){
+  return '# 项目进度模板\\n\\n> 中枢维护此文件，跟踪所有项目线的状态。\\n\\n| 项目 | 状态 | 负责人 | 最新进展 | 下一步 |\\n|------|------|--------|----------|--------|\\n| | \\u23f3 进行中 | | | |\\n\\n---\\n\\n## 项目详情\\n\\n### [项目名]\\n- **目标**: \\n- **启动日期**: \\n- **关键里程碑**: \\n- **当前阻塞**: \\n- **下次回传预计**: ';
+};
+
+var genProtocol = function(d){
+  return '# 协作协议\\n\\n> 各线之间的协作规范。适用于所有对话线。\\n\\n## 1. 回传机制\\n\\n- 各线完成重要阶段后，写入 \`回传日志.md\`\\n- 中枢定期读取回传日志，了解各线进展\\n- 回传格式：一句话 + 文件路径\\n- 不需要报每一个操作细节\\n\\n## 2. 文件共享\\n\\n- \`共享知识库.md\` 放桌面，所有对话公用\\n- 各线自己的文件放各自项目目录\\n- 项目细节不在知识库中全文写入，只用一行文件路径引用\\n\\n## 3. SESSION_LOG 机制\\n\\n- 每个对话快接近 400 上限时，把状态总结到 SESSION_LOG\\n- 新对话启动后先读 SESSION_LOG，再读共享知识库\\n- SESSION_LOG 放项目目录，不是桌面\\n\\n## 4. 新对话启动流程\\n\\n1. 中枢决定开新线\\n2. 复制启动指令.txt 到新对话任务描述\\n3. 新对话启动后先读共享知识库\\n4. 开始执行，完成回传\\n\\n## 5. 红线\\n\\n'+d.ur.split('\\n').filter(Boolean).map(function(l){return '- '+l}).join('\\n');
+};
+
+// Generate
+var gen=function(){
+  // Get preferences
+  var cbs=document.querySelectorAll('.cg input[type="checkbox"]:checked');
+  var pmap={research:'调研优先（搜资料读竞品→写盘记录→再动手）',write:'关键信息写盘，不等他说"记下来"',report:'重要阶段主动回传调度对话',flag:'发现问题主动提出',direct:'结果导向不赘述过程',deepthink:'深度思考后再回应',autoreport:'自动化总结汇报（主动总结写盘）',review:'完成阶段自动写复盘'};
+  var prefs=[];
+  for(var i=0;i<cbs.length;i++){var v=cbs[i].value;if(pmap[v])prefs.push(pmap[v]);}
+  if(prefs.length===0)prefs=['调研优先','关键信息写盘','重要阶段回传'];
+
+  var d={
+    n:gv('fi_n')||'我',
+    a:gv('fi_a'),
+    l:gv('fi_l'),
+    b:gv('fi_b'),
+    ur:gv('fi_ur')||'不违法\\n不影响到用户人身财产信息安全',
+    dc:gv('fi_dc')||'多个',
+    cm:gv('fi_cm')||'中枢',
+    prefs:prefs
   };
+  var files={};
+  files['共享知识库.md']=genSK(d);
+  files[d.cm+'启动指令.txt']=genStart(d);
+  files[d.cm+'任务指南.md']=genGuide(d);
+  files['SESSION_LOG.md']=genSession(d);
+  files['回传日志.md']=genReport(d);
+  files['项目管理模板.md']=genProject(d);
+  files['协作协议.md']=genProtocol(d);
+  window._gf=files;
 
-  recalcSavings();
-  renderPreview();
-
-  if (!_hasGenerated && isFormReady()) {
-    $('resultSection').classList.add('visible');
-    $('resultSection').scrollIntoView({ behavior: 'smooth' });
-    showToast('工具包已生成 \u2705');
-    _hasGenerated = true;
-  }
-}
-
-// ===== Auto-generate (triggered by input changes) =====
-var _genTimer = null;
-function autoGenerate() {
-  if (_genTimer) clearTimeout(_genTimer);
-  _genTimer = setTimeout(function(){ try { generate(); } catch(e) {} }, 400);
-}
-
-// ===== Token savings =====
-function recalcSavings() {
-  var dcount = parseInt(getVal('dialogCount2')) || 6;
-  var restart = parseInt(getVal('restartCount')) || 10;
-  var times = dcount * restart;
-
-  // Count user's actual input content
-  var totalChars = 0;
-  var inputFields = ['name', 'bio', 'userRules', 'soloBiz', 'soloHelp',
-    'bizName', 'bizAnalysis', 'progTech', 'progHelp', 'studyMajor', 'studyHelp'];
-  for (var i = 0; i < inputFields.length; i++) {
-    var val = getVal(inputFields[i]);
-    if (val) totalChars += val.length;
+  var names=Object.keys(files);
+  var tabs=$('ftabs');var prev=$('fprev');
+  if(tabs&&prev){
+    tabs.innerHTML=names.map(function(n,i){return '<div class="ftab'+(i===0?' on':'')+'" data-idx="'+i+'">'+esc(n)+'</div>'}).join('');
+    prev.innerHTML=names.map(function(n,i){return '<div class="fcont'+(i===0?' on':'')+'" id="fc'+i+'">'+esc(files[n])+'</div>'}).join('');
   }
 
-  // Each truncation preserves base notes (5000) + user's actual content
-  var perTrunc = Math.round(totalChars * 5) + 1500;  // 1500 overhead + content × 5, rest from your input
-  var saved = perTrunc * times;
+  var dc2=parseInt(gv('fi_dc2'))||6;
+  var rc=parseInt(gv('fi_rc'))||10;
+  var saved=dc2*rc*3000;
+  var sav=$('sav');if(sav)sav.textContent=saved.toLocaleString();
 
-  var st = $('savedTokens');
-  if (st) st.textContent = saved.toLocaleString();
-  var th = $('totalHint');
-  if (th) th.textContent = saved.toLocaleString();
-}
+  var rs=$('resSec');
+  if(rs){rs.classList.add('on');rs.scrollIntoView({behavior:'smooth'});}
+  show('工具包已生成');
+};
 
-// ===== Preview =====
-function renderPreview() {
-  var tabs = $('fileTabs');
-  var preview = $('filePreview');
-  var names = Object.keys(generatedFiles);
-  if (!tabs || !preview) return;
-  tabs.innerHTML = names.map(function(n, i){ return '<div class="file-tab' + (i===0?' active':'') + '" data-tabidx="' + i + '">' + esc(n) + '</div>'; }).join('');
-  preview.innerHTML = names.map(function(n, i){ return '<div class="file-content' + (i===0?' active':'') + '" id="fc' + i + '">' + esc(generatedFiles[n]) + '</div>'; }).join('');
-}
+$('genBtn').onclick=gen;
 
-function switchTab(idx) {
-  var tabs = document.querySelectorAll('.file-tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.toggle('active', i === idx);
-  var contents = document.querySelectorAll('.file-content');
-  for (var i = 0; i < contents.length; i++) contents[i].classList.toggle('active', i === idx);
-}
+// Tabs
+$('ftabs').onclick=function(e){
+  var t=e.target;
+  while(t&&!t.classList.contains('ftab'))t=t.parentNode;
+  if(!t)return;
+  var idx=parseInt(t.getAttribute('data-idx'));
+  var tabs=document.querySelectorAll('.ftab');
+  for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle('on',i===idx);
+  var c=document.querySelectorAll('.fcont');
+  for(var i=0;i<c.length;i++)c[i].classList.toggle('on',i===idx);
+};
 
-// ===== Download =====
-function downloadAll() {
-  if (typeof JSZip === 'undefined') { showToast('JSZip 加载失败，请检查网络'); return; }
-  var zip = new JSZip();
-  var keys = Object.keys(generatedFiles);
-  for (var fi = 0; fi < keys.length; fi++) zip.file(keys[fi], generatedFiles[keys[fi]]);
-  zip.generateAsync({ type: 'blob' }).then(function(blob) {
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'Codex协作工具包.zip';
+// Download
+$('dlBtn').onclick=function(){
+  var files=window._gf||{};
+  if(typeof JSZip==='undefined'){show('JSZip \u52a0\u8f7d\u5931\u8d25');return;}
+  var zip=new JSZip();
+  var keys=Object.keys(files);
+  for(var i=0;i<keys.length;i++)zip.file(keys[i],files[keys[i]]);
+  zip.generateAsync({type:'blob'}).then(function(b){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(b);
+    a.download='Codex\u534f\u4f5c\u5de5\u5177\u5305.zip';
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('下载成功 \uD83D\uDCE6');
-  })['catch'](function(){ showToast('下载失败'); });
-}
+    show('\u4e0b\u8f7d\u6210\u529f');
+  }).catch(function(){show('\u4e0b\u8f7d\u5931\u8d25');});
+};
 
-// ===== UI =====
-function toggleGuide() {
-  var g = $('guideSection');
-  if (!g) return;
-  g.style.display = g.style.display === 'none' ? 'block' : 'none';
-  if (g.style.display === 'block') g.scrollIntoView({ behavior: 'smooth' });
-}
+// Deploy
+$('depGuideBtn').onclick=function(){
+  var d=$('deploySec');
+  if(!d)return;
+  d.style.display=d.style.display==='none'?'block':'none';
+  if(d.style.display==='block')d.scrollIntoView({behavior:'smooth'});
+};
 
-function resetForm() {
-  _hasGenerated = false;
-  $('resultSection').classList.remove('visible');
-  var g = $('guideSection');
-  if (g) g.style.display = 'none';
-  $('formSection').scrollIntoView({ behavior: 'smooth' });
-}
 
-// ===== Init (runs immediately since script is at end of body) =====
-(function() {
-  // Bind all inputs to auto-generate
-  var inputs = document.querySelectorAll('input, textarea, select');
-  for (var ii = 0; ii < inputs.length; ii++) {
-    var tag = inputs[ii].tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA') {
-      inputs[ii].onkeyup = function(){ updateProgress(); };
-    }
-    if (tag === 'SELECT') {
-      inputs[ii].onchange = function(){ updateProgress(); };
-    }
-  }
+// Deploy - use File System Access API
+// Guide
+$('guideBtn').onclick=function(){
+  var g=$('guideSec');
+  if(!g)return;
+  g.style.display=g.style.display==='none'?'block':'none';
+  if(g.style.display==='block')g.scrollIntoView({behavior:'smooth'});
+};
 
-  // Bind checkboxes
-  var cbs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
-  for (var ci = 0; ci < cbs.length; ci++) {
-    cbs[ci].onchange = function(){ updateProgress(); };
-  }
+// Reset
+$('resetBtn').onclick=function(){
+  var rs=$('resSec');if(rs)rs.classList.remove('on');
+  var g=$('guideSec');if(g)g.style.display='none';var d=$('deploySec');if(d)d.style.display='none';
+  $('formSec').scrollIntoView({behavior:'smooth'});
+};
 
-  // Auto-report toggle: show/hide report interval row
-  var autoReportCb = document.querySelector('input[value="autoreport"]');
-  if (autoReportCb) {
-    autoReportCb.onchange = function() {
-      var row = $('riRow');
-      if (row) row.style.display = this.checked ? 'block' : 'none';
-      updateProgress();
-    };
-  }
+// Savings
+$('fi_dc2').onchange=function(){
+  var s=$('sav');if(s)s.textContent=((parseInt(gv('fi_dc2'))||6)*(parseInt(gv('fi_rc'))||10)*3000).toLocaleString();
+};
+$('fi_rc').onchange=function(){
+  var s=$('sav');if(s)s.textContent=((parseInt(gv('fi_dc2'))||6)*(parseInt(gv('fi_rc'))||10)*3000).toLocaleString();
+};
 
-  // Bind persona pills
-  var pills = document.querySelectorAll('.persona-pill');
-  for (var pi = 0; pi < pills.length; pi++) {
-    pills[pi].onclick = function(){ switchPersona(this); };
-  }
-
-  // Bind commander name live preview
-  var cmp = $('commanderName');
-  if (cmp) {
-    cmp.oninput = function() {
-      var n = this.value.trim() || '中枢';
-      var e1 = $('wfName1'); if (e1) e1.textContent = n;
-      var e2 = $('wfName2'); if (e2) e2.textContent = n;
-    };
-  }
-
-  // Bind buttons
-  var genBtn = $('btnGenerate');
-  if (genBtn) genBtn.onclick = function(){ generate(); return false; };
-  var dlBtn = $('btnDownload');
-  if (dlBtn) dlBtn.onclick = function(){ downloadAll(); return false; };
-  var tgBtn = $('btnToggleGuide');
-  if (tgBtn) tgBtn.onclick = function(){ toggleGuide(); return false; };
-  var rsBtn = $('btnReset');
-  if (rsBtn) rsBtn.onclick = function(){ resetForm(); return false; };
-
-  // File tabs delegation
-  var ft = $('fileTabs');
-  if (ft) ft.onclick = function(e) {
-    var tab = e.target;
-    while (tab && !tab.classList.contains('file-tab')) tab = tab.parentNode;
-    if (!tab) return;
-    var idx = parseInt(tab.getAttribute('data-tabidx'));
-    if (!isNaN(idx)) switchTab(idx);
-  };
-
-  // dialogCount2 and restartCount
-  var dc2 = $('dialogCount2'); if (dc2) dc2.onchange = function(){ recalcSavings(); autoGenerate(); };
-  var rc2 = $('restartCount'); if (rc2) rc2.onchange = function(){ recalcSavings(); autoGenerate(); };
-
-  // Initial progress update
-  try { updateProgress(); } catch(e) {}
+calc();
 })();
 </script>
 </body>
