@@ -52,3 +52,33 @@
 MIT License。随意使用、修改、分发。
 
 如果你觉得有用，点个 Star 就行。
+
+---
+
+## 一键安装 SKILL（推荐）
+
+Codex 壹 也是一个 Codex SKILL。装好后，你在任何对话里说一句话就能自动生成整套系统：
+
+```bash
+# 在当前对话中直接安装（需要 Codex 桌面版）
+帮我安装 skill，路径是 alex12138356/codex-yi/skill/codex-yi
+```
+
+安装成功后，对 Codex 说：
+> **"帮我搭一套多线协作系统"**
+
+它会自动问你 3 个问题（名字、使用目标、需求），然后生成全部 7 个文件。
+不需要打开网页、不需要下载 zip。
+
+### SKILL 目录结构
+
+```
+skill/codex-yi/
+├── SKILL.md                   # 核心指令
+├── agents/openai.yaml         # 界面元数据
+└── references/
+    ├── templates.md           # 7 个文件模板
+    └── workflow.md            # 系统工作流说明
+```
+
+> 如果手动安装，将 `skill/codex-yi/` 复制到 `~/.codex/skills/` 目录下即可。
