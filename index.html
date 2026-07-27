@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>多线 Codex 协作系统 · 架构展示</title>
+<meta property="og:title" content="多线 Codex 协作系统">
+<meta property="og:description" content="一个真实跑通的多线 Codex 协作架构：中枢调度 + 自动分流 + 跨对话记忆 + 400 防护。开源免费。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alex12138356.github.io/codex-yi/">
+<meta property="og:image" content="screenshot.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#f5f5f7;--card:#fff;--t1:#1d1d1f;--t2:#515154;--t3:#86868b;--bd:#e8e8ed;--b1:#0071e3;--b2:#5856d6;--gr:#34c759;--re:#ff3b30;--or:#ff9500;--bk-bg:#1d1d1f;--bk-txt:#f5f5f7;--r:10px}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -184,14 +190,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 
 /* Responsive tweaks */
 @media(max-width:480px){.hero h1{font-size:30px}.hero p{font-size:14px}.stat-n{font-size:24px}.container{padding:0 16px}}
+/* Nav */
+.nav-bar{position:sticky;top:0;z-index:100;background:rgba(245,245,247,0.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 24px;display:flex;align-items:center;justify-content:center;gap:0;height:44px}
+.nav-bar .nav-link{font-size:12px;font-weight:500;color:var(--t3);text-decoration:none;padding:0 14px;height:44px;display:flex;align-items:center;transition:color .15s;letter-spacing:0.3px;white-space:nowrap}
+.nav-bar .nav-link:hover{color:var(--t1)}
+.nav-bar .nav-link.active{color:var(--b1)}
+.nav-bar .nav-logo{font-size:13px;font-weight:700;color:var(--t1);text-decoration:none;margin-right:8px;display:flex;align-items:center;gap:4px;height:44px}
+.nav-bar .nav-sep{width:1px;height:18px;background:var(--bd);flex-shrink:0}
+@media(max-width:600px){.nav-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start;gap:2px;padding:0 12px}.nav-bar .nav-link{font-size:11px;padding:0 8px}.nav-bar .nav-logo{font-size:12px;margin-right:4px}}
 </style>
 </head>
 <body>
 
 <div class="container">
+<!-- ==================== NAV ==================== -->
+<div class="nav-bar" id="topNav">
+  <a class="nav-logo" href="#hero">&#x58e;</a>
+  <div class="nav-sep"></div>
+  <a class="nav-link" href="#arch">架构</a>
+  <a class="nav-link" href="#projects">项目</a>
+  <a class="nav-link" href="#content">内容</a>
+  <a class="nav-link" href="#product">产品</a>
+  <a class="nav-link" href="#pricing">定价</a>
+</div>
 
 <!-- ==================== HERO ==================== -->
-<div class="hero">
+  <div class="hero" id="hero">
   <div class="eyebrow">Multi‑Agent Collaboration System</div>
   <h1><span>多线 Codex</span> 协作系统 <span class=ver-badge>v3.5</span></h1>
   <p>
@@ -199,16 +223,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
     每条线各干各的，做完主动回传。中枢知道全局，每条线专注一件事。<br>
     解决 Codex 400 截断、跨对话记忆丢失、多线并行无法协调的痛点。
   </p>
-  <div class="stats">
-    <div class="stat"><div class="stat-n">13</div><div class="stat-l">执行线程</div></div>
-    <div class="stat"><div class="stat-n">6+</div><div class="stat-l">活跃项目</div></div>
+<div class="stats">
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">执行线程</div></div>
+    <div class="stat"><div class="stat-n">8+</div><div class="stat-l">活跃项目</div></div>
     <div class="stat"><div class="stat-n">&infin;</div><div class="stat-l">对话共享</div></div>
-    <div class="stat"><div class="stat-n">7 天</div><div class="stat-l">从零搭建</div></div>
+    <div class="stat"><div class="stat-n">自动</div><div class="stat-l">自动闭环</div></div>
   </div>
 </div>
 
 <!-- ==================== ARCHITECTURE ==================== -->
-<div class="section">
+<div class="section" id="arch">
   <div class="sl">System Architecture</div>
   <div class="st">系统架构</div>
   <div class="sd">中枢调度 + 文件系统共享内存 + 独立执行线的分层架构。</div>
@@ -330,7 +354,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 </div>
 
 <!-- ==================== PROJECTS ==================== -->
-<div class="section">
+<div class="section" id="projects">
   <div class="sl">Active Projects</div>
   <div class="st">当前项目一览</div>
   <div class="sd">各项目独立目录，详情见对应文件。</div>
@@ -377,7 +401,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 </div>
 
 <!-- ==================== CONTENT SHOWCASE ==================== -->
-<div class="section">
+<div class="section" id="content">
   <div class="sl">Content Series</div>
   <div class="st">内容产出系列</div>
   <div class="sd">系统在运行中产出的方法论文章 —— 从入门到进阶，覆盖 400 防护、多线调度、架构解读等核心话题。</div>
@@ -390,16 +414,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
         <div class="icon">&#x26a0;&#xfe0f;</div>
         <h4>400 预警指南 · 入门版</h4>
         <p>用生活例子讲明白什么是对话截断，以及断片之前怎么保护重要内容。大白话版本，零门槛。</p>
-        <div class="fmt"><span>入门</span><span>新手</span><div style="margin-top:10px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/400预警指南·入门版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
+        <div class="fmt"><span>入门</span><span>新手</span>
     </div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/400预警指南·入门版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f3af;</div>
         <h4>多线决策树 · 入门版</h4>
         <p>用四问框架和做饭例子，教新手判断"什么时候该开新线"。不需要任何前置知识。</p>
-        <div class="fmt"><span>入门</span><span>新手</span><div style="margin-top:10px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/多线决策树·入门版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
+        <div class="fmt"><span>入门</span><span>新手</span>
     </div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/多线决策树·入门版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
     </div>
@@ -413,45 +439,51 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
         <div class="icon">&#x26a0;&#xfe0f;</div>
         <h4>400 预警指南 · 进阶版</h4>
         <p>术语 + 规则 + 架构层面的完整方案。面向已经跑多线的深度用户，含配置细节和陷阱。</p>
-        <div class="fmt"><span>进阶</span><span>深度</span><div style="margin-top:10px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/400预警指南·进阶版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
+        <div class="fmt"><span>进阶</span><span>深度</span>
     </div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/400预警指南·进阶版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f3af;</div>
         <h4>多线决策树 · 进阶版</h4>
         <p>决策表 + 流程图 + 五线型定义。面向需要标准化判断逻辑的多线管理者。</p>
-        <div class="fmt"><span>进阶</span><span>深度</span><div style="margin-top:10px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/多线决策树·进阶版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
+        <div class="fmt"><span>进阶</span><span>深度</span>
     </div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/多线决策树·进阶版.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f4e6;</div>
         <h4>合集：5 个可落地经验包</h4>
         <p>从线型定义到回传规范到分工原则 —— 5 个即插即用的工具包，解决多线协作中最常见的结构性问题。</p>
-        <div class="fmt"><span>进阶</span><span>工具包</span><div style="margin-top:10px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/合集_多线Codex协作的5个可落地经验包.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
+        <div class="fmt"><span>进阶</span><span>工具包</span>
     </div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/合集_多线Codex协作的5个可落地经验包.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f9e0;</div>
-        <h4>深度拆解：多线决策树完整框架</h4>
+       <h4>深度拆解：多线决策树完整框架</h4>
         <p>开/停/合并/分工的判断逻辑结构化 —— 四问决策表、五种线型、停线合线流程，一套完整的调度者大脑。</p>
         <div class="fmt"><span>进阶</span><span>框架</span></div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/深度_多线决策树_调度多条Codex线的完整框架.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f4d1;</div>
-        <h4>技术案例：系统架构解读</h4>
+       <h4>技术案例：系统架构解读</h4>
         <p>中枢 + 执行线的分层架构详解：三条件质变效应、文件系统共享内存、400 主动防御机制的核心设计。</p>
         <div class="fmt"><span>进阶</span><span>架构</span></div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/技术案例_多线Codex协作系统架构解读.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
       <div class="cc">
         <div class="icon">&#x1f4ad;</div>
-        <h4>实战经验：400 截断解决方案</h4>
+       <h4>实战经验：400 截断解决方案</h4>
         <p>共享知识库 + SESSION_LOG + 回传机制的三件套实战方案，含具体配置和踩坑记录。</p>
         <div class="fmt"><span>进阶</span><span>实战</span></div>
+    <div style="margin-top:12px;text-align:right"><a href="https://github.com/alex12138356/codex-yi/blob/main/articles/实战经验_400截断与跨对话记忆解决方案.md" target="_blank" rel="noopener noreferrer" style="font-size:12px;color:var(--b1);text-decoration:none">阅读全文 →</a></div>
       </div>
 
     </div>
@@ -460,7 +492,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 
 
 <!-- ==================== CODEX 壹 ==================== -->
-<div class="section">
+<div class="section" id="product">
   <div class="sl">Product</div>
 
   <div class="product-hero">
@@ -480,9 +512,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
       <div class="fi" style="background:#f0f0ff;color:#5856d6">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </div>
-      <h3>中枢调度</h3>
-      <p>同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线各干各的，做完主动回传。你只需要跟中枢对话。</p>
-      <div class="tags"><span class="tag">&#x1f504; 调度器</span><span class="tag">&#x1f4e3; 回传机制</span></div>
+      <h3>中枢调度 · 自动分流</h3>
+      <p>同时跑编程、创业、学习、项目管理多条线？中枢统一调度，每条线各干各的。新增自动分流引擎：输入任务自动匹配执行线，不用想该去哪。做完主动回传。</p>
+      <div class="tags"><span class="tag">&#x1f504; 调度器</span><span class="tag">&#x1f4e3; 回传机制</span><span class="tag">&#x1f6a6; 自动分流</span></div>
     </div>
 
     <div class="fc">
@@ -619,7 +651,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   <div class="st">免费自用，或付费帮你搭好</div>
   <div class="sd">生成器是免费的，你随便用。如果你不想研究配置，我帮你搭好整套系统。</div>
 
-  <div class="pricing">
+  <div class="pricing" id="pricing">
     <div class="pr-card">
       <span class="badge-pr g">Free</span>
       <h3>个人版</h3>
@@ -677,6 +709,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
         <td class="chk">各线独立，中枢统一调度</td>
       </tr>
       <tr>
+        <td>任务分配</td>
+        <td>靠人脑判断该去哪条线</td>
+        <td class="chk">自动分类，系统告诉你去哪</td>
+      </tr>
+      <tr>
         <td>团队协作</td>
         <td>每个人各教各的</td>
         <td class="chk">共享知识库全家通用</td>
@@ -699,8 +736,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   多线 Codex 协作系统 &middot; <br>
   <a href="https://alex12138356.github.io/codex-yi/" target="_blank">Codex &#x58e; 产品页</a>
   &middot; <a href="https://github.com/alex12138356/codex-yi" target="_blank">GitHub 源码</a>
-  &middot; 共享知识库 v2026-07-26<br>
-  本页面由系统展示线（⑬）自动维护 &middot; 最后更新 2026-07-26
+  &middot; 共享知识库 v2026-07-27<br>
+  本页面由系统展示线（⑬）自动维护 &middot; 最后更新 2026-07-27
 </div>
 
 </div>
